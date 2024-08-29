@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
+            src: url('fonts/minecraft_font.ttf') format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -20,7 +20,7 @@
             color: #333;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 100vh; /* Sicherstellen, dass der Body die volle Höhe einnimmt */
         }
 
         header {
@@ -31,11 +31,12 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
 
         .logo-container {
             display: flex;
-            align-items: center;
+            align-items: center; /* Vertikale Zentrierung */
             justify-content: center;
             margin-bottom: 10px;
             padding-left: 15px;
@@ -50,6 +51,9 @@
         h1 {
             margin: 0;
             font-size: 24px;
+            display: flex;
+            align-items: center; /* Vertikale Zentrierung des Textes */
+            justify-content: center;
         }
 
         main {
@@ -120,8 +124,7 @@
             color: white;
             text-align: center;
             padding: 10px 0;
-            position: fixed;
-            bottom: 0;
+            position: relative;
             width: 100%;
         }
     </style>
