@@ -34,25 +34,18 @@
             justify-content: center;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center; /* Vertikale Zentrierung */
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-
-        .logo {
-            width: 150px; /* Größe des Logos */
-            height: auto;
-            margin: 0 15px; /* Leerraum links und rechts vom Logo */
-        }
-
         h1 {
             margin: 0;
             font-size: 24px;
             display: flex;
             align-items: center; /* Vertikale Zentrierung des Textes */
             justify-content: center;
+        }
+
+        .logo {
+            width: 200px; /* Größe des Logos */
+            height: auto;
+            margin: 0 10px; /* Leerraum links und rechts vom Logo */
         }
 
         main {
@@ -131,16 +124,17 @@
 </head>
 <body>
     <header>
-        <div class="logo-container">
-            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
-            <h1>Redminer9630 Website</h1>
-        </div>
+        <h1>
+            Redminer9630 
+            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
+            Website
+        </h1>
         <h2>Willkommen auf meinem Minecraft-Kanal</h2>
     </header>
 
     <main>
         <section id="about">
-            <h2>Ueber Redminer9630 v1.0</h2>
+            <h2>Ueber Redminer9630</h2>
             <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
             <button id="moreInfoBtn">Mehr ueber Redminer9630 erfahren</button>
             <p id="moreInfo" style="display: none;">Obwohl der Kanal noch wenige Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
@@ -183,7 +177,7 @@
                 this.textContent = "Weniger anzeigen";
             } else {
                 moreInfo.style.display = "none";
-                this.textContent = "Mehr ueber Redminer9630 erfahren";
+                this.textContent = "Mehr ueber mich erfahren";
             }
         });
     </script>
