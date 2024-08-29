@@ -25,13 +25,13 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 10px;
-            padding-left: 15px; /* Fügt Leerraum links vom Logo hinzu */
+            padding-left: 15px;
         }
 
         .logo {
             width: 50px;
             height: auto;
-            margin-right: 15px;
+            margin: 0 15px; /* Leerraum links und rechts vom Logo */
         }
 
         h1 {
@@ -55,6 +55,20 @@
             text-align: center;
             margin: 0 auto;
             max-width: 560px;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+        }
+
+        .fallback-text {
+            display: none;
+            color: #e74c3c;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
         button {
@@ -100,11 +114,8 @@
 </head>
 <body>
     <header>
-        <!-- Logo und Titel -->
-        <div class="logo-container">
-            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
-            <h1>Redminer9630 - Minecraft Kanal</h1>
-        </div>
+        <!-- Logo zwischen dem Text -->
+        <h1>Redminer9630 <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> Minecraft Kanal</h1>
         <h2>Willkommen auf dem Minecraft-Kanal von Redminer9630</h2>
     </header>
 
@@ -119,7 +130,8 @@
         <section id="video">
             <h2>Schau dir eines der ersten Minecraft-Videos an</h2>
             <div class="video-container">
-                <iframe width="560" height="315" src="https://www.youtube.com/embed/videoseries?list=UUBD8ffN9p67J2GbqjSojF8A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <p id="fallbackText" class="fallback-text">Video von TheJoCraft</p>
+                <iframe id="videoFrame" src="https://www.youtube.com/embed/videoseries?list=UUBD8ffN9p67J2GbqjSojF8A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
@@ -137,7 +149,24 @@
         <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
     </footer>
 
-    <!-- Verlinkung der JavaScript-Datei -->
-    <script src="script.js"></script>
+    <script>
+        // Prüfe, ob das Video geladen werden kann
+        document.getElementById('videoFrame').onerror = function() {
+            this.src = "https://www.youtube.com/embed/watch?v=V4E8NpgdMl8&list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&index=1&pp=iAQB"; // Fallback-Video von TheJoCraft (Rick Astley als Beispiel)
+            document.getElementById('fallbackText').style.display = 'block'; // Zeige den Fallback-Hinweis an
+        };
+
+        // Schaltfläche "Mehr erfahren" umschalten
+        document.getElementById("moreInfoBtn").addEventListener("click", function() {
+            var moreInfo = document.getElementById("moreInfo");
+            if (moreInfo.style.display === "none") {
+                moreInfo.style.display = "block";
+                this.textContent = "Weniger anzeigen";
+            } else {
+                moreInfo.style.display = "none";
+                this.textContent = "Mehr über Redminer9630 erfahren";
+            }
+        });
+    </script>
 </body>
 </html>
