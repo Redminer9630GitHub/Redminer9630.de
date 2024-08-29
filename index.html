@@ -39,11 +39,10 @@
             align-items: center; /* Vertikale Zentrierung */
             justify-content: center;
             margin-bottom: 10px;
-            padding-left: 15px;
         }
 
         .logo {
-            width: 200px; /* Größe des Logos */
+            width: 150px; /* Größe des Logos */
             height: auto;
             margin: 0 15px; /* Leerraum links und rechts vom Logo */
         }
@@ -132,7 +131,10 @@
 </head>
 <body>
     <header>
-        <h1>Redminer9630 <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> Website     </h1>
+        <div class="logo-container">
+            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
+            <h1>Redminer9630 Website</h1>
+        </div>
         <h2>Willkommen auf meinem Minecraft-Kanal</h2>
     </header>
 
@@ -181,7 +183,7 @@
                 this.textContent = "Weniger anzeigen";
             } else {
                 moreInfo.style.display = "none";
-                this.textContent = "Mehr ueber mich erfahren";
+                this.textContent = "Mehr ueber Redminer9630 erfahren";
             }
         });
     </script>
