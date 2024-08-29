@@ -5,12 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redminer9630 - Minecraft Kanal</title>
     <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft-ähnliche Schriftart */
             background-color: #eaeaea;
             margin: 0;
             padding: 0;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         header {
@@ -18,6 +28,9 @@
             color: white;
             padding: 20px;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .logo-container {
@@ -29,7 +42,7 @@
         }
 
         .logo {
-            width: 200px;
+            width: 200px; /* Größe des Logos */
             height: auto;
             margin: 0 15px; /* Leerraum links und rechts vom Logo */
         }
@@ -40,6 +53,7 @@
         }
 
         main {
+            flex: 1;
             padding: 20px;
         }
 
@@ -114,7 +128,6 @@
 </head>
 <body>
     <header>
-        <!-- Logo zwischen dem Text -->
         <h1>Redminer9630 <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> Minecraft Kanal</h1>
         <h2>Willkommen auf dem Minecraft-Kanal von Redminer9630</h2>
     </header>
@@ -152,7 +165,7 @@
     <script>
         // Prüfe, ob das Video geladen werden kann
         document.getElementById('videoFrame').onerror = function() {
-            this.src = "https://www.youtube.com/embed/watch?v=V4E8NpgdMl8&list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&index=1&pp=iAQB"; // Fallback-Video von TheJoCraft (Rick Astley als Beispiel)
+            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB"; // Fallback-Video von TheJoCraft
             document.getElementById('fallbackText').style.display = 'block'; // Zeige den Fallback-Hinweis an
         };
 
