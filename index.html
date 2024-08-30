@@ -120,7 +120,7 @@
         .video-container {
             text-align: center;
             margin: 0 auto;
-            max-width: 560px;
+            max-width: 1060px;
             position: relative;
         }
 
@@ -187,10 +187,10 @@
         </section>
 
         <section id="video">
-            <h2>Schau dir eines der ersten Minecraft-Videos an</h2>
+            <h2 id="videoTitle">Schau dir den Live-Stream an</h2>
             <div class="video-container">
                 <p id="fallbackText" class="fallback-text">Video von TheJoCraft</p>
-                <iframe id="videoFrame" src="https://www.youtube.com/embed/W26k42M0lHM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe id="videoFrame" src="https://player.twitch.tv/?channel=redminer9630&parent=redminer9630github.github.io" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
             </div>
         </section>
     </main>
@@ -206,11 +206,32 @@
             navMenu.classList.toggle('active');
         });
 
-        // Prüfe, ob das Video geladen werden kann
-        document.getElementById('videoFrame').onerror = function() {
-            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB"; // Fallback-Video von TheJoCraft
-            document.getElementById('fallbackText').style.display = 'block';
-        };
+        // Prüfen, ob der Twitch Stream läuft
+        fetch('https://api.twitch.tv/helix/streams?user_login=redminer9630', {
+            headers: {
+                'Client-ID': 'YOUR_TWITCH_CLIENT_ID',
+                'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.data && data.data.length === 0) {
+                // Kein Live-Stream, zeige das YouTube-Video
+                document.getElementById('videoFrame').src = "https://www.youtube.com/embed/playlist?list=UU[UCdpkm8rpRnIi88zWSuubbOQ]
+";
+                document.getElementById('videoTitle').textContent = "Schau dir eines der ersten Minecraft-Videos an";
+
+                // Fallback für YouTube Video
+                document.getElementById('videoFrame').onerror = function() {
+                    this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB";
+                    document.getElementById('fallbackText').style.display = 'block';
+                    document.getElementById('videoTitle').textContent = "Schau dir ein Video von TheJoCraft an";
+                };
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching Twitch stream:', error);
+        });
 
         // Schaltfläche "Mehr erfahren" umschalten
         document.getElementById("moreInfoBtn").addEventListener("click", function() {
