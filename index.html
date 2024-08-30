@@ -13,14 +13,14 @@
         }
 
         body {
-            font-family: 'MinecraftFont', sans-serif; /* Minecraft-ähnliche Schriftart */
+            font-family: 'MinecraftFont', sans-serif;
             background-color: #eaeaea;
             margin: 0;
             padding: 0;
             color: #333;
             display: flex;
             flex-direction: column;
-            min-height: 100vh; /* Sicherstellen, dass der Body die volle Höhe einnimmt */
+            min-height: 100vh;
         }
 
         header {
@@ -38,14 +38,46 @@
             margin: 0;
             font-size: 24px;
             display: flex;
-            align-items: center; /* Vertikale Zentrierung des Textes */
+            align-items: center;
             justify-content: center;
         }
 
         .logo {
-            width: 200px; /* Größe des Logos */
+            width: 200px;
             height: auto;
-            margin: 0 10px; /* Leerraum links und rechts vom Logo */
+            margin: 0 10px;
+        }
+
+        .menu-toggle {
+            display: none;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        .menu-toggle div {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 6px 0;
+        }
+
+        .menu {
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 10px;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            font-size: 18px;
+        }
+
+        .menu a:hover {
+            background-color: #34495e;
         }
 
         main {
@@ -87,7 +119,7 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
-            font-family: 'MinecraftFont'; /* Minecraft-ähnliche Schriftart für den Button */
+            font-family: 'MinecraftFont';
         }
 
         button:hover {
@@ -120,6 +152,18 @@
             position: relative;
             width: 100%;
         }
+
+        @media (max-width: 600px) {
+            .menu {
+                display: none;
+                width: 100%;
+                background-color: #2c3e50;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+        }
     </style>
 </head>
 <body>
@@ -130,6 +174,18 @@
             Website
         </h1>
         <h2>Willkommen auf meinem Minecraft-Kanal</h2>
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+
+        <nav class="menu" id="navMenu">
+            <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a>
+            <a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a>
+            <a href="https://redminer9630github.github.io/Redminer9630_recipe_Generator/" target="_blank">Recipe Generator</a>
+        </nav>
     </header>
 
     <main>
@@ -163,13 +219,20 @@
     </footer>
 
     <script>
-        // Prüfe, ob das Video geladen werden kann
+        function toggleMenu() {
+            var menu = document.getElementById('navMenu');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'flex';
+            }
+        }
+
         document.getElementById('videoFrame').onerror = function() {
-            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB"; // Fallback-Video von TheJoCraft
-            document.getElementById('fallbackText').style.display = 'block'; // Zeige den Fallback-Hinweis an
+            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB";
+            document.getElementById('fallbackText').style.display = 'block';
         };
 
-        // Schaltfläche "Mehr erfahren" umschalten
         document.getElementById("moreInfoBtn").addEventListener("click", function() {
             var moreInfo = document.getElementById("moreInfo");
             if (moreInfo.style.display === "none") {
