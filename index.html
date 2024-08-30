@@ -13,71 +13,89 @@
         }
 
         body {
-            font-family: 'MinecraftFont', sans-serif;
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft-ähnliche Schriftart */
             background-color: #eaeaea;
             margin: 0;
             padding: 0;
             color: #333;
             display: flex;
             flex-direction: column;
-            min-height: 100vh;
+            min-height: 100vh; /* Sicherstellen, dass der Body die volle Höhe einnimmt */
         }
 
         header {
             background-color: #2c3e50;
             color: white;
             padding: 20px;
-            text-align: center;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
         }
 
         h1 {
             margin: 0;
             font-size: 24px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            align-items: center; /* Vertikale Zentrierung des Textes */
         }
 
         .logo {
-            width: 200px;
+            width: 200px; /* Größe des Logos */
             height: auto;
-            margin: 0 10px;
+            margin: 0 10px; /* Leerraum links und rechts vom Logo */
         }
 
-        .menu-toggle {
-            display: none;
-            cursor: pointer;
-            margin-top: 15px;
-        }
-
-        .menu-toggle div {
-            width: 30px;
-            height: 3px;
-            background-color: white;
-            margin: 6px 0;
-        }
-
-        .menu {
+        .hamburger-menu {
             display: none;
             flex-direction: column;
-            align-items: flex-start;
-            margin-top: 10px;
+            cursor: pointer;
+            margin-right: 20px;
         }
 
-        .menu a {
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            background-color: #2c3e50;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        nav ul li a {
             color: white;
             text-decoration: none;
-            padding: 10px;
-            display: block;
-            font-size: 18px;
         }
 
-        .menu a:hover {
-            background-color: #34495e;
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: flex;
+            }
+
+            nav {
+                width: 200px;
+            }
         }
 
         main {
@@ -119,29 +137,11 @@
             padding: 10px 20px;
             border: none;
             cursor: pointer;
-            font-family: 'MinecraftFont';
+            font-family: 'MinecraftFont'; /* Minecraft-ähnliche Schriftart für den Button */
         }
 
         button:hover {
             background-color: #27ae60;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        ul li {
-            margin: 10px 0;
-        }
-
-        ul li a {
-            color: #3498db;
-            text-decoration: none;
-        }
-
-        ul li a:hover {
-            text-decoration: underline;
         }
 
         footer {
@@ -152,39 +152,28 @@
             position: relative;
             width: 100%;
         }
-
-        @media (max-width: 600px) {
-            .menu {
-                display: none;
-                width: 100%;
-                background-color: #2c3e50;
-            }
-
-            .menu-toggle {
-                display: flex;
-            }
-        }
     </style>
 </head>
 <body>
     <header>
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
         <h1>
             Redminer9630 
             <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
             Website
         </h1>
-        <h2>Willkommen auf meinem Minecraft-Kanal</h2>
-
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
-
-        <nav class="menu" id="navMenu">
-            <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a>
-            <a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a>
-            <a href="https://redminer9630github.github.io/Redminer9630_recipe_Generator/" target="_blank">Recipe Generator</a>
+        <nav id="navMenu">
+            <ul>
+                <li><strong>Social Media:</strong></li>
+                <li><a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube-Kanal von Redminer9630</a></li>
+                <li><a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch-Kanal von Redminer9630</a></li>
+                <li><strong>Generatoren:</strong></li>
+                <li><a href="https://redminer9630github.github.io/Redminer9630_recipe_Generator/" target="_blank">Recipe Generator</a></li>
+            </ul>
         </nav>
     </header>
 
@@ -203,14 +192,237 @@
                 <iframe id="videoFrame" src="https://m.youtube.com/embed/W26k42M0lHM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
+    </main>
 
-        <section id="links">
-            <h2>Folge Redminer9630</h2>
-            <p>Verpasse nicht die Gelegenheit, von Anfang an dabei zu sein und die Reise von mir im Minecraft-Universum zu verfolgen:</p>
+    <footer>
+        <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
+    </footer>
+
+    <script>
+        // Hamburger-Menü öffnen/schließen
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            var navMenu = document.getElementById('navMenu');
+            if (navMenu.style.display === 'flex') {
+                navMenu.style.display = 'none';
+            } else {
+                navMenu.style.display = 'flex';
+                navMenu.style.flexDirection = 'column';
+            }
+        });
+
+        // Prüfe, ob das Video geladen werden kann
+        document.getElementById('videoFrame').onerror = function() {
+            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB"; // Fallback-Video von TheJoCraft
+            document.getElementById('fallbackText').style.display = 'block'; // Zeige den Fallback-Hinweis an
+        };
+
+        // Schaltfläche "Mehr erfahren" umschalten
+        document.getElementById("moreInfoBtn").addEventListener("click", function() {
+            var moreInfo = document.getElementById("moreInfo");
+            if (moreInfo.style.display === "none") {
+                moreInfo.style.display = "block";
+                this.textContent = "Weniger anzeigen";
+            } else {
+                moreInfo.style.display = "none";
+                this.textContent = "Mehr ueber mich erfahren";
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redminer9630.de</title>
+    <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft-ähnliche Schriftart */
+            background-color: #eaeaea;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Sicherstellen, dass der Body die volle Höhe einnimmt */
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            display: flex;
+            align-items: center; /* Vertikale Zentrierung des Textes */
+        }
+
+        .logo {
+            width: 200px; /* Größe des Logos */
+            height: auto;
+            margin: 0 10px; /* Leerraum links und rechts vom Logo */
+        }
+
+        .hamburger-menu {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            margin-right: 20px;
+        }
+
+        .hamburger-menu div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            margin: 4px 0;
+        }
+
+        nav {
+            display: none;
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            background-color: #2c3e50;
+            border-radius: 5px;
+            padding: 10px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            margin: 10px 0;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger-menu {
+                display: flex;
+            }
+
+            nav {
+                width: 200px;
+            }
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #2ecc71;
+        }
+
+        .video-container {
+            text-align: center;
+            margin: 0 auto;
+            max-width: 560px;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 315px;
+        }
+
+        .fallback-text {
+            display: none;
+            color: #e74c3c;
+            font-size: 18px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'MinecraftFont'; /* Minecraft-ähnliche Schriftart für den Button */
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <h1>
+            Redminer9630 
+            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
+            Website
+        </h1>
+        <nav id="navMenu">
             <ul>
+                <li><strong>Social Media:</strong></li>
                 <li><a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube-Kanal von Redminer9630</a></li>
                 <li><a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch-Kanal von Redminer9630</a></li>
+                <li><strong>Generatoren:</strong></li>
+                <li><a href="https://redminer9630github.github.io/Redminer9630_recipe_Generator/" target="_blank">Recipe Generator</a></li>
             </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="about">
+            <h2>Ueber Redminer9630</h2>
+            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
+            <button id="moreInfoBtn">Mehr ueber Redminer9630 erfahren</button>
+            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
+        </section>
+
+        <section id="video">
+            <h2>Schau dir eines der ersten Minecraft-Videos an</h2>
+            <div class="video-container">
+                <p id="fallbackText" class="fallback-text">Video von TheJoCraft</p>
+                <iframe id="videoFrame" src="https://m.youtube.com/embed/W26k42M0lHM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
         </section>
     </main>
 
@@ -219,20 +431,24 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            var menu = document.getElementById('navMenu');
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none';
+        // Hamburger-Menü öffnen/schließen
+        document.getElementById('hamburgerMenu').addEventListener('click', function() {
+            var navMenu = document.getElementById('navMenu');
+            if (navMenu.style.display === 'flex') {
+                navMenu.style.display = 'none';
             } else {
-                menu.style.display = 'flex';
+                navMenu.style.display = 'flex';
+                navMenu.style.flexDirection = 'column';
             }
-        }
+        });
 
+        // Prüfe, ob das Video geladen werden kann
         document.getElementById('videoFrame').onerror = function() {
-            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB";
-            document.getElementById('fallbackText').style.display = 'block';
+            this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB"; // Fallback-Video von TheJoCraft
+            document.getElementById('fallbackText').style.display = 'block'; // Zeige den Fallback-Hinweis an
         };
 
+        // Schaltfläche "Mehr erfahren" umschalten
         document.getElementById("moreInfoBtn").addEventListener("click", function() {
             var moreInfo = document.getElementById("moreInfo");
             if (moreInfo.style.display === "none") {
