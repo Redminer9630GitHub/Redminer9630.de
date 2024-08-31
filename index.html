@@ -50,10 +50,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-            margin: 10px auto;
             position: absolute;
             top: 20px;
-            right: 20px;
+            left: 20px;
             z-index: 3;
         }
 
@@ -76,6 +75,7 @@
             z-index: 1;
             transition: max-height 0.3s ease-out;
             overflow: hidden;
+            padding-top: 60px; /* Abstand für das Hamburger-Menü */
         }
 
         nav a {
@@ -172,15 +172,15 @@
 <body>
     <header>
         <h1>
+            <div class="hamburger" id="hamburger">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
             Redminer9630 
             <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
             Website
         </h1>
-        <div class="hamburger" id="hamburger">
-            <div></div>
-            <div></div>
-            <div></div>
-        </div>
         <nav id="navMenu">
             <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a>
             <a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a>
