@@ -48,10 +48,11 @@
             justify-content: center;
             flex-direction: row;
             position: relative;
+            width: 100%;
         }
 
         .logo {
-            width: 200px; /* Logo-Größe auf 200px ändern */
+            width: 300px; /* Logo-Größe auf 300px ändern */
             height: auto;
         }
 
@@ -79,12 +80,12 @@
         nav {
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             background-color: #2c3e50;
             position: fixed;
             top: 0;
             right: 0;
-            width: 200px; /* Menügröße auf die Breite des Logo-Containers setzen */
+            width: 300px; /* Breite auf die Größe des Logo-Containers setzen */
             height: 200px; /* Höhe des Menüs auf 200px setzen */
             z-index: 10; /* Sicherstellen, dass es vor anderen Inhalten liegt */
             transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
@@ -99,12 +100,32 @@
             visibility: visible; /* Sichtbar, wenn aktiv */
         }
 
+        nav .menu-section {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav .menu-section > li {
+            padding: 15px;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav .menu-section ul {
+            padding-left: 15px;
+            margin: 0;
+            list-style: none;
+        }
+
+        nav .menu-section ul li {
+            padding: 5px 0;
+            color: white;
+        }
+
         nav a {
             color: white;
             text-decoration: none;
-            padding: 15px;
-            display: block;
-            text-align: center;
         }
 
         nav a:hover {
@@ -199,9 +220,19 @@
         </div>
     </header>
     <nav id="navMenu">
-        <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a>
-        <a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a>
-        <a href="https://redminer9630github.github.io/Redminer9630.de/generator/recipe_generator.html" target="_blank">Recipe Generator</a>
+        <div class="menu-section">
+            <li>Social Media</li>
+            <ul>
+                <li><a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a></li>
+                <li><a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a></li>
+            </ul>
+        </div>
+        <div class="menu-section">
+            <li>Generatoren</li>
+            <ul>
+                <li><a href="https://redminer9630github.github.io/Redminer9630.de/generator/recipe_generator.html" target="_blank">Rezept Generator</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main>
