@@ -52,7 +52,7 @@
         }
 
         .logo {
-            width: 300px; /* Logo-Größe auf 300px ändern */
+            width: 225px; /* Logo-Größe auf 225px ändern */
             height: auto;
         }
 
@@ -85,7 +85,7 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 300px; /* Breite auf die Größe des Logo-Containers setzen */
+            width: 225px; /* Breite auf die Größe des Logo-Containers setzen */
             height: 200px; /* Höhe des Menüs auf 200px setzen */
             z-index: 10; /* Sicherstellen, dass es vor anderen Inhalten liegt */
             transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
@@ -120,16 +120,20 @@
 
         nav .menu-section ul li {
             padding: 5px 0;
-            color: white;
         }
 
         nav a {
             color: white;
             text-decoration: none;
+            display: block;
+            padding: 10px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav a:active {
             background-color: #34495e;
+            color: #e74c3c; /* Farbe hervorheben, wenn aktiv */
         }
 
         @media (max-width: 2020px) {
