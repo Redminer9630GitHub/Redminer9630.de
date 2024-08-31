@@ -36,12 +36,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-wrap: wrap;
         }
 
         .logo {
             width: 150px;
             height: auto;
-            margin: 0 10px;
+            margin: 10px;
         }
 
         .hamburger {
@@ -52,17 +53,17 @@
         }
 
         .hamburger div {
-            width: 25px;
+            width: 30px;
             height: 3px;
             background-color: white;
-            margin: 4px 0;
+            margin: 5px 0;
         }
 
         nav {
             display: flex;
             flex-direction: row;
             position: absolute;
-            top: 60px;
+            top: 80px;
             left: 0;
             width: 100%;
             background-color: #2c3e50;
@@ -184,10 +185,10 @@
 
     <main>
         <section id="about">
-            <h2>Ueber Redminer9630</h2>
-            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
-            <button id="moreInfoBtn">Mehr ueber Redminer9630 erfahren</button>
-            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
+            <h2>Über Redminer9630</h2>
+            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veröffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
+            <button id="moreInfoBtn">Mehr über Redminer9630 erfahren</button>
+            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthält, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veröffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
         </section>
 
         <section id="video">
@@ -244,7 +245,7 @@
                 this.textContent = "Weniger anzeigen";
             } else {
                 moreInfo.style.display = "none";
-                this.textContent = "Mehr ueber mich erfahren";
+                this.textContent = "Mehr über mich erfahren";
             }
         });
     </script>
