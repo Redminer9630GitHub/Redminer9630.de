@@ -129,8 +129,7 @@
         main {
             flex: 1;
             padding: 20px;
-            margin-top: 20px; /* Abstand für das eingeklappte Menü */
-            transition: margin-top 0.3s ease-out;
+            margin-top: 0; /* Abstand für das eingeklappte Menü entfernen */
         }
 
         section {
@@ -231,7 +230,6 @@
         document.getElementById('hamburger').addEventListener('click', function() {
             var navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
-            document.querySelector('main').style.marginTop = navMenu.classList.contains('active') ? '200px' : '20px';
         });
 
         // Prüfen, ob der Twitch Stream läuft
