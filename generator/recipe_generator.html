@@ -3,206 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Rezept-Generator</title>
+    <title>Recipe Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-            padding: 20px;
+            background-color: #f4f4f4;
             margin: 0;
+            padding: 0;
         }
 
-        h1 {
-            color: #333;
-        }
-
-        form {
-            margin-bottom: 20px;
-        }
-
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
-
-        input[type="text"], select {
-            padding: 10px;
-            margin-top: 5px;
-            margin-bottom: 10px;
-            width: 100%;
-            max-width: 300px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
+        header {
+            background-color: #2c3e50;
             color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            padding: 10px;
+            text-align: center;
         }
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .result {
-            margin-top: 20px;
-            background-color: #fff;
+        main {
             padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
 
-        pre {
-            text-align: left;
-            white-space: pre-wrap;
-            word-wrap: break-word;
+        select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
         }
 
         footer {
             background-color: #2c3e50;
             color: white;
             text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            position: fixed;
+            padding: 10px;
+            position: absolute;
             bottom: 0;
+            width: 100%;
+        }
+
+        #recipeForm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #itemSelect {
+            width: 200px;
         }
     </style>
 </head>
 <body>
+    <header>
+        <h1>Recipe Generator</h1>
+    </header>
 
-    <h1>Minecraft Rezept-Generator</h1>
+    <main>
+        <form id="recipeForm">
+            <label for="versionSelect">Wähle eine Version:</label>
+            <select id="versionSelect">
+                <option value="1.16">1.16</option>
+                <option value="1.17">1.17</option>
+                <option value="1.18">1.18</option>
+                <option value="1.19">1.19</option>
+                <option value="1.20">1.20</option>
+            </select>
 
-    <form id="recipeForm">
-        <label for="recipeType">Rezept-Typ:</label>
-        <select id="recipeType" required>
-            <option value="crafting_shaped">Crafting Table (Shaped)</option>
-            <option value="crafting_shapeless">Crafting Table (Shapeless)</option>
-            <option value="smelting">Furnace</option>
-            <option value="campfire_cooking">Campfire</option>
-            <option value="blasting">Blast Furnace</option>
-            <option value="smoking">Smoker</option>
-            <option value="smithing">Smithing Table</option>
-            <option value="stonecutting">Stonecutter</option>
-        </select>
+            <label for="itemSelect">Wähle ein Item:</label>
+            <select id="itemSelect">
+                <option value="">Bitte wählen...</option>
+            </select>
 
-        <label for="resultItem">Ergebnis-Item:</label>
-        <input type="text" id="resultItem" placeholder="z.B. minecraft:diamond_sword" required>
+            <button type="button" onclick="generateRecipe()">Rezept generieren</button>
+        </form>
 
-        <label for="ingredients">Zutaten (mit Kommas trennen):</label>
-        <input type="text" id="ingredients" placeholder="z.B. minecraft:stick,minecraft:diamond" required>
-
-        <button type="submit">Rezept generieren</button>
-    </form>
-
-    <div class="result" id="result" style="display: none;">
-        <h2>Generiertes Rezept JSON:</h2>
-        <pre id="jsonOutput"></pre>
-    </div>
+        <div id="recipeOutput"></div>
+    </main>
 
     <footer>
-        <p>&copy; 2024 Minecraft Rezept-Generator. Alle Rechte vorbehalten.</p>
+        <p>© 2024 Minecraft Recipe Generator</p>
     </footer>
 
     <script>
-        document.getElementById('recipeForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        // Funktion zum Laden der Items basierend auf der Version
+        function loadItems(version) {
+            const itemSelect = document.getElementById('itemSelect');
+            const apiUrl = `https://minecraft.fandom.com/api.php?action=query&format=json&prop=extracts&titles=Items_${version}`;
 
-            const recipeType = document.getElementById('recipeType').value;
-            const resultItem = document.getElementById('resultItem').value.trim();
-            const ingredients = document.getElementById('ingredients').value.trim().split(',').map(ingredient => ingredient.trim());
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    const pages = data.query.pages;
+                    let items = [];
 
-            let recipe = {};
-
-            switch(recipeType) {
-                case "crafting_shaped":
-                    recipe = {
-                        "type": "minecraft:crafting_shaped",
-                        "pattern": [
-                            " A ",
-                            " A ",
-                            " B "
-                        ],
-                        "key": {
-                            "A": {
-                                "item": ingredients[0]
-                            },
-                            "B": {
-                                "item": ingredients[1]
-                            }
-                        },
-                        "result": {
-                            "item": resultItem,
-                            "count": 1
+                    for (let pageId in pages) {
+                        let page = pages[pageId];
+                        if (page.extract) {
+                            // Hier verarbeiten wir den extrahierten HTML-Inhalt
+                            items = parseItemsFromHtml(page.extract);
                         }
-                    };
-                    break;
+                    }
 
-                case "crafting_shapeless":
-                    recipe = {
-                        "type": "minecraft:crafting_shapeless",
-                        "ingredients": ingredients.map(item => ({ "item": item })),
-                        "result": {
-                            "item": resultItem,
-                            "count": 1
-                        }
-                    };
-                    break;
+                    // Optionen in das Dropdown-Menü einfügen
+                    itemSelect.innerHTML = '';
+                    items.forEach(item => {
+                        let option = document.createElement('option');
+                        option.value = item.id;
+                        option.textContent = item.name;
+                        itemSelect.appendChild(option);
+                    });
+                })
+                .catch(error => {
+                    console.error('Fehler beim Laden der Items:', error);
+                });
+        }
 
-                case "smelting":
-                case "blasting":
-                case "campfire_cooking":
-                case "smoking":
-                    recipe = {
-                        "type": `minecraft:${recipeType}`,
-                        "ingredient": {
-                            "item": ingredients[0]
-                        },
-                        "result": resultItem,
-                        "experience": 0.1,
-                        "cookingtime": 200
-                    };
-                    break;
+        // Funktion zum Parsen von HTML-Inhalten
+        function parseItemsFromHtml(html) {
+            const items = [];
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html;
 
-                case "smithing":
-                    recipe = {
-                        "type": "minecraft:smithing",
-                        "base": {
-                            "item": ingredients[0]
-                        },
-                        "addition": {
-                            "item": ingredients[1]
-                        },
-                        "result": {
-                            "item": resultItem
-                        }
-                    };
-                    break;
+            // Beispiel: Suche nach einem bestimmten Muster oder Elementen im HTML
+            const itemElements = tempDiv.querySelectorAll('ul li'); // Beispiel für die Suche nach Listenelementen
+            itemElements.forEach(li => {
+                const itemText = li.textContent.trim();
+                if (itemText) {
+                    items.push({
+                        id: itemText.toLowerCase().replace(/\s+/g, '_'), // ID-basierte Konvention (kann angepasst werden)
+                        name: itemText
+                    });
+                }
+            });
 
-                case "stonecutting":
-                    recipe = {
-                        "type": "minecraft:stonecutting",
-                        "ingredient": {
-                            "item": ingredients[0]
-                        },
-                        "result": resultItem,
-                        "count": 1
-                    };
-                    break;
+            return items;
+        }
 
-                default:
-                    alert('Unbekannter Rezept-Typ.');
-                    return;
-            }
-
-            document.getElementById('jsonOutput').textContent = JSON.stringify(recipe, null, 4);
-            document.getElementById('result').style.display = 'block';
+        // Event-Listener für die Versionauswahl
+        document.getElementById('versionSelect').addEventListener('change', function() {
+            let selectedVersion = this.value;
+            loadItems(selectedVersion);
         });
-    </script>
 
+        // Initiales Laden der Items für die erste Version
+        loadItems(document.getElementById('versionSelect').value);
+
+        // Funktion zum Generieren eines Rezepts (beispielhaft)
+        function generateRecipe() {
+            const item = document.getElementById('itemSelect').value;
+            const recipeOutput = document.getElementById('recipeOutput');
+
+            if (item) {
+                recipeOutput.textContent = `Rezept für ${item} wird angezeigt. (Hier können Sie den Rezeptinhalt einfügen)`;
+            } else {
+                recipeOutput.textContent = 'Bitte wählen Sie ein Item aus.';
+            }
+        }
+    </script>
 </body>
 </html>
