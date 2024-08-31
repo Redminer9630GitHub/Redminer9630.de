@@ -29,6 +29,7 @@
             padding: 20px;
             text-align: center;
             position: relative;
+            z-index: 2;
         }
 
         h1 {
@@ -50,6 +51,10 @@
             flex-direction: column;
             cursor: pointer;
             margin: 10px auto;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
         }
 
         .hamburger div {
@@ -62,13 +67,15 @@
         nav {
             display: flex;
             flex-direction: row;
-            position: absolute;
-            top: 80px;
+            justify-content: center;
+            background-color: #2c3e50;
+            position: fixed;
+            top: 0;
             left: 0;
             width: 100%;
-            background-color: #2c3e50;
-            text-align: center;
             z-index: 1;
+            transition: max-height 0.3s ease-out;
+            overflow: hidden;
         }
 
         nav a {
@@ -76,6 +83,7 @@
             text-decoration: none;
             padding: 15px;
             display: block;
+            text-align: center;
         }
 
         nav a:hover {
@@ -83,23 +91,19 @@
         }
 
         @media (max-width: 810px) {
-            .hamburger {
-                display: flex;
-            }
-
             nav {
+                max-height: 0;
                 display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 60px;
-                left: 0;
-                width: 100%;
-                background-color: #2c3e50;
-                text-align: center;
-                z-index: 1;
             }
 
             nav.active {
+                display: flex;
+                max-height: 500px; /* Höhe anpassen, um das Menü anzuzeigen */
+                flex-direction: column;
+                justify-content: flex-start;
+            }
+
+            .hamburger {
                 display: flex;
             }
 
@@ -111,6 +115,7 @@
         main {
             flex: 1;
             padding: 20px;
+            margin-top: 60px; /* Abstand für das feste Header */
         }
 
         section {
