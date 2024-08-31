@@ -39,15 +39,23 @@
             margin: 0;
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
             width: 100%;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: row;
         }
 
         .logo {
             width: 150px;
             height: auto;
-            margin: 0 10px;
+        }
+
+        .logo-text {
+            margin-left: 10px;
         }
 
         .hamburger {
@@ -78,11 +86,13 @@
             overflow: hidden;
             padding-top: 60px; /* Abstand für das Hamburger-Menü */
             max-height: 0;
+            visibility: hidden;
         }
 
         nav.active {
             max-height: 500px; /* Höhe anpassen, um das Menü anzuzeigen */
             padding-top: 20px; /* Zusätzlicher Abstand für das Menü */
+            visibility: visible;
         }
 
         nav a {
@@ -113,11 +123,13 @@
                 padding-top: 60px; /* Abstand für das Hamburger-Menü */
                 z-index: 1;
                 overflow: hidden;
+                visibility: hidden; /* Unsichtbar, wenn nicht aktiv */
             }
 
             nav.active {
                 display: flex;
                 max-height: 500px; /* Höhe anpassen, um das Menü anzuzeigen */
+                visibility: visible; /* Sichtbar, wenn aktiv */
             }
 
             .logo {
@@ -187,8 +199,10 @@
     <header>
         <h1>
             Redminer9630 
-            <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
-            Website
+            <div class="logo-container">
+                <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
+                <span class="logo-text">Website</span>
+            </div>
         </h1>
         <div class="hamburger" id="hamburger">
             <div></div>
@@ -204,9 +218,9 @@
 
     <main>
         <section id="about">
-            <h2>Über Redminer9630</h2>
+            <h2>Ueber Redminer9630</h2>
             <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veröffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
-            <button id="moreInfoBtn">Mehr über Redminer9630 erfahren</button>
+            <button id="moreInfoBtn">Mehr ueber Redminer9630 erfahren</button>
             <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthält, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veröffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
         </section>
 
@@ -265,7 +279,7 @@
                 this.textContent = "Weniger anzeigen";
             } else {
                 moreInfo.style.display = "none";
-                this.textContent = "Mehr über mich erfahren";
+                this.textContent = "Mehr ueber mich erfahren";
             }
         });
     </script>
