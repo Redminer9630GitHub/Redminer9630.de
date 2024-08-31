@@ -66,7 +66,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            z-index: 3; /* Layer unter das Hamburger-Icon */
+            z-index: 3; /* Über dem Layer */
         }
 
         .hamburger div {
@@ -74,17 +74,6 @@
             height: 3px;
             background-color: white;
             margin: 5px 0;
-        }
-
-        /* Layer unter dem Hamburger-Menü-Icon */
-        .hamburger-layer {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 50px;
-            height: 50px;
-            background-color: rgba(0, 0, 0, 0.5); /* Halbtransparenter Hintergrund */
-            z-index: 2; /* Layer unter dem Hamburger-Icon */
         }
 
         nav {
@@ -127,10 +116,6 @@
         @media (max-width: 2020px) {
             .hamburger {
                 display: flex;
-            }
-
-            .hamburger-layer {
-                display: block;
             }
 
             nav {
@@ -209,7 +194,6 @@
             <div class="logo-container">
                 <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> 
                 <span class="logo-text">Website</span>
-                <div class="hamburger-layer"></div>
             </div>
         </h1>
         <div class="hamburger" id="hamburger">
@@ -287,7 +271,7 @@
                 this.textContent = "Weniger anzeigen";
             } else {
                 moreInfo.style.display = "none";
-                this.textContent = "Mehr ueber mich erfahren";
+                this.textContent = "Mehr ueber mich erfahren v1";
             }
         });
     </script>
