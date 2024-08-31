@@ -45,8 +45,41 @@
             align-items: center;
         }
 
-        #itemSelect {
-            width: 200px;
+        #itemList {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .item {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .item img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .item p {
+            margin: 5px 0 0;
+        }
+
+        .links {
+            margin: 20px;
+            text-align: center;
+        }
+
+        .links a {
+            display: block;
+            margin: 5px 0;
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -57,15 +90,6 @@
 
     <main>
         <form id="recipeForm">
-            <label for="versionSelect">Wähle eine Version:</label>
-            <select id="versionSelect">
-                <option value="1.16">1.16</option>
-                <option value="1.17">1.17</option>
-                <option value="1.18">1.18</option>
-                <option value="1.19">1.19</option>
-                <option value="1.20">1.20</option>
-            </select>
-
             <label for="itemSelect">Wähle ein Item:</label>
             <select id="itemSelect">
                 <option value="">Bitte wählen...</option>
@@ -75,6 +99,19 @@
         </form>
 
         <div id="recipeOutput"></div>
+
+        <div class="links">
+            <a href="gui_crafting_table.html" target="_blank">Crafting Table GUI</a>
+            <a href="gui_furnace.html" target="_blank">Furnace GUI</a>
+            <a href="gui_campfire.html" target="_blank">Campfire GUI</a>
+            <a href="gui_blast_furnace.html" target="_blank">Blast Furnace GUI</a>
+            <a href="gui_smoker.html" target="_blank">Smoker GUI</a>
+            <a href="gui_smithing_table.html" target="_blank">Smithing Table GUI</a>
+            <a href="gui_stonecutter.html" target="_blank">Stonecutter GUI</a>
+            <a href="json_container.html" target="_blank">JSON Container</a>
+        </div>
+
+        <div id="itemList"></div>
     </main>
 
     <footer>
@@ -82,68 +119,47 @@
     </footer>
 
     <script>
-        // Funktion zum Laden der Items basierend auf der Version
-        function loadItems(version) {
+        // Funktion zum Laden der Items
+        function loadItems() {
             const itemSelect = document.getElementById('itemSelect');
-            const apiUrl = `https://minecraft.fandom.com/api.php?action=query&format=json&prop=extracts&titles=Items_${version}`;
+            const itemList = document.getElementById('itemList');
+            const apiUrl = 'items_list.json'; // Link zur JSON-Datei mit der Items-Liste
 
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    const pages = data.query.pages;
-                    let items = [];
-
-                    for (let pageId in pages) {
-                        let page = pages[pageId];
-                        if (page.extract) {
-                            // Hier verarbeiten wir den extrahierten HTML-Inhalt
-                            items = parseItemsFromHtml(page.extract);
-                        }
-                    }
-
                     // Optionen in das Dropdown-Menü einfügen
                     itemSelect.innerHTML = '';
-                    items.forEach(item => {
+                    data.items.forEach(item => {
                         let option = document.createElement('option');
                         option.value = item.id;
                         option.textContent = item.name;
                         itemSelect.appendChild(option);
+                    });
+
+                    // Items in der Liste anzeigen
+                    itemList.innerHTML = '';
+                    data.items.forEach(item => {
+                        let itemDiv = document.createElement('div');
+                        itemDiv.classList.add('item');
+
+                        let img = document.createElement('img');
+                        img.src = item.image;
+                        img.alt = item.name;
+
+                        let p = document.createElement('p');
+                        p.textContent = item.name;
+
+                        itemDiv.appendChild(img);
+                        itemDiv.appendChild(p);
+
+                        itemList.appendChild(itemDiv);
                     });
                 })
                 .catch(error => {
                     console.error('Fehler beim Laden der Items:', error);
                 });
         }
-
-        // Funktion zum Parsen von HTML-Inhalten
-        function parseItemsFromHtml(html) {
-            const items = [];
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = html;
-
-            // Beispiel: Suche nach einem bestimmten Muster oder Elementen im HTML
-            const itemElements = tempDiv.querySelectorAll('ul li'); // Beispiel für die Suche nach Listenelementen
-            itemElements.forEach(li => {
-                const itemText = li.textContent.trim();
-                if (itemText) {
-                    items.push({
-                        id: itemText.toLowerCase().replace(/\s+/g, '_'), // ID-basierte Konvention (kann angepasst werden)
-                        name: itemText
-                    });
-                }
-            });
-
-            return items;
-        }
-
-        // Event-Listener für die Versionauswahl
-        document.getElementById('versionSelect').addEventListener('change', function() {
-            let selectedVersion = this.value;
-            loadItems(selectedVersion);
-        });
-
-        // Initiales Laden der Items für die erste Version
-        loadItems(document.getElementById('versionSelect').value);
 
         // Funktion zum Generieren eines Rezepts (beispielhaft)
         function generateRecipe() {
@@ -156,6 +172,9 @@
                 recipeOutput.textContent = 'Bitte wählen Sie ein Item aus.';
             }
         }
+
+        // Initiales Laden der Items
+        loadItems();
     </script>
 </body>
 </html>
