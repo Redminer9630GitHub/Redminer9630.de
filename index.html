@@ -62,7 +62,9 @@
             display: none;
             flex-direction: column;
             cursor: pointer;
-            margin: 10px 0;
+            position: absolute;
+            top: 20px;
+            right: 20px;
         }
 
         .hamburger div {
@@ -78,19 +80,17 @@
             justify-content: center;
             background-color: #2c3e50;
             position: relative;
-            top: 20px; /* Offset von der Logo-Box */
-            left: 0;
             width: 100%;
             z-index: 1;
             transition: max-height 0.3s ease-out, padding-top 0.3s ease-out;
             overflow: hidden;
-            padding-top: 0px; /* Abstand für das Hamburger-Menü */
+            padding-top: 0;
             max-height: 0;
             visibility: hidden;
         }
 
         nav.active {
-            max-height: 0px; /* Höhe anpassen, um das Menü anzuzeigen */
+            max-height: 500px; /* Höhe anpassen, um das Menü anzuzeigen */
             padding-top: 20px; /* Zusätzlicher Abstand für das Menü */
             visibility: visible;
         }
@@ -115,9 +115,9 @@
             nav {
                 display: flex;
                 flex-direction: column;
-                position: relative;
+                position: absolute;
                 top: 60px; /* Höhe des Headers */
-                left: 0;
+                right: 0;
                 width: 100%;
                 background-color: #2c3e50;
                 padding-top: 60px; /* Abstand für das Hamburger-Menü */
@@ -140,7 +140,7 @@
         main {
             flex: 1;
             padding: 20px;
-            margin-top: 80px; /* Abstand für das eingeklappte Menü */
+            margin-top: 20px; /* Abstand für das eingeklappte Menü */
             transition: margin-top 0.3s ease-out;
         }
 
@@ -242,7 +242,7 @@
         document.getElementById('hamburger').addEventListener('click', function() {
             var navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
-            document.querySelector('main').style.marginTop = navMenu.classList.contains('active') ? '500px' : '80px';
+            document.querySelector('main').style.marginTop = navMenu.classList.contains('active') ? '500px' : '20px';
         });
 
         // Prüfen, ob der Twitch Stream läuft
