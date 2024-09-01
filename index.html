@@ -47,6 +47,10 @@
             display: flex;
             align-items: center;
             position: relative;
+            border: 5px solid;
+            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
+            border-image-slice: 1;
+            animation: rgb-border 3s infinite;
         }
 
         .logo {
@@ -57,6 +61,24 @@
         .logo-text {
             margin-left: 12px;
             margin-right: 12px;
+        }
+
+        @keyframes rgb-border {
+            0% {
+                border-color: red;
+            }
+            25% {
+                border-color: green;
+            }
+            50% {
+                border-color: blue;
+            }
+            75% {
+                border-color: yellow;
+            }
+            100% {
+                border-color: red;
+            }
         }
 
         .hamburger {
@@ -108,7 +130,7 @@
         nav .menu-section > li {
             padding: 15px;
             font-weight: bold;
-            color: #F8FE7C; /* Kategorie-Farbe */
+            color: #FFE4E3; /* Kategorie-Farbe */
         }
 
         nav .menu-section ul {
@@ -193,7 +215,7 @@
         }
 
         button:hover {
-            background-color: #A856A7;
+            background-color: #A8FFA7;
         }
 
         footer {
@@ -236,13 +258,20 @@
             </ul>
         </div>
         <!-- Hier neue Sektoren hinzufügen -->
+        <div class="menu-section">
+            <li>Weitere Kategorien</li>
+            <ul>
+                <li><a href="link-zu-einer-neuen-kategorie.html" target="_blank">Neue Kategorie 1</a></li>
+                <li><a href="link-zu-einer-anderen-neuen-kategorie.html" target="_blank">Neue Kategorie 2</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main>
         <section id="about">
             <h2>Ueber Redminer9630</h2>
             <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
-            <button id="moreInfoBtn">Mehr ueber mich erfahren</button>
+            <button id="moreInfoBtn">Mehr ueber Redminer9630 erfahren</button>
             <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
         </section>
 
