@@ -100,6 +100,8 @@
 
         <div id="recipeOutput"></div>
 
+        <div id="itemList"></div>
+
         <div class="links">
             <a href="gui_crafting_table.html" target="_blank">Crafting Table GUI</a>
             <a href="gui_furnace.html" target="_blank">Furnace GUI</a>
@@ -110,8 +112,6 @@
             <a href="gui_stonecutter.html" target="_blank">Stonecutter GUI</a>
             <a href="json_container.html" target="_blank">JSON Container</a>
         </div>
-
-        <div id="itemList"></div>
     </main>
 
     <footer>
@@ -144,7 +144,7 @@
                         itemDiv.classList.add('item');
 
                         let img = document.createElement('img');
-                        img.src = item.image;
+                        img.src = item.image || 'default-item-image.png'; // Fallback-Bild, falls kein Bild vorhanden
                         img.alt = item.name;
 
                         let p = document.createElement('p');
