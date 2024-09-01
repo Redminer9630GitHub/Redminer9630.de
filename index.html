@@ -52,31 +52,53 @@
         .logo {
             width: 225px;
             height: auto;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .border_layer {
+            position: relative;
+            display: inline-block;
+        }
+
+        @property --angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .border_layer::after, .border_layer::before {
+            content: '';
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background-image: conic-gradient(from var(--angle), red, pink, blue, green, yellow, orange, red); 
+            top: 50%;
+            left: 50%;
+            translate: -50% -50%;
+            z-index: -1;
+            padding: 4px;
+            border-radius: 4px;
+            animation: spin 12s linear infinite;
+        }
+
+        .border_layer::before {
+            filter: blur(1.5rem);
+            opacity: 0.5;
+        }
+
+        @keyframes spin {
+            from {
+                --angle: 0deg;
+            }
+            to {
+                --angle: 360deg;
+            }
         }
 
         .logo-text {
             margin-left: 12px;
             margin-right: 12px;
-        }
-
-        .border-layer {
-            position: absolute;
-            width: calc(225px + 6px); /* 3px größer als das Logo */
-            height: calc(auto + 6px); /* Anpassung an die Höhe des Logos */
-            border: 3px solid;
-            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
-            border-image-slice: 1;
-            animation: rotate-border 10s linear infinite;
-            z-index: -1; /* Hinter das Logo legen */
-        }
-
-        @keyframes rotate-border {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
         }
 
         .hamburger {
@@ -231,8 +253,9 @@
         <h1>
             Redminer9630
             <div class="logo-container">
-                <div class="border-layer"></div>
-                <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
+                <div class="border_layer">
+                    <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
+                </div>
                 <span class="logo-text">Website</span>
             </div>
         </h1>
