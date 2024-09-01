@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Generator v1</title>
+    <title>Recipe Generator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -101,7 +101,12 @@
         #guiImage img {
             max-width: 100%;
             height: auto;
+            transform: scale(3.2); /* Skaliert das Bild auf das 3,2-fache */
+            transform-origin: center; /* Skaliert das Bild von der Mitte aus */
+            display: block; /* Verhindert das unerwünschte Layout */
+            margin: 0 auto; /* Zentriert das Bild im Container */
         }
+
 
         /* Unsichtbare Felder */
         .slot {
