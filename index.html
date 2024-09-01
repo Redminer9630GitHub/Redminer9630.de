@@ -31,35 +31,32 @@
             position: relative;
             z-index: 2;
             display: flex;
-            flex-direction: column;
             align-items: center;
+            justify-content: space-between;
         }
 
         h1 {
             margin: 0;
             display: flex;
             align-items: center;
-            width: 100%;
-            justify-content: center;
+            width: auto;
+            white-space: nowrap;
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-direction: row;
             position: relative;
-            width: 100%;
         }
 
         .logo {
-            width: 225px; /* Logo-Größe auf 225px ändern */
+            width: 225px;
             height: auto;
         }
 
         .logo-text {
-            margin-left: 12px; /* Offset auf 12px ändern */
-            margin-right: 12px; /* Offset auf 12px ändern */
+            margin-left: 12px;
+            margin-right: 12px;
         }
 
         .hamburger {
@@ -69,7 +66,7 @@
             position: absolute;
             top: 20px;
             right: 20px;
-            z-index: 3; /* Über dem Layer */
+            z-index: 3;
         }
 
         .hamburger div {
@@ -87,18 +84,19 @@
             position: fixed;
             top: 0;
             right: 0;
-            width: 225px; /* Breite auf die Größe des Logo-Containers setzen */
-            height: 225px; /* Höhe des Menüs auf 225px setzen */
-            z-index: 10; /* Sicherstellen, dass es vor anderen Inhalten liegt */
+            width: 225px;
+            height: auto;
+            z-index: 10;
             transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
             overflow: hidden;
+            padding-top: 60px;
             max-height: 0;
             visibility: hidden;
         }
 
         nav.active {
-            max-height: 225px; /* Höhe anpassen, um das Menü anzuzeigen */
-            visibility: visible; /* Sichtbar, wenn aktiv */
+            max-height: 500px; /* Vorläufige Maximalhöhe für das Menü */
+            visibility: visible;
         }
 
         nav .menu-section {
@@ -110,7 +108,7 @@
         nav .menu-section > li {
             padding: 15px;
             font-weight: bold;
-            color: #FFE4E3; /* Farbe für die Kategorien */
+            color: #FFE4E3; /* Kategorie-Farbe */
         }
 
         nav .menu-section ul {
@@ -134,7 +132,7 @@
         nav a:hover,
         nav a:active {
             background-color: #34495e;
-            color: #e74c3c; /* Farbe hervorheben, wenn aktiv */
+            color: #e74c3c;
         }
 
         @media (max-width: 2020px) {
@@ -143,19 +141,18 @@
             }
 
             nav {
-                top: 60px; /* Höhe des Headers */
-                visibility: hidden; /* Unsichtbar, wenn nicht aktiv */
+                visibility: hidden;
             }
 
             nav.active {
-                visibility: visible; /* Sichtbar, wenn aktiv */
+                visibility: visible;
             }
         }
 
         main {
             flex: 1;
             padding: 20px;
-            margin-top: 0; /* Abstand für das eingeklappte Menü entfernen */
+            margin-top: 0;
         }
 
         section {
@@ -211,7 +208,7 @@
 </head>
 <body>
     <header>
-        <h1>Redminer9630 <div class="logo-container"><img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"> <span class="logo-text">Website</span></div></h1>
+        <h1>Redminer9630<div class="logo-container"><img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"><span class="logo-text">Website</span></div></h1>
         <div class="hamburger" id="hamburger">
             <div></div>
             <div></div>
@@ -246,7 +243,7 @@
             <h2 id="videoTitle">Schau dir den Live-Stream an</h2>
             <div class="video-container">
                 <p id="fallbackText" class="fallback-text">Video von TheJoCraft</p>
-                <iframe id="videoFrame" src="https://player.twitch.tv/?channel=redminer9630&parent=redminer9630github.github.io" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
+                <iframe id="videoFrame" src="https://player.twitch.tv/?channel=redminer9630&parent=redminer9630github.github.io" frameborder="0" allowfullscreen="true" scrolling="no"></iframe>
             </div>
         </section>
     </main>
@@ -260,44 +257,64 @@
         document.getElementById('hamburger').addEventListener('click', function() {
             var navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
+            adjustNavHeight();
         });
 
-        // Prüfen, ob der Twitch Stream läuft
-        fetch('https://api.twitch.tv/helix/streams?user_login=redminer9630', {
-            headers: {
-                'Client-ID': 'YOUR_TWITCH_CLIENT_ID',
-                'Authorization': 'Bearer YOUR_ACCESS_TOKEN'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.data && data.data.length === 0) {
-                // Kein Live-Stream, zeige das YouTube-Video
-                document.getElementById('videoFrame').src = "https://www.youtube.com/embed/playlist?list=UU[UCdpkm8rpRnIi88zWSuubbOQ]";
-                document.getElementById('videoTitle').textContent = "Schau dir eines der ersten Minecraft-Videos an";
+        // Menü Höhe dynamisch anpassen
+        function adjustNavHeight() {
+            var navMenu = document.getElementById('navMenu');
+            var menuSections = navMenu.querySelectorAll('.menu-section');
+            var totalHeight = 60; // Abstand vom oberen Rand
+            menuSections.forEach(section => {
+                totalHeight += section.offsetHeight;
+            });
+            navMenu.style.maxHeight = totalHeight + 'px';
+        }
 
-                // Fallback für YouTube Video
-                document.getElementById('videoFrame').onerror = function() {
-                    this.src = "https://www.youtube.com/embed/V4E8NpgdMl8?list=PL8yutqH6-uWooXS2uhllhP8SVYZ5Dipl2&pp=iAQB";
+        // Statusbericht alle 7 Tage versenden
+        function sendStatusReport() {
+            var lastSent = localStorage.getItem('lastStatusReport');
+            var now = new Date();
+            if (!lastSent || now - new Date(lastSent) > 7 * 24 * 60 * 60 * 1000) {
+                var subject = `Redminer9630.de Statusbericht ${now.toLocaleDateString()}`;
+                var body = 'Statusbericht für alle Websites:\n\n';
+
+                body += '- Website 1: OK\n';
+                body += '- Website 2: OK\n';
+
+                window.location.href = `mailto:redminer9630@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                localStorage.setItem('lastStatusReport', now);
+            }
+        }
+
+        // Call the function to send a status report if needed
+        sendStatusReport();
+
+        // API-Daten von Server abrufen
+        fetch('twitch_api.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.data && data.data.length > 0) {
+                    // Stream ist online, Video anzeigen
+                    document.getElementById('videoFrame').src = "https://player.twitch.tv/?channel=redminer9630&parent=redminer9630github.github.io";
+                    document.getElementById('videoTitle').innerText = 'Schau dir den Live-Stream an';
+                } else {
+                    // Stream ist offline, Fallback anzeigen
+                    document.getElementById('videoFrame').style.display = 'none';
                     document.getElementById('fallbackText').style.display = 'block';
-                    document.getElementById('videoTitle').textContent = "Schau dir ein Video von TheJoCraft an";
-                };
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching Twitch stream:', error);
-        });
+                }
+            })
+            .catch(error => {
+                console.error('Fehler beim Abrufen der Twitch-API-Daten:', error);
+                document.getElementById('videoFrame').style.display = 'none';
+                document.getElementById('fallbackText').style.display = 'block';
+            });
 
-        // Schaltfläche "Mehr erfahren" umschalten
-        document.getElementById("moreInfoBtn").addEventListener("click", function() {
-            var moreInfo = document.getElementById("moreInfo");
-            if (moreInfo.style.display === "none") {
-                moreInfo.style.display = "block";
-                this.textContent = "Weniger anzeigen";
-            } else {
-                moreInfo.style.display = "none";
-                this.textContent = "Mehr ueber mich erfahren";
-            }
+        // Mehr Informationen anzeigen
+        document.getElementById('moreInfoBtn').addEventListener('click', function() {
+            var moreInfo = document.getElementById('moreInfo');
+            moreInfo.style.display = moreInfo.style.display === 'none' ? 'block' : 'none';
         });
     </script>
 </body>
