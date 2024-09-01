@@ -17,10 +17,20 @@
             color: white;
             padding: 10px;
             text-align: center;
+            position: relative;
+        }
+
+        header a {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: white;
+            text-decoration: none;
         }
 
         main {
             padding: 20px;
+            position: relative;
         }
 
         select, button {
@@ -58,8 +68,8 @@
         }
 
         .item img {
-            width: 420px;  /* Vergrößert auf 320px */
-            height: 420px; /* Vergrößert auf 320px */
+            width: 320px;  /* Vergrößert auf 320px */
+            height: 320px; /* Vergrößert auf 320px */
         }
 
         .item p {
@@ -85,17 +95,52 @@
         #guiImage {
             text-align: center;
             margin-top: 20px;
+            position: relative;
         }
 
         #guiImage img {
             max-width: 100%;
             height: auto;
         }
+
+        /* Unsichtbare Felder */
+        .slot {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0); /* Unsichtbar */
+            cursor: pointer;
+        }
+
+        /* Crafting Table Slots */
+        #slot1 { width: 18px; height: 18px; top: 16px; left: 29px; }
+        #slot2 { width: 18px; height: 18px; top: 16px; left: 47px; }
+        #slot3 { width: 18px; height: 18px; top: 16px; left: 65px; }
+        #slot4 { width: 18px; height: 18px; top: 34px; left: 29px; }
+        #slot5 { width: 18px; height: 18px; top: 34px; left: 47px; }
+        #slot6 { width: 18px; height: 18px; top: 34px; left: 65px; }
+        #slot7 { width: 18px; height: 18px; top: 52px; left: 29px; }
+        #slot8 { width: 18px; height: 18px; top: 52px; left: 47px; }
+        #slot9 { width: 18px; height: 18px; top: 52px; left: 65px; }
+        #result { width: 26px; height: 26px; top: 30px; left: 119px; }
+
+        /* Furnace/Blast Furnace/Smoker/Campfire Slots */
+        #furnaceSlot1 { width: 18px; height: 18px; top: 16px; left: 55px; }
+        #furnaceResult { width: 26px; height: 26px; top: 30px; left: 111px; }
+
+        /* Smithing Table Slots */
+        #smithingSlot1 { width: 18px; height: 18px; top: 47px; left: 7px; }
+        #smithingSlot2 { width: 18px; height: 18px; top: 47px; left: 25px; }
+        #smithingSlot3 { width: 18px; height: 18px; top: 47px; left: 43px; }
+        #smithingResult { width: 18px; height: 18px; top: 47px; left: 97px; }
+
+        /* Stonecutter Slots */
+        #stonecutterSlot1 { width: 18px; height: 18px; top: 32px; left: 19px; }
+        #stonecutterResult { width: 26px; height: 26px; top: 28px; left: 138px; }
     </style>
 </head>
 <body>
     <header>
         <h1>Recipe Generator</h1>
+        <a href="https://redminer9630github.github.io/Redminer9630.de/" target="_blank">Zurück ></a>
     </header>
 
     <main>
@@ -125,6 +170,32 @@
 
         <div id="guiImage">
             <img id="guiImageDisplay" src="images/crafting_table.png" alt="GUI Image" />
+            
+            <!-- Unsichtbare Felder -->
+            <div id="slot1" class="slot" onclick="selectSlot('slot1')"></div>
+            <div id="slot2" class="slot" onclick="selectSlot('slot2')"></div>
+            <div id="slot3" class="slot" onclick="selectSlot('slot3')"></div>
+            <div id="slot4" class="slot" onclick="selectSlot('slot4')"></div>
+            <div id="slot5" class="slot" onclick="selectSlot('slot5')"></div>
+            <div id="slot6" class="slot" onclick="selectSlot('slot6')"></div>
+            <div id="slot7" class="slot" onclick="selectSlot('slot7')"></div>
+            <div id="slot8" class="slot" onclick="selectSlot('slot8')"></div>
+            <div id="slot9" class="slot" onclick="selectSlot('slot9')"></div>
+            <div id="result" class="slot" onclick="selectSlot('result')"></div>
+
+            <!-- Furnace/Blast Furnace/Smoker/Campfire Slots -->
+            <div id="furnaceSlot1" class="slot" onclick="selectSlot('furnaceSlot1')"></div>
+            <div id="furnaceResult" class="slot" onclick="selectSlot('furnaceResult')"></div>
+
+            <!-- Smithing Table Slots -->
+            <div id="smithingSlot1" class="slot" onclick="selectSlot('smithingSlot1')"></div>
+            <div id="smithingSlot2" class="slot" onclick="selectSlot('smithingSlot2')"></div>
+            <div id="smithingSlot3" class="slot" onclick="selectSlot('smithingSlot3')"></div>
+            <div id="smithingResult" class="slot" onclick="selectSlot('smithingResult')"></div>
+
+            <!-- Stonecutter Slots -->
+            <div id="stonecutterSlot1" class="slot" onclick="selectSlot('stonecutterSlot1')"></div>
+            <div id="stonecutterResult" class="slot" onclick="selectSlot('stonecutterResult')"></div>
         </div>
 
         <div class="links">
@@ -213,6 +284,64 @@
             } else {
                 guiImageDisplay.src = 'images/crafting_table.png'; // Standardbild, wenn keine Auswahl getroffen wird
             }
+
+            // Unsichtbare Felder basierend auf der Auswahl anzeigen/verbergen
+            toggleSlots(selectedType);
+        }
+
+        // Funktion zur Verwaltung der Sichtbarkeit der Slots
+        function toggleSlots(recipeType) {
+            const allSlots = document.querySelectorAll('.slot');
+            allSlots.forEach(slot => slot.style.display = 'none');
+
+            if (recipeType === 'crafting') {
+                toggleCraftingSlots(true);
+            } else if (['furnace', 'blast_furnace', 'smoker', 'campfire'].includes(recipeType)) {
+                toggleFurnaceSlots(true);
+            } else if (recipeType === 'smithing_table') {
+                toggleSmithingSlots(true);
+            } else if (recipeType === 'stonecutter') {
+                toggleStonecutterSlots(true);
+            }
+        }
+
+        function toggleCraftingSlots(visible) {
+            const displayValue = visible ? 'block' : 'none';
+            document.getElementById('slot1').style.display = displayValue;
+            document.getElementById('slot2').style.display = displayValue;
+            document.getElementById('slot3').style.display = displayValue;
+            document.getElementById('slot4').style.display = displayValue;
+            document.getElementById('slot5').style.display = displayValue;
+            document.getElementById('slot6').style.display = displayValue;
+            document.getElementById('slot7').style.display = displayValue;
+            document.getElementById('slot8').style.display = displayValue;
+            document.getElementById('slot9').style.display = displayValue;
+            document.getElementById('result').style.display = displayValue;
+        }
+
+        function toggleFurnaceSlots(visible) {
+            const displayValue = visible ? 'block' : 'none';
+            document.getElementById('furnaceSlot1').style.display = displayValue;
+            document.getElementById('furnaceResult').style.display = displayValue;
+        }
+
+        function toggleSmithingSlots(visible) {
+            const displayValue = visible ? 'block' : 'none';
+            document.getElementById('smithingSlot1').style.display = displayValue;
+            document.getElementById('smithingSlot2').style.display = displayValue;
+            document.getElementById('smithingSlot3').style.display = displayValue;
+            document.getElementById('smithingResult').style.display = displayValue;
+        }
+
+        function toggleStonecutterSlots(visible) {
+            const displayValue = visible ? 'block' : 'none';
+            document.getElementById('stonecutterSlot1').style.display = displayValue;
+            document.getElementById('stonecutterResult').style.display = displayValue;
+        }
+
+        // Funktion zum Auswählen eines Slots (beispielhaft)
+        function selectSlot(slotId) {
+            alert(`Slot ${slotId} wurde ausgewählt.`);
         }
 
         // Event-Listener für die Rezepttyp-Auswahl
