@@ -124,7 +124,7 @@
         <div id="itemList"></div>
 
         <div id="guiImage">
-            <img id="guiImageDisplay" src="" alt="GUI Image" />
+            <img id="guiImageDisplay" src="images/gui_crafting_table.png" alt="GUI Image" />
         </div>
 
         <div class="links">
@@ -211,7 +211,7 @@
             if (selectedType in guiImages) {
                 guiImageDisplay.src = guiImages[selectedType];
             } else {
-                guiImageDisplay.src = ''; // Leere Bildquelle, wenn keine Auswahl getroffen wird
+                guiImageDisplay.src = 'images/gui_crafting_table.png'; // Standardbild, wenn keine Auswahl getroffen wird
             }
         }
 
