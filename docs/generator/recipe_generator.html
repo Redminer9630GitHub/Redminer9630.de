@@ -104,6 +104,10 @@
                 <option value="stonecutting">Stonecutting</option>
             </select>
 
+            <label for="exactPlacement">
+                <input type="checkbox" id="exactPlacement"> Genau platziert
+            </label>
+
             <div id="inputFields">
                 <input type="text" class="slot-input" id="slot1">
                 <input type="text" class="slot-input" id="slot2">
@@ -158,6 +162,7 @@
 
         function generateRecipe() {
             const recipeType = document.getElementById('recipeType').value;
+            const exactPlacement = document.getElementById('exactPlacement').checked;
             const slots = [];
             for (let i = 1; i <= 9; i++) {
                 const symbol = document.getElementById(`slot${i}`).value.trim();
@@ -168,12 +173,16 @@
             let jsonOutput;
             
             if (recipeType === 'crafting_shaped') {
-                const pattern = [
+                let pattern = [
                     slots.slice(0, 3).join(''),
                     slots.slice(3, 6).join(''),
                     slots.slice(6, 9).join('')
                 ];
     
+                if (exactPlacement) {
+                    pattern = pattern.map(row => row.replace(/\s+$/, '')); // Trim trailing spaces
+                }
+
                 const key = {};
                 slots.forEach(symbol => {
                     if (symbol.trim() && !key[symbol]) {
