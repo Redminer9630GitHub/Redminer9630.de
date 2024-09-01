@@ -100,8 +100,19 @@
 
     <main>
         <form id="recipeForm">
+            <label for="recipeType">Wähle Rezepttyp:</label>
+            <select id="recipeType">
+                <option value="crafting">Crafting</option>
+                <option value="furnace">Furnace</option>
+                <option value="campfire">Campfire</option>
+                <option value="blast_furnace">Blast Furnace</option>
+                <option value="smoker">Smoker</option>
+                <option value="smithing_table">Smithing Table</option>
+                <option value="stonecutter">Stonecutter</option>
+            </select>
+
             <label for="itemSelect">Wähle ein Item:</label>
-            <select id="itemSelect" onchange="updateGuiImage()">
+            <select id="itemSelect">
                 <option value="">Bitte wählen...</option>
             </select>
 
@@ -113,18 +124,11 @@
         <div id="itemList"></div>
 
         <div id="guiImage">
-            <img id="guiImageDisplay" src="" />
+            <img id="guiImageDisplay" src="" alt="GUI Image" />
         </div>
 
         <div class="links">
-            <a href="crafting_table.png" target="_blank">Crafting Table GUI</a>
-            <a href="furnace.png" target="_blank">Furnace GUI</a>
-            <a href="campfire.png" target="_blank">Campfire GUI</a>
-            <a href="blast_furnace.png" target="_blank">Blast Furnace GUI</a>
-            <a href="smoker.png" target="_blank">Smoker GUI</a>
-            <a href="smithing_table.png" target="_blank">Smithing Table GUI</a>
-            <a href="stonecutter.png" target="_blank">Stonecutter GUI</a>
-            <a href="window.png" target="_blank">JSON Container</a>
+            <a href="json_container.html" target="_blank">JSON Container</a>
         </div>
     </main>
 
@@ -178,22 +182,23 @@
         // Funktion zum Generieren eines Rezepts (beispielhaft)
         function generateRecipe() {
             const item = document.getElementById('itemSelect').value;
+            const recipeType = document.getElementById('recipeType').value;
             const recipeOutput = document.getElementById('recipeOutput');
 
-            if (item) {
-                recipeOutput.textContent = `Rezept für ${item} wird angezeigt. (Hier können Sie den Rezeptinhalt einfügen)`;
+            if (item && recipeType) {
+                recipeOutput.textContent = `Rezept für ${item} (${recipeType}) wird angezeigt. (Hier können Sie den Rezeptinhalt einfügen)`;
             } else {
-                recipeOutput.textContent = 'Bitte wählen Sie ein Item aus.';
+                recipeOutput.textContent = 'Bitte wählen Sie sowohl ein Item als auch einen Rezepttyp aus.';
             }
         }
 
         // Funktion zum Aktualisieren des GUI-Bildes basierend auf der Auswahl
         function updateGuiImage() {
-            const selectedItem = document.getElementById('itemSelect').value;
+            const selectedType = document.getElementById('recipeType').value;
             const guiImageDisplay = document.getElementById('guiImageDisplay');
             
             const guiImages = {
-                "crafting_table": "images/gui_crafting_table.png",
+                "crafting": "images/gui_crafting_table.png",
                 "furnace": "images/gui_furnace.png",
                 "campfire": "images/gui_campfire.png",
                 "blast_furnace": "images/gui_blast_furnace.png",
@@ -203,12 +208,15 @@
             };
 
             // Setze das Bild basierend auf der Auswahl
-            if (selectedItem in guiImages) {
-                guiImageDisplay.src = guiImages[selectedItem];
+            if (selectedType in guiImages) {
+                guiImageDisplay.src = guiImages[selectedType];
             } else {
                 guiImageDisplay.src = ''; // Leere Bildquelle, wenn keine Auswahl getroffen wird
             }
         }
+
+        // Event-Listener für die Rezepttyp-Auswahl
+        document.getElementById('recipeType').addEventListener('change', updateGuiImage);
 
         // Initiales Laden der Items
         loadItems();
