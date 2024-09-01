@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Recipe Generator</title>
+    <title>Redminer9630.de</title>
     <style>
         @font-face {
             font-family: 'MinecraftFont';
@@ -17,6 +17,17 @@
             text-align: center;
             margin: 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'MinecraftFont', sans-serif;
+            position: relative;
+        }
+
+        .header-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
             font-family: 'MinecraftFont', sans-serif;
         }
 
@@ -86,8 +97,8 @@
 </head>
 <body>
     <header>
+        <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurück ></a>
         <h1>Advanced Recipe Generator</h1>
-        <a href="https://redminer9630github.github.io/Redminer9630.de/" style="color: white;">Zurück zur Hauptseite ></a>
     </header>
 
     <main>
@@ -120,7 +131,7 @@
                 <input type="text" class="slot-input" id="slot9" maxlength="1">
             </div>
 
-            <input type="text" class="result-input" id="result" placeholder="Result Item (z.B. minecraft:oak_stairs)">
+            <input type="text" class="result-input" id="result" placeholder="Result Item (z.B. minecraft:iron_pickaxe)">
             <button type="button" onclick="generateRecipe()">Rezept generieren</button>
         </form>
 
@@ -128,7 +139,7 @@
     </main>
 
     <footer>
-        <p>Minecraft Recipe Generator by Redminer9630</p>
+        <p>© Minecraft Advanced Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
@@ -163,7 +174,7 @@
         function generateRecipe() {
             const recipeType = document.getElementById('recipeType').value;
             const exactPlacement = document.getElementById('exactPlacement').checked;
-            const validSymbols = new Set(['s', '6', '/', '#', '&', 'e', 'n', 'o']);
+            const validSymbols = new Set(['s', '6', '/', '#', '&', 'e', 'n', 'o', '8', '2', '3', 'l', 'p', 'i', 'k', 'j', 'a']);
             const slots = [];
             
             for (let i = 1; i <= 9; i++) {
