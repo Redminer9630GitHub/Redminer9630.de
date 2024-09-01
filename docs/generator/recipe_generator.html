@@ -218,19 +218,6 @@
                         count: 1
                     }
                 };
-            } else if (recipeType === 'crafting_shapeless') {
-                const ingredients = slots.filter(symbol => symbol.trim()).map(symbol => {
-                    return { item: symbol.includes(":") ? symbol : `minecraft:${symbol}` };
-                });
-
-                jsonOutput = {
-                    type: `minecraft:${recipeType}`,
-                    ingredients: ingredients,
-                    result: {
-                        item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
-                        count: 1
-                    }
-                };
             } else {
                 const ingredientItem = slots[0].includes(":") ? slots[0] : `minecraft:${slots[0]}`;
 
