@@ -110,6 +110,11 @@
             cursor: pointer;
         }
 
+        .highlighted {
+            background-color: rgba(0, 0, 0, 0.1); /* Helle Highlight-Farbe */
+            border: 2px solid #3498db; /* Blaue Umrandung */
+        }
+
         /* Crafting Table Slots */
         #slot1 { width: 18px; height: 18px; top: 16px; left: 29px; }
         #slot2 { width: 18px; height: 18px; top: 16px; left: 47px; }
@@ -135,6 +140,38 @@
         /* Stonecutter Slots */
         #stonecutterSlot1 { width: 18px; height: 18px; top: 32px; left: 19px; }
         #stonecutterResult { width: 26px; height: 26px; top: 28px; left: 138px; }
+
+        /* Eingabe-Overlay */
+        #inputOverlay {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 2px solid #3498db;
+            z-index: 1000;
+        }
+
+        #inputOverlay input {
+            margin: 5px 0;
+            padding: 10px;
+            width: 100%;
+        }
+
+        #inputOverlay button {
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #inputOverlay button:hover {
+            background-color: #2980b9;
+        }
     </style>
 </head>
 <body>
@@ -197,27 +234,29 @@
             <div id="stonecutterSlot1" class="slot" onclick="selectSlot('stonecutterSlot1')"></div>
             <div id="stonecutterResult" class="slot" onclick="selectSlot('stonecutterResult')"></div>
         </div>
-
-        <div class="links">
-            <a href="window.png" target="_blank">JSON Container</a>
-        </div>
     </main>
 
+    <div id="inputOverlay">
+        <h3>Item für diesen Slot auswählen</h3>
+        <input type="text" id="slotInput" placeholder="Item-ID eingeben...">
+        <button onclick="confirmSlotSelection()">Bestätigen</button>
+        <button onclick="cancelSlotSelection()">Abbrechen</button>
+    </div>
+
     <footer>
-        <p>© 2024 Minecraft Recipe Generator by Redminer9630</p>
+        <p>Minecraft Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
-        // Funktion zum Laden der Items
+        let selectedSlotId = null;
+
         function loadItems() {
             const itemSelect = document.getElementById('itemSelect');
-            const itemList = document.getElementById('itemList');
             const apiUrl = 'items_list.json'; // Link zur JSON-Datei mit der Items-Liste
 
             fetch(apiUrl)
                 .then(response => response.json())
                 .then(data => {
-                    // Optionen in das Dropdown-Menü einfügen
                     itemSelect.innerHTML = '';
                     data.items.forEach(item => {
                         let option = document.createElement('option');
@@ -225,32 +264,12 @@
                         option.textContent = item.name;
                         itemSelect.appendChild(option);
                     });
-
-                    // Items in der Liste anzeigen
-                    itemList.innerHTML = '';
-                    data.items.forEach(item => {
-                        let itemDiv = document.createElement('div');
-                        itemDiv.classList.add('item');
-
-                        let img = document.createElement('img');
-                        img.src = item.image || 'default-item-image.png'; // Fallback-Bild, falls kein Bild vorhanden
-                        img.alt = item.name;
-
-                        let p = document.createElement('p');
-                        p.textContent = item.name;
-
-                        itemDiv.appendChild(img);
-                        itemDiv.appendChild(p);
-
-                        itemList.appendChild(itemDiv);
-                    });
                 })
                 .catch(error => {
                     console.error('Fehler beim Laden der Items:', error);
                 });
         }
 
-        // Funktion zum Generieren eines Rezepts (beispielhaft)
         function generateRecipe() {
             const item = document.getElementById('itemSelect').value;
             const recipeType = document.getElementById('recipeType').value;
@@ -263,7 +282,6 @@
             }
         }
 
-        // Funktion zum Aktualisieren des GUI-Bildes basierend auf der Auswahl
         function updateGuiImage() {
             const selectedType = document.getElementById('recipeType').value;
             const guiImageDisplay = document.getElementById('guiImageDisplay');
@@ -278,18 +296,15 @@
                 "stonecutter": "images/stonecutter.png"
             };
 
-            // Setze das Bild basierend auf der Auswahl
             if (selectedType in guiImages) {
                 guiImageDisplay.src = guiImages[selectedType];
             } else {
-                guiImageDisplay.src = 'images/crafting_table.png'; // Standardbild, wenn keine Auswahl getroffen wird
+                guiImageDisplay.src = 'images/crafting_table.png';
             }
 
-            // Unsichtbare Felder basierend auf der Auswahl anzeigen/verbergen
             toggleSlots(selectedType);
         }
 
-        // Funktion zur Verwaltung der Sichtbarkeit der Slots
         function toggleSlots(recipeType) {
             const allSlots = document.querySelectorAll('.slot');
             allSlots.forEach(slot => slot.style.display = 'none');
@@ -339,15 +354,38 @@
             document.getElementById('stonecutterResult').style.display = displayValue;
         }
 
-        // Funktion zum Auswählen eines Slots (beispielhaft)
         function selectSlot(slotId) {
-            alert(`Slot ${slotId} wurde ausgewählt.`);
+            // Entferne Highlighting von allen Slots
+            const allSlots = document.querySelectorAll('.slot');
+            allSlots.forEach(slot => slot.classList.remove('highlighted'));
+
+            // Füge Highlighting zum ausgewählten Slot hinzu
+            const selectedSlot = document.getElementById(slotId);
+            selectedSlot.classList.add('highlighted');
+
+            // Speichere die ID des ausgewählten Slots
+            selectedSlotId = slotId;
+
+            // Zeige das Eingabe-Overlay
+            document.getElementById('inputOverlay').style.display = 'block';
         }
 
-        // Event-Listener für die Rezepttyp-Auswahl
+        function confirmSlotSelection() {
+            const itemId = document.getElementById('slotInput').value;
+            if (itemId) {
+                alert(`Item ${itemId} wurde dem Slot ${selectedSlotId} zugewiesen.`);
+                // Hier könntest du weitere Logik hinzufügen, z.B. das Item anzeigen oder speichern
+            }
+            cancelSlotSelection();
+        }
+
+        function cancelSlotSelection() {
+            document.getElementById('inputOverlay').style.display = 'none';
+            document.getElementById('slotInput').value = '';
+        }
+
         document.getElementById('recipeType').addEventListener('change', updateGuiImage);
 
-        // Initiales Laden der Items
         loadItems();
     </script>
 </body>
