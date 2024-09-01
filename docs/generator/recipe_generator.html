@@ -249,7 +249,10 @@
         }
 
         window.addEventListener('resize', adjustFooterPosition);
-        document.addEventListener('DOMContentLoaded', adjustFooterPosition);
+        document.addEventListener('DOMContentLoaded', () => {
+            updateInputFields();
+            adjustFooterPosition();
+        });
     </script>
 </body>
 </html>
