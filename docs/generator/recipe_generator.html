@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Generator</title>
+    <title> Advanced Recipe Generator</title>
     <style>
 
         header {
@@ -182,8 +182,8 @@
 </head>
 <body>
     <header>
-        <h1>Recipe Generator</h1>
-        <a href="https://redminer9630github.github.io/Redminer9630.de/" target="_blank">Zurück ></a>
+        <h1> Advanced Recipe Generator</h1>
+        <a href="https://redminer9630github.github.io/Redminer9630.de/">Zurück ></a>
     </header>
 
     <main>
@@ -198,12 +198,15 @@
                 <option value="smithing_table">Smithing Table</option>
                 <option value="stonecutter">Stonecutter</option>
             </select>
-
-            <label for="itemSelect">Wähle ein Item:</label>
-            <select id="itemSelect">
-                <option value="">Bitte wählen...</option>
+            <label for="version">Wähle Version:</label>
+            <select>
+                <option value="1.21.1">1.21.1</option>
+                <option value="1.21">1.21</option>
+                <option value="1.20.6">1.20.6</option>
+                <option value="1.20.4">1.20.4</option>
+                <option value="1.20.2">1.20.2</option>
+                <option value="1.20">1.20</option>
             </select>
-
             <button type="button" onclick="generateRecipe()">Rezept generieren</button>
         </form>
 
