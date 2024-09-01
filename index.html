@@ -43,26 +43,6 @@
             white-space: nowrap;
         }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-            border: 5px solid;
-            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
-            border-image-slice: 1;
-            animation: rgb-border 3s infinite;
-        }
-
-        .logo {
-            width: 225px;
-            height: auto;
-        }
-
-        .logo-text {
-            margin-left: 12px;
-            margin-right: 12px;
-        }
-
         @keyframes rgb-border {
             0% {
                 border-color: red;
@@ -79,6 +59,36 @@
             100% {
                 border-color: red;
             }
+        }
+
+        @keyframes rotate-border {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 10px; /* Ensure there's space for the border */
+            border: 5px solid;
+            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
+            border-image-slice: 1;
+            animation: rgb-border 3s infinite, rotate-border 10s linear infinite;
+        }
+
+        .logo {
+            width: 225px;
+            height: auto;
+        }
+
+        .logo-text {
+            margin-left: 12px;
+            margin-right: 12px;
         }
 
         .hamburger {
