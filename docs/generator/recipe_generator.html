@@ -13,7 +13,7 @@
         header {
             background-color: #2c3e50;
             color: white;
-            padding: 10px; 
+            padding: 10px;
             text-align: center;
             margin: 0;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -23,6 +23,7 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         header a {
@@ -31,79 +32,48 @@
             top: 10px;
             color: white;
             text-decoration: none;
-            font-family: 'MinecraftFont', sans-serif;
         }
 
         main {
             padding: 20px;
             position: relative;
+            text-align: center;
         }
 
-        select, button {
+        select, input, button {
             margin: 10px;
             padding: 10px;
             font-size: 16px;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            position: absolute;
-            bottom: 0;
-            width: 100%;
         }
 
         #recipeForm {
             display: flex;
             flex-direction: column;
             align-items: center;
+            margin-bottom: 20px;
         }
 
-        #recipeOutput {
+        #inputFields {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
             margin-top: 20px;
+        }
+
+        .slot-input, .result-input {
+            width: 100%;
+            padding: 10px;
             text-align: center;
         }
 
         #jsonOutput {
             margin-top: 20px;
             padding: 10px;
-            border: 1px solid #3498db;
+            border: 1px solid #2c3e50;
             background-color: #f4f4f4;
             font-family: monospace;
-            white-space: pre-wrap; /* Für die JSON-Formatierung */
-        }
-
-        #inputOverlay {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px;
-            border: 2px solid #3498db;
-            z-index: 1000;
-        }
-
-        #inputOverlay input {
-            margin: 5px 0;
-            padding: 10px;
-            width: 100%;
-        }
-
-        #inputOverlay button {
-            padding: 10px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        #inputOverlay button:hover {
-            background-color: #2980b9;
+            white-space: pre-wrap;
+            text-align: left;
         }
     </style>
 </head>
@@ -116,93 +86,79 @@
     <main>
         <form id="recipeForm">
             <label for="recipeType">Wähle Rezepttyp:</label>
-            <select id="recipeType">
-                <option value="crafting">Crafting Table</option>
+            <select id="recipeType" onchange="updateInputFields()">
+                <option value="crafting_shaped">Crafting Shaped</option>
+                <option value="crafting_shapeless">Crafting Shapeless</option>
                 <option value="furnace">Furnace</option>
-                <option value="campfire">Campfire</option>
-                <option value="blast_furnace">Blast Furnace</option>
-                <option value="smoker">Smoker</option>
-                <option value="smithing_table">Smithing Table</option>
-                <option value="stonecutter">Stonecutter</option>
+                <option value="smithing">Smithing</option>
+                <option value="stonecutting">Stonecutting</option>
             </select>
-            <label for="MCversion">Wähle Version:</label>
-            <select id="MCversion">
-                <option value="1.21.1">1.21.1</option>
-                <option value="1.21">1.21</option>
-                <option value="1.20.6">1.20.6</option>
-                <option value="1.20.4">1.20.4</option>
-                <option value="1.20.2">1.20.2</option>
-                <option value="1.20">1.20</option>
-            </select>
+
+            <div id="inputFields">
+                <input type="text" class="slot-input" id="slot1" placeholder="Slot 1">
+                <input type="text" class="slot-input" id="slot2" placeholder="Slot 2">
+                <input type="text" class="slot-input" id="slot3" placeholder="Slot 3">
+                <input type="text" class="slot-input" id="slot4" placeholder="Slot 4">
+                <input type="text" class="slot-input" id="slot5" placeholder="Slot 5">
+                <input type="text" class="slot-input" id="slot6" placeholder="Slot 6">
+                <input type="text" class="slot-input" id="slot7" placeholder="Slot 7">
+                <input type="text" class="slot-input" id="slot8" placeholder="Slot 8">
+                <input type="text" class="slot-input" id="slot9" placeholder="Slot 9">
+            </div>
+
+            <input type="text" class="result-input" id="result" placeholder="Result Item (e.g., minecraft:oak_stairs)">
             <button type="button" onclick="generateRecipe()">Rezept generieren</button>
         </form>
 
-        <div id="recipeOutput"></div>
-
-        <div id="jsonOutput">
-            <strong>JSON Ergebnis:</strong>
-            <pre id="jsonResult"></pre>
-        </div>
+        <div id="jsonOutput"></div>
     </main>
-
-    <div id="inputOverlay">
-        <h3>Item für diesen Slot auswählen</h3>
-        <input type="text" id="slotInput" placeholder="Item-ID eingeben...">
-        <button onclick="confirmSlotSelection()">Bestätigen</button>
-        <button onclick="cancelSlotSelection()">Abbrechen</button>
-    </div>
 
     <footer>
         <p>Minecraft Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
+        function updateInputFields() {
+            const recipeType = document.getElementById('recipeType').value;
+            const inputFields = document.getElementById('inputFields');
+
+            if (recipeType === 'crafting_shaped') {
+                inputFields.style.display = 'grid';
+            } else {
+                inputFields.style.display = 'none';
+            }
+        }
+
         function generateRecipe() {
             const recipeType = document.getElementById('recipeType').value;
-            const version = document.getElementById('MCversion').value;
-            const recipeOutput = document.getElementById('recipeOutput');
-            const jsonResult = document.getElementById('jsonResult');
-
-            if (recipeType && version) {
-                // Hier wird das Rezept generiert. Dies ist nur ein Beispieltext.
-                const result = {
-                    recipeType: recipeType,
-                    version: version,
-                    items: [] // Hier werden die Items eingefügt
-                };
-
-                recipeOutput.textContent = `Rezept für ${recipeType} (Version ${version}) wird angezeigt.`;
-
-                // JSON-Ergebnis aktualisieren
-                jsonResult.textContent = JSON.stringify(result, null, 2);
-            } else {
-                recipeOutput.textContent = 'Bitte wählen Sie sowohl einen Rezepttyp als auch eine Version aus.';
+            const slots = [];
+            for (let i = 1; i <= 9; i++) {
+                slots.push(document.getElementById(`slot${i}`).value);
             }
-        }
+            const resultItem = document.getElementById('result').value;
 
-        function selectSlot(slotId) {
-            const allSlots = document.querySelectorAll('.slot');
-            allSlots.forEach(slot => slot.classList.remove('highlighted'));
+            const pattern = slots.slice(0, 3).map(slot => slot || ' ')
+                .concat(slots.slice(3, 6).map(slot => slot || ' '))
+                .concat(slots.slice(6, 9).map(slot => slot || ' '));
 
-            const selectedSlot = document.getElementById(slotId);
-            selectedSlot.classList.add('highlighted');
+            const key = {};
+            slots.forEach(slot => {
+                if (slot && !key[slot]) {
+                    key[slot] = { item: `minecraft:${slot}` };
+                }
+            });
 
-            selectedSlotId = slotId;
+            const jsonOutput = {
+                type: `minecraft:${recipeType}`,
+                pattern: pattern.map(row => row.join('').trim()).filter(row => row.length),
+                key: key,
+                result: {
+                    item: resultItem,
+                    count: 1
+                }
+            };
 
-            document.getElementById('inputOverlay').style.display = 'block';
-        }
-
-        function confirmSlotSelection() {
-            const itemId = document.getElementById('slotInput').value;
-            if (itemId) {
-                alert(`Item ${itemId} wurde dem Slot ${selectedSlotId} zugewiesen.`);
-            }
-            cancelSlotSelection();
-        }
-
-        function cancelSlotSelection() {
-            document.getElementById('inputOverlay').style.display = 'none';
-            document.getElementById('slotInput').value = '';
+            document.getElementById('jsonOutput').textContent = JSON.stringify(jsonOutput, null, 4);
         }
     </script>
 </body>
