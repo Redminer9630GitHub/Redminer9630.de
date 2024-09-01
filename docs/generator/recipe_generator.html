@@ -72,6 +72,11 @@
             text-align: center;
         }
 
+        #exactPlacementLabel {
+            margin-top: 20px;
+            display: none;
+        }
+
         #jsonOutput {
             margin-top: 20px;
             padding: 10px;
@@ -115,7 +120,7 @@
                 <option value="stonecutting">Stonecutting</option>
             </select>
 
-            <label for="exactPlacement">
+            <label for="exactPlacement" id="exactPlacementLabel">
                 <input type="checkbox" id="exactPlacement"> Genau platziert
             </label>
 
@@ -146,11 +151,19 @@
         function updateInputFields() {
             const recipeType = document.getElementById('recipeType').value;
             const inputFields = document.getElementById('inputFields');
+            const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
             if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
                 inputFields.style.display = 'grid';
             } else {
                 inputFields.style.display = 'none';
+            }
+
+            // Sichtbarkeit des Kontrollkästchens "Genau platziert" steuern
+            if (recipeType === 'crafting_shaped') {
+                exactPlacementLabel.style.display = 'block';
+            } else {
+                exactPlacementLabel.style.display = 'none';
             }
 
             adjustFooterPosition();
