@@ -86,7 +86,7 @@
             right: 0;
             width: 225px;
             height: auto;
-            z-index: 10;
+            z-index: 2;
             transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
             overflow: hidden;
             padding-top: 60px;
@@ -193,7 +193,7 @@
         }
 
         button:hover {
-            background-color: #A8FFA7;
+            background-color: #A856A7;
         }
 
         footer {
@@ -208,7 +208,13 @@
 </head>
 <body>
     <header>
-        <h1>Redminer9630<div class="logo-container"><img src="logo.jpeg" alt="Redminer9630 Logo" class="logo"><span class="logo-text">Website</span></div></h1>
+        <h1>
+            Redminer9630
+            <div class="logo-container">
+                <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
+                <span class="logo-text">Website</span>
+            </div>
+        </h1>
         <div class="hamburger" id="hamburger">
             <div></div>
             <div></div>
@@ -229,14 +235,22 @@
                 <li><a href="https://redminer9630github.github.io/Redminer9630.de/generator/recipe_generator.html" target="_blank">Rezept Generator</a></li>
             </ul>
         </div>
+        <!-- Hier neue Sektoren hinzufügen -->
+        <div class="menu-section">
+            <li>Weitere Kategorien</li>
+            <ul>
+                <li><a href="link-zu-einer-neuen-kategorie.html" target="_blank">Neue Kategorie 1</a></li>
+                <li><a href="link-zu-einer-anderen-neuen-kategorie.html" target="_blank">Neue Kategorie 2</a></li>
+            </ul>
+        </div>
     </nav>
 
     <main>
         <section id="about">
-            <h2>Über Redminer9630</h2>
-            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veröffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
-            <button id="moreInfoBtn">Mehr über Redminer9630 erfahren</button>
-            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthält, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veröffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
+            <h2>Ueber Redminer9630</h2>
+            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
+            <button id="moreInfoBtn">Mehr ueber mich erfahren</button>
+            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
         </section>
 
         <section id="video">
@@ -282,7 +296,6 @@
                 body += '- Website 1: OK\n';
                 body += '- Website 2: OK\n';
 
-                // E-Mail-Versand simulieren
                 window.location.href = `mailto:redminer9630@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
                 localStorage.setItem('lastStatusReport', now);
