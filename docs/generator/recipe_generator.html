@@ -75,6 +75,17 @@
             white-space: pre-wrap;
             text-align: left;
         }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #2c3e50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-family: 'MinecraftFont', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -137,9 +148,11 @@
             }
             const resultItem = document.getElementById('result').value;
 
-            const pattern = slots.slice(0, 3).map(slot => slot || ' ')
-                .concat(slots.slice(3, 6).map(slot => slot || ' '))
-                .concat(slots.slice(6, 9).map(slot => slot || ' '));
+            const pattern = [
+                slots.slice(0, 3).map(slot => slot || ' '),
+                slots.slice(3, 6).map(slot => slot || ' '),
+                slots.slice(6, 9).map(slot => slot || ' ')
+            ];
 
             const key = {};
             slots.forEach(slot => {
@@ -150,7 +163,7 @@
 
             const jsonOutput = {
                 type: `minecraft:${recipeType}`,
-                pattern: pattern.map(row => row.join('').trim()).filter(row => row.length),
+                pattern: pattern.map(row => row.join('')),
                 key: key,
                 result: {
                     item: resultItem,
