@@ -97,6 +97,9 @@
                 <option value="crafting_shaped">Crafting Shaped</option>
                 <option value="crafting_shapeless">Crafting Shapeless</option>
                 <option value="furnace">Furnace</option>
+                <option value="blast_furnace">Blast Furnace</option>
+                <option value="smoker">Smoker</option>
+                <option value="campfire">Campfire</option>
                 <option value="smithing">Smithing</option>
                 <option value="stonecutting">Stonecutting</option>
             </select>
@@ -129,9 +132,7 @@
             const recipeType = document.getElementById('recipeType').value;
             const inputFields = document.getElementById('inputFields');
 
-            if (recipeType === 'crafting_shaped') {
-                inputFields.style.display = 'grid';
-            } else if (recipeType === 'crafting_shapeless' || recipeType === 'smithing' || recipeType === 'stonecutting') {
+            if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
                 inputFields.style.display = 'grid';
             } else {
                 inputFields.style.display = 'none';
@@ -190,12 +191,25 @@
                         count: 1
                     }
                 };
-            } else {
+            } else if (recipeType === 'crafting_shapeless') {
+                const ingredients = slots.filter(symbol => symbol.trim()).map(symbol => {
+                    return { item: symbol.includes(":") ? symbol : `minecraft:${symbol}` };
+                });
+
                 jsonOutput = {
                     type: `minecraft:${recipeType}`,
-                    ingredients: slots.filter(symbol => symbol.trim()).map(symbol => {
-                        return { item: symbol.includes(":") ? symbol : `minecraft:${symbol}` };
-                    }),
+                    ingredients: ingredients,
+                    result: {
+                        item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
+                        count: 1
+                    }
+                };
+            } else {
+                const ingredientItem = slots[0].includes(":") ? slots[0] : `minecraft:${slots[0]}`;
+
+                jsonOutput = {
+                    type: `minecraft:${recipeType}`,
+                    ingredient: { item: ingredientItem },
                     result: {
                         item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
                         count: 1
