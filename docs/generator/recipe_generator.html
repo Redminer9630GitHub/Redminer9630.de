@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Generator</title>
+    <title>Recipe Generator v1</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -102,7 +102,7 @@
         <form id="recipeForm">
             <label for="recipeType">Wähle Rezepttyp:</label>
             <select id="recipeType">
-                <option value="crafting">Crafting</option>
+                <option value="crafting">Crafting Table</option>
                 <option value="furnace">Furnace</option>
                 <option value="campfire">Campfire</option>
                 <option value="blast_furnace">Blast Furnace</option>
@@ -124,16 +124,16 @@
         <div id="itemList"></div>
 
         <div id="guiImage">
-            <img id="guiImageDisplay" src="images/gui_crafting_table.png" alt="GUI Image" />
+            <img id="guiImageDisplay" src="images/crafting_table.png" alt="GUI Image" />
         </div>
 
         <div class="links">
-            <a href="json_container.html" target="_blank">JSON Container</a>
+            <a href="window.html" target="_blank">JSON Container</a>
         </div>
     </main>
 
     <footer>
-        <p>© 2024 Minecraft Recipe Generator</p>
+        <p>© 2024 Minecraft Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
@@ -198,20 +198,20 @@
             const guiImageDisplay = document.getElementById('guiImageDisplay');
             
             const guiImages = {
-                "crafting": "images/gui_crafting_table.png",
-                "furnace": "images/gui_furnace.png",
-                "campfire": "images/gui_campfire.png",
-                "blast_furnace": "images/gui_blast_furnace.png",
-                "smoker": "images/gui_smoker.png",
-                "smithing_table": "images/gui_smithing_table.png",
-                "stonecutter": "images/gui_stonecutter.png"
+                "crafting": "images/crafting_table.png",
+                "furnace": "images/furnace.png",
+                "campfire": "images/campfire.png",
+                "blast_furnace": "images/blast_furnace.png",
+                "smoker": "images/smoker.png",
+                "smithing_table": "images/smithing_table.png",
+                "stonecutter": "images/stonecutter.png"
             };
 
             // Setze das Bild basierend auf der Auswahl
             if (selectedType in guiImages) {
                 guiImageDisplay.src = guiImages[selectedType];
             } else {
-                guiImageDisplay.src = 'images/gui_crafting_table.png'; // Standardbild, wenn keine Auswahl getroffen wird
+                guiImageDisplay.src = 'images/crafting_table.png'; // Standardbild, wenn keine Auswahl getroffen wird
             }
         }
 
