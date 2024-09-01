@@ -43,42 +43,10 @@
             white-space: nowrap;
         }
 
-        @keyframes rgb-border {
-            0% {
-                border-color: red;
-            }
-            25% {
-                border-color: green;
-            }
-            50% {
-                border-color: blue;
-            }
-            75% {
-                border-color: yellow;
-            }
-            100% {
-                border-color: red;
-            }
-        }
-
-        @keyframes rotate-border {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
         .logo-container {
             display: flex;
             align-items: center;
             position: relative;
-            padding: 10px; /* Ensure there's space for the border */
-            border: 5px solid;
-            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
-            border-image-slice: 1;
-            animation: rgb-border 3s infinite, rotate-border 10s linear infinite;
         }
 
         .logo {
@@ -89,6 +57,26 @@
         .logo-text {
             margin-left: 12px;
             margin-right: 12px;
+        }
+
+        .border-layer {
+            position: absolute;
+            width: calc(225px + 6px); /* 3px größer als das Logo */
+            height: calc(auto + 6px); /* Anpassung an die Höhe des Logos */
+            border: 3px solid;
+            border-image: linear-gradient(45deg, red, orange, yellow, green, cyan, blue, violet);
+            border-image-slice: 1;
+            animation: rotate-border 10s linear infinite;
+            z-index: -1; /* Hinter das Logo legen */
+        }
+
+        @keyframes rotate-border {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
         }
 
         .hamburger {
@@ -243,6 +231,7 @@
         <h1>
             Redminer9630
             <div class="logo-container">
+                <div class="border-layer"></div>
                 <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
                 <span class="logo-text">Website</span>
             </div>
