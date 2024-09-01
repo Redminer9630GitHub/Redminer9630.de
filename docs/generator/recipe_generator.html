@@ -81,6 +81,16 @@
         .links a:hover {
             text-decoration: underline;
         }
+
+        #guiImage {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #guiImage img {
+            max-width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -91,7 +101,7 @@
     <main>
         <form id="recipeForm">
             <label for="itemSelect">Wähle ein Item:</label>
-            <select id="itemSelect">
+            <select id="itemSelect" onchange="updateGuiImage()">
                 <option value="">Bitte wählen...</option>
             </select>
 
@@ -101,6 +111,10 @@
         <div id="recipeOutput"></div>
 
         <div id="itemList"></div>
+
+        <div id="guiImage">
+            <img id="guiImageDisplay" src="" alt="GUI Image" />
+        </div>
 
         <div class="links">
             <a href="gui_crafting_table.html" target="_blank">Crafting Table GUI</a>
@@ -170,6 +184,29 @@
                 recipeOutput.textContent = `Rezept für ${item} wird angezeigt. (Hier können Sie den Rezeptinhalt einfügen)`;
             } else {
                 recipeOutput.textContent = 'Bitte wählen Sie ein Item aus.';
+            }
+        }
+
+        // Funktion zum Aktualisieren des GUI-Bildes basierend auf der Auswahl
+        function updateGuiImage() {
+            const selectedItem = document.getElementById('itemSelect').value;
+            const guiImageDisplay = document.getElementById('guiImageDisplay');
+            
+            const guiImages = {
+                "crafting_table": "images/gui_crafting_table.png",
+                "furnace": "images/gui_furnace.png",
+                "campfire": "images/gui_campfire.png",
+                "blast_furnace": "images/gui_blast_furnace.png",
+                "smoker": "images/gui_smoker.png",
+                "smithing_table": "images/gui_smithing_table.png",
+                "stonecutter": "images/gui_stonecutter.png"
+            };
+
+            // Setze das Bild basierend auf der Auswahl
+            if (selectedItem in guiImages) {
+                guiImageDisplay.src = guiImages[selectedItem];
+            } else {
+                guiImageDisplay.src = ''; // Leere Bildquelle, wenn keine Auswahl getroffen wird
             }
         }
 
