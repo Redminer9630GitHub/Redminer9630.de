@@ -23,6 +23,22 @@
             margin-bottom: 20px;
         }
 
+        .header-link {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 8px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .header-link:hover {
+            background-color: #e53935;
+        }
+
         button {
             background-color: #4CAF50;
             color: white;
@@ -49,6 +65,7 @@
     </style>
 </head>
 <body>
+    <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurück ></a>
     <h1>Minecraft Lernstunde</h1>
 
     <button onclick="showKeyBindings()">Tastenkombinationen</button>
@@ -63,18 +80,18 @@
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Tastenkombinationen:</h2>
                 <ul>
-                    <li><strong>F3 + Q:</strong> Zeigt alle F3 Shortcuts</li>
-                    <li><strong>F3 + A:</strong> Ladet die Chunks neu</li>
-                    <li><strong>F3 + T:</strong> Ladet alle Ressourcepacks neu</li>
-                    <li><strong>F3 + H:</strong> Erweiterte Item-Anzeige</li>
-                    <li><strong>F3 + C:</strong> Kopiert die jetzige Position als Command</li>
-                    <li><strong>F3 + C:</strong> Gedrückt halten um das Spiel zu crashen</li>
-                    <li><strong>F3 + B:</strong> Zeigt Hitboxen an</li>
-                    <li><strong>F3 + D:</strong> Chat wird geleert</li>
-                    <li><strong>F3 + N:</strong> Wechselt zum Zuschauer-Modus</li>
-                    <li><strong>F3 + G:</strong> Zeigt Chunk-Grenzen an</li>
+                    <li><strong>F3 + Q:</strong>   Zeigt alle F3 Shortcuts</li>
+                    <li><strong>F3 + A:</strong>   Ladet die Chunks neu</li>
+                    <li><strong>F3 + T:</strong>   Ladet alle Ressourcepacks neu</li>
+                    <li><strong>F3 + H:</strong>   Erweiterte Item-Anzeige</li>
+                    <li><strong>F3 + C:</strong>   Kopiert die jetzige Position als Command</li>
+                    <li><strong>F3 + C:</strong>   Gedrückt halten um das Spiel zu crashen</li>
+                    <li><strong>F3 + B:</strong>   Zeigt Hitboxen an</li>
+                    <li><strong>F3 + D:</strong>   Chat wird geleert</li>
+                    <li><strong>F3 + N:</strong>   Wechselt zum Zuschauer-Modus</li>
+                    <li><strong>F3 + G:</strong>   Zeigt Chunk-Grenzen an</li>
                     <li><strong>F3 + ESC:</strong> Pausiert das Spiel</li>
-                    <li><strong>F3 + F4:</strong> Öffnet das Gamemode-Menü</li>
+                    <li><strong>F3 + F4:</strong>  Öffnet das Gamemode-Menü</li>
                 </ul>
             `;
         }
