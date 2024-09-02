@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Lernstunde</title>
+    <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            background-color: #282c34;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #content {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Lernstunde</h1>
+
+    <button onclick="showKeyBindings()">Tastenkombinationen</button>
+    <button onclick="showCommands()">Minecraft Commands</button>
+
+    <div id="content">
+        <!-- Inhalt wird hier angezeigt -->
+    </div>
+
+    <script>
+        function showKeyBindings() {
+            document.getElementById('content').innerHTML = `
+                <h2>Minecraft Tastenkombinationen:</h2>
+                <ul>
+                    <li><strong>F3 + Q:</strong> Zeigt alle F3 Shortcuts</li>
+                    <li><strong>F3 + A:</strong> Ladet die Chunks neu</li>
+                    <li><strong>F3 + T:</strong> Ladet alle Ressourcepacks neu</li>
+                    <li><strong>F3 + H:</strong> Erweiterte Item-Anzeige</li>
+                    <li><strong>F3 + C:</strong> Kopiert die jetzige Position als Command</li>
+                    <li><strong>F3 + C:</strong> Gedrückt halten um das Spiel zu crashen</li>
+                    <li><strong>F3 + B:</strong> Zeigt Hitboxen an</li>
+                    <li><strong>F3 + D:</strong> Chat wird geleert</li>
+                    <li><strong>F3 + N:</strong> Wechselt zum Zuschauer-Modus</li>
+                    <li><strong>F3 + G:</strong> Zeigt Chunk-Grenzen an</li>
+                    <li><strong>F3 + ESC:</strong> Pausiert das Spiel</li>
+                    <li><strong>F3 + F4:</strong> Öffnet das Gamemode-Menü</li>
+                </ul>
+            `;
+        }
+
+        function showCommands() {
+            document.getElementById('content').innerHTML = `
+                <h2>Minecraft Commands:</h2>
+                <p>Gerade nicht eingebaut</p>
+            `;
+        }
+    </script>
+</body>
+</html>
