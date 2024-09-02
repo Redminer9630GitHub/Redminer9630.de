@@ -124,7 +124,7 @@
                 <input type="checkbox" id="exactPlacement"> Genau platziert
             </label>
 
-            <div id="inputFields">
+            <div id="inputFields_craft">
                 <input type="text" class="slot-input" id="slot1">
                 <input type="text" class="slot-input" id="slot2">
                 <input type="text" class="slot-input" id="slot3">
@@ -148,15 +148,15 @@
     </footer>
 
     <script>
-        function updateInputFields() {
+        function updateInputFields_craft() {
             const recipeType = document.getElementById('recipeType').value;
-            const inputFields = document.getElementById('inputFields');
+            const inputFields_craft = document.getElementById('inputFields_craft');
             const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
             if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
-                inputFields.style.display = 'grid';
+                inputFields_craft.style.display = 'grid';
             } else {
-                inputFields.style.display = 'none';
+                inputFields_craft.style.display = 'none';
             }
 
             // Sichtbarkeit des Kontrollkästchens "Genau platziert" steuern
