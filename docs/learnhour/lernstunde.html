@@ -66,6 +66,26 @@
             height: 104px;
             margin: 5px;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+        }
     </style>
 </head>
 <body>
@@ -127,7 +147,6 @@
             'wasd': 'wasd.tiff',
             'windows': 'windows.tiff',
             'x': 'x.tiff'
-            // Weitere Tastenbilder hier hinzufügen
         };
 
         function simulateShortcut(sequence) {
@@ -172,7 +191,37 @@
         function showCommands() {
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Commands:</h2>
-                <p>Gerade nicht eingebaut</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Befehl</th>
+                            <th>Beschreibung</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>/give</td>
+                            <td>Gibt einem Spieler einen Gegenstand.</td>
+                        </tr>
+                        <tr>
+                            <td>/teleport</td>
+                            <td>Teleportiert einen Spieler zu einem bestimmten Ort.</td>
+                        </tr>
+                        <tr>
+                            <td>/gamemode</td>
+                            <td>Aendert den Spielmodus.</td>
+                        </tr>
+                        <tr>
+                            <td>/time set</td>
+                            <td>Setzt die Tageszeit auf einen bestimmten Wert.</td>
+                        </tr>
+                        <tr>
+                            <td>/weather</td>
+                            <td>Aendert das Wetter.</td>
+                        </tr>
+                        <!-- Weitere Commands hier hinzufügen -->
+                    </tbody>
+                </table>
             `;
         }
     </script>
