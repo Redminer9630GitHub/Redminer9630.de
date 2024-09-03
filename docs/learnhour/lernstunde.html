@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Lernstunde</title>
+    <title>Minecraft Lernstunde - Interaktive Tastenkombinationen</title>
     <style>
         @font-face {
             font-family: 'MinecraftFont';
@@ -39,21 +39,19 @@
             background-color: #e53935;
         }
 
-        button {
+        .shortcut-button {
+            display: inline-block;
             background-color: #4CAF50;
             color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
+            padding: 15px;
             margin: 10px;
             cursor: pointer;
             border: none;
             border-radius: 8px;
+            font-size: 18px;
         }
 
-        button:hover {
+        .shortcut-button:hover {
             background-color: #45a049;
         }
 
@@ -62,36 +60,96 @@
             text-align: left;
             font-size: 18px;
         }
+
+        .key-image {
+            width: 50px;
+            height: 50px;
+            margin: 5px;
+        }
     </style>
 </head>
 <body>
     <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurueck ></a>
-    <h1>Minecraft Lernstunde</h1>
+    <h1>Minecraft Lernstunde - Interaktive Tastenkombinationen</h1>
 
-    <button onclick="showKeyBindings()">Tastenkombinationen</button>
-    <button onclick="showCommands()">Minecraft Commands</button>
+    <button class="shortcut-button" onclick="showKeyBindings()">Tastenkombinationen</button>
+    <button class="shortcut-button" onclick="showCommands()">Minecraft Commands</button>
 
     <div id="content">
         <!-- Inhalt wird hier angezeigt -->
     </div>
 
+    <div id="keyboard-display" style="margin-top: 20px;">
+        <!-- Tastaturbilder werden hier angezeigt -->
+    </div>
+
     <script>
+        const keys = {
+            'normal': 'normal.jpg',
+            'f3': 'f3.tiff',
+            'b': 'b.tiff',
+            'a': 'a.tiff',
+            'q': 'q.tiff',
+            'c': 'c.tiff',
+            'h': 'h.tiff',
+            'n': 'n.tiff',
+            'g': 'g.tiff',
+            'esc': 'esc.tiff',
+            'alt': 'alt.tiff',
+            'alt2': 'alt2.tiff',
+            'ctrl': 'ctrl.tiff',
+            'ctrl2': 'ctrl2.tiff',
+            'enter': 'enter.tiff',
+            'tab': 'tab.tiff',
+            'wasd': 'wasd.tiff',
+            'windows': 'windows.tiff',
+            'backspace': 'backspace.tiff',
+            'f1': 'f1.tiff',
+            'f2': 'f2.tiff',
+            'f4': 'f4.tiff',
+            'f5': 'f5.tiff',
+            'f11': 'f11.tiff',
+            'shift': 'shift.tiff',
+            'shift2': 'shift2.tiff'
+            
+            // Weitere Tastenbilder hier hinzufügen
+        };
+
+        function simulateShortcut(sequence) {
+            let display = document.getElementById('keyboard-display');
+            display.innerHTML = ''; // Leere den Display-Bereich
+
+            sequence.forEach((key, index) => {
+                setTimeout(() => {
+                    let img = document.createElement('img');
+                    img.src = keys[key];
+                    img.classList.add('key-image');
+                    display.appendChild(img);
+                }, index * 500); // 0.5 Sekunden Verzögerung pro Taste
+            });
+
+            // Nach der Sequenz normale Ansicht wiederherstellen
+            setTimeout(() => {
+                display.innerHTML = '<p>Normalansicht wiederhergestellt</p>';
+            }, sequence.length * 500 + 1700); // 1.7 Sekunden Verzögerung nach der letzten Taste
+        }
+
         function showKeyBindings() {
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Tastenkombinationen:</h2>
                 <ul>
-                    <li><strong>F3 + Q:  </strong>   Zeigt alle F3 Shortcuts</li>
-                    <li><strong>F3 + A:  </strong>   Laedt die Chunks neu</li>
-                    <li><strong>F3 + T:  </strong>   Laedt alle Ressourcepacks neu</li>
-                    <li><strong>F3 + H:  </strong>   Erweiterte Item-Anzeige</li>
-                    <li><strong>F3 + C:  </strong>   Kopiert die jetzige Position als Command</li>
-                    <li><strong>F3 + C:  </strong>   Gedrueckt halten um das Spiel zu crashen</li>
-                    <li><strong>F3 + B:  </strong>   Zeigt Hitboxen an</li>
-                    <li><strong>F3 + D:  </strong>   Chat wird geleert</li>
-                    <li><strong>F3 + N:  </strong>   Wechselt zum Zuschauer-Modus</li>
-                    <li><strong>F3 + G:  </strong>   Zeigt Chunk-Grenzen an</li>
-                    <li><strong>F3 + ESC:</strong> Pausiert das Spiel</li>
-                    <li><strong>F3 + F4: </strong>  Oeffnet das Gamemode-Menue</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button> Erweiterte Item-Anzeige</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Kopiert die jetzige Position als Command</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Gedrueckt halten um das Spiel zu crashen</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button> Zeigt Hitboxen an</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button> Chat wird geleert</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button> Wechselt zum Zuschauer-Modus</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button> Zeigt Chunk-Grenzen an</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button> Pausiert das Spiel</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button> Oeffnet das Gamemode-Menue</li>
                 </ul>
             `;
         }
