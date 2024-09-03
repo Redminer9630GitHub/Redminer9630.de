@@ -39,7 +39,7 @@
             background-color: #e53935;
         }
 
-        .shortcut-button {
+        .shortcut-button, .info-button {
             display: inline-block;
             background-color: #4CAF50;
             color: white;
@@ -51,7 +51,7 @@
             font-size: 18px;
         }
 
-        .shortcut-button:hover {
+        .shortcut-button:hover, .info-button:hover {
             background-color: #45a049;
         }
 
@@ -93,6 +93,7 @@
 
     <button class="shortcut-button" onclick="showKeyBindings()">Tastenkombinationen</button>
     <button class="shortcut-button" onclick="showCommands()">Minecraft Commands</button>
+    <button class="info-button" onclick="showUsefulInfo()">Nuetzliche Infos</button>
 
     <div id="content">
         <!-- Inhalt wird hier angezeigt -->
@@ -193,7 +194,7 @@
                 <table id="commandTable">
                     <thead>
                         <tr>
-                            <th onclick="sortTable(0)">Name</th>
+                            <th onclick="sortTable(0)">Command Name</th>
                             <th onclick="sortTable(1)">Beschreibung</th>
                             <th onclick="sortTable(2)">Operator Level</th>
                             <th onclick="sortTable(3)">Multiplayer Only</th>
@@ -203,7 +204,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                     <tr>
+                         <tr>
             <td>/advancement</td>
             <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
@@ -952,6 +953,15 @@
                 </tr>
                     </tbody>
                 </table>
+            `;
+        }
+
+        function showUsefulInfo() {
+            document.getElementById('content').innerHTML = `
+                <h2>Nuetzliche Infos:</h2>
+                <ul>
+                    <li><strong>Calibrierter Sculk Sensor:</strong> <span id="general-info"></span></li>
+                </ul>
             `;
         }
 
