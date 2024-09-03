@@ -62,8 +62,8 @@
         }
 
         .key-image {
-            width: 298px;
-            height: 134px;
+            width: 268px;
+            height: 104px;
             margin: 5px;
         }
 
@@ -71,7 +71,6 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            font-size: 18px;
         }
 
         table, th, td {
@@ -79,17 +78,12 @@
         }
 
         th, td {
-            padding: 12px;
+            padding: 8px;
             text-align: left;
         }
 
         th {
-            background-color: #4CAF50;
-        }
-
-        td img {
-            width: 20px;
-            height: 20px;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -196,20 +190,20 @@
         function showCommands() {
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Commands:</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Befehl</th>
-            <th>Beschreibung</th>
-            <th>Operator Level</th>
-            <th>Multiplayer Only</th>
-            <th>Block</th>
-            <th>Entität</th>
-            <th>Spieler</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
+                <table id="commandTable">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)">Command Name</th>
+                            <th onclick="sortTable(1)">Beschreibung</th>
+                            <th onclick="sortTable(2)">Operator Level</th>
+                            <th onclick="sortTable(3)">Multiplayer Only</th>
+                            <th onclick="sortTable(4)">Block</th>
+                            <th onclick="sortTable(5)">Entitaet</th>
+                            <th onclick="sortTable(6)">Spieler</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     <tr>
             <td>/advancement</td>
             <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
@@ -956,11 +950,29 @@
                     <td>Nein</td>
                     <td>Ja</td>
                 </tr>
-                <!-- Weitere Befehle koennen hier hinzugefuegt werden -->
-            </tbody>
-        </table>
-
+                    </tbody>
+                </table>
             `;
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById("commandTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.rows);
+
+            const ascending = !table.dataset.sortDirection || table.dataset.sortDirection === 'descending';
+            table.dataset.sortDirection = ascending ? 'ascending' : 'descending';
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+
+                if (aText < bText) return ascending ? -1 : 1;
+                if (aText > bText) return ascending ? 1 : -1;
+                return 0;
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
         }
     </script>
 </body>
