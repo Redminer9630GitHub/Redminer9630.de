@@ -62,8 +62,8 @@
         }
 
         .key-image {
-            width: 268px;
-            height: 104px;
+            width: 298px;
+            height: 134px;
             margin: 5px;
         }
 
@@ -85,6 +85,11 @@
 
         th {
             background-color: #4CAF50;
+        }
+
+        td img {
+            width: 50px;
+            height: 50px;
         }
     </style>
 </head>
@@ -196,30 +201,41 @@
                         <tr>
                             <th>Befehl</th>
                             <th>Beschreibung</th>
+                            <th>Operator Level</th>
+                            <th>Multiplayer Only</th>
+                            <th>Bild</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>/give</td>
                             <td>Gibt einem Spieler einen Gegenstand.</td>
+                            <td>2</td>
+                            <td>Nein</td>
+                            <td><img src="player.webp" alt="Player"></td>
                         </tr>
                         <tr>
                             <td>/teleport</td>
                             <td>Teleportiert einen Spieler zu einem bestimmten Ort.</td>
+                            <td>2</td>
+                            <td>Ja</td>
+                            <td><img src="zombie.webp" alt="Zombie"></td>
                         </tr>
                         <tr>
                             <td>/gamemode</td>
                             <td>Aendert den Spielmodus.</td>
+                            <td>2</td>
+                            <td>Nein</td>
+                            <td><img src="player.webp" alt="Player"></td>
                         </tr>
                         <tr>
                             <td>/time set</td>
-                            <td>Setzt die Tageszeit auf einen bestimmten Wert.</td>
+                            <td>Setzt die Tageszeit.</td>
+                            <td>1</td>
+                            <td>Nein</td>
+                            <td><img src="stone.webp" alt="Stone"></td>
                         </tr>
-                        <tr>
-                            <td>/weather</td>
-                            <td>Aendert das Wetter.</td>
-                        </tr>
-                        <!-- Weitere Commands hier hinzufügen -->
+                        <!-- Weitere Command-Eintraege koennen hier hinzugefuegt werden -->
                     </tbody>
                 </table>
             `;
