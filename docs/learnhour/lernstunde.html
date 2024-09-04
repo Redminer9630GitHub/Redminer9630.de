@@ -227,17 +227,17 @@
                     <table id="commandTable">
                         <thead>
                             <tr>
-                                <th tabindex="17" onclick="sortTable(0)">Name</th>
-                                <th tabindex="18" onclick="sortTable(1)">Beschreibung</th>
-                                <th tabindex="19" onclick="sortTable(2)">Operator Level</th>
-                                <th tabindex="20" onclick="sortTable(3)">Multiplayer Only</th>
-                                <th tabindex="21" onclick="sortTable(4)">Block</th>
-                                <th tabindex="22" onclick="sortTable(5)">Entitaet</th>
-                                <th tabindex="23" onclick="sortTable(6)">Spieler</th>
+                                <th onclick="sortTable(0)">Name</th>
+                                <th onclick="sortTable(1)">Beschreibung</th>
+                                <th onclick="sortTable(2)">Operator Level</th>
+                                <th onclick="sortTable(3)">Multiplayer Only</th>
+                                <th onclick="sortTable(4)">Block</th>
+                                <th onclick="sortTable(5)">Entitaet</th>
+                                <th onclick="sortTable(6)">Spieler</th>
                             </tr>
                         </thead>
                         <tbody>
-                         <tr>
+                             <tr>
             <td>/advancement</td>
             <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
@@ -983,7 +983,7 @@
                     <td>Nein</td>
                     <td>Nein</td>
                     <td>Ja</td>
-                </tr>  
+                </tr>
                         </tbody>
                     </table>
                 </div>
@@ -998,8 +998,22 @@
                     <ul>
                         <li><button class="info-button" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
                         <div id="calibrated-info" class="info-content">
-                            <p>Ein calbrierter Sculk-Sensor ist eine besondere Art von Sculk-Sensor...</p>
-                            <!-- Weitere Informationen -->
+                            <p>Redstone Stufen:</p>
+                            <p>1  | Gehen, Klettern, Springen, Schwimmen und Kriechen.</p>
+                            <p>2  | Landen auf einem Soliden block or der in einer Fluessigkeit.</p>
+                            <p>3  | Item benutzen(Angel werfen, Trank trinken).</p>
+                            <p>4  | Gleiten mit einer Elytra oder ein Mob der eine Faehigkeit benutzt.</p>
+                            <p>5  | Absteigen von einem Mob oder Anziehen von Ruestung.</p>    
+                            <p>6  | Auf ein Mob Aufsteigen oder Interagieren mit einem Mob.</p>
+                            <p>7  | Ein Mob oder Spieler der Schaden nimmt.</p>
+                            <p>8  | Essen wird gegessen.</p>
+                            <p>9  | Ein block der deaktieviert wird(Kiste oder Tuer wird geschlossen).</p>
+                            <p>10 | Ein block der aktiviert wird(Kiste oder Tuer die geoeffnet wird).</p>
+                            <p>11 | Ein block der veraendert wird(Essen wird zu einem Lagerfeuer gelegt).</p>
+                            <p>12 | Ein !Wolle block der abgebaut wird.</p>
+                            <p>13 | Ein !Wolle block der platziert wird.</p>
+                            <p>14 | Ein Mob oder Spieler der Teleportiert wird oder spawnt.</p>
+                            <p>15 | Ein Mob oder Spieler der stirbt oder eine Explosion.</p>
                         </div>
                     </ul>
                 </div>
@@ -1012,6 +1026,26 @@
             const isVisible = infoElement.style.display === "block";
             infoElement.style.display = isVisible ? "none" : "block";
             setTabIndex(!isVisible, infoId);
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById("commandTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.rows);
+
+            const ascending = !table.dataset.sortDirection || table.dataset.sortDirection === 'descending';
+            table.dataset.sortDirection = ascending ? 'ascending' : 'descending';
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+
+                if (aText < bText) return ascending ? -1 : 1;
+                if (aText > bText) return ascending ? 1 : -1;
+                return 0;
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
         }
     </script>
 </body>
