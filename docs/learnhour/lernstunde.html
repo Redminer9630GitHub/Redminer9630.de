@@ -85,6 +85,12 @@
         th {
             cursor: pointer;
         }
+
+        .info-content {
+            margin-top: 15px;
+            text-align: left;
+            display: none; /* Anfangs nicht anzeigen */
+        }
     </style>
 </head>
 <body>
@@ -204,7 +210,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                         <tr>
+                     <tr>
             <td>/advancement</td>
             <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
@@ -960,9 +966,38 @@
             document.getElementById('content').innerHTML = `
                 <h2>Nuetzliche Infos:</h2>
                 <ul>
-                    <li><strong>Calibrierter Sculk Sensor:</strong> <span id="general-info"></span></li>
+                    <li><button class="info-button" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
+                    <div id="calibrated-info" class="info-content">
+                        <p>Der calibrierte Sculk Sensor kann zur genaueren Erkennung von Vibrationen verwendet werden.</p>
+                    </div>
+
+                    <li><button class="info-button" onclick="toggleInfo('redstone-info')">Redstone Tipps</button></li>
+                    <div id="redstone-info" class="info-content">
+                        <p>Redstone kann verwendet werden, um komplexe Schaltungen zu bauen, von einfachen Türen bis hin zu automatisierten Farmen.</p>
+                    </div>
+
+                    <li><button class="info-button" onclick="toggleInfo('survival-tips')">Survival Tipps</button></li>
+                    <div id="survival-tips" class="info-content">
+                        <p>Im Survival-Modus ist es wichtig, sich zuerst Schutz zu suchen und grundlegende Werkzeuge herzustellen.</p>
+                    </div>
+
+                    <li><button class="info-button" onclick="toggleInfo('building-tips')">Tipps für Bauprojekte</button></li>
+                    <div id="building-tips" class="info-content">
+                        <p>Plane dein Bauprojekt im Voraus und sammle alle notwendigen Materialien, bevor du beginnst.</p>
+                    </div>
+
+                    <li><button class="info-button" onclick="toggleInfo('additional-tips')">Weitere Tipps</button></li>
+                    <div id="additional-tips" class="info-content">
+                        <p>Erkunde neue Biom-Typen, um seltene Materialien zu finden, die dir im Spielverlauf nützlich sein können.</p>
+                    </div>
                 </ul>
             `;
+        }
+
+        function toggleInfo(infoId) {
+            const infoElement = document.getElementById(infoId);
+            const isVisible = infoElement.style.display === "block";
+            infoElement.style.display = isVisible ? "none" : "block";
         }
 
         function sortTable(columnIndex) {
