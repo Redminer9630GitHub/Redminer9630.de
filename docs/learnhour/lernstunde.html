@@ -175,13 +175,13 @@
                     img.src = keys[key];
                     img.classList.add('key-image');
                     display.appendChild(img);
-                }, index * 500); // 0.5 Sekunden Verzögerung pro Taste
+                }, index * 1200); // 1.2 Sekunden Verzögerung pro Taste
             });
 
             // Nach der Sequenz normale Ansicht wiederherstellen
             setTimeout(() => {
                 display.innerHTML = '<p>Normalansicht wiederhergestellt</p>';
-            }, sequence.length * 500 + 1700); // 1.7 Sekunden Verzögerung nach der letzten Taste
+            }, sequence.length * 500 + 5000); // 5 Sekunden Verzögerung nach der letzten Taste
         }
 
         function showKeyBindings() {
