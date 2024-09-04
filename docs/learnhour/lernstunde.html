@@ -181,7 +181,7 @@
             // Nach der Sequenz normale Ansicht wiederherstellen
             setTimeout(() => {
                 display.innerHTML = '<p>Normalansicht wiederhergestellt</p>';
-            }, sequence.length * 500 + 5000); // 5 Sekunden Verzögerung nach der letzten Taste
+            }, sequence.length * 500 + 10000); // 10 Sekunden Verzögerung nach der letzten Taste
         }
 
         function showKeyBindings() {
@@ -210,7 +210,7 @@
                 <table id="commandTable">
                     <thead>
                         <tr>
-                            <th onclick="sortTable(0)">Command Name</th>
+                            <th onclick="sortTable(0)">Name</th>
                             <th onclick="sortTable(1)">Beschreibung</th>
                             <th onclick="sortTable(2)">Operator Level</th>
                             <th onclick="sortTable(3)">Multiplayer Only</th>
@@ -222,7 +222,7 @@
                     <tbody>
                      <tr>
             <td>/advancement</td>
-            <td>Verwalten von Fortschritten für Spieler.</td>
+            <td>Verwalten von Fortschritten fuer Spieler.</td>
             <td>2</td>
             <td>Nein</td>
             <td>Nein</td>
