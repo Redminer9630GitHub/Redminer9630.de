@@ -184,45 +184,62 @@
             }, sequence.length * 500 + 15000); // 10 Sekunden Verzögerung nach der letzten Taste
         }
 
+        function setTabIndex(visible, containerId) {
+            const container = document.getElementById(containerId);
+            const buttons = container.querySelectorAll('button');
+
+            buttons.forEach((button, index) => {
+                if (visible) {
+                    button.setAttribute('tabindex', index + 5); // Setzt den tabindex, hier z.B. ab 5
+                } else {
+                    button.removeAttribute('tabindex');
+                }
+            });
+        }
+
         function showKeyBindings() {
             document.getElementById('content').innerHTML = `
-                <h2>Minecraft Tastenkombinationen:</h2>
-                <ul>
-                    <li><button class="shortcut-button" tabindex="5" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>
-                    <li><button class="shortcut-button" tabindex="6" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
-                    <li><button class="shortcut-button" tabindex="7" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
-                    <li><button class="shortcut-button" tabindex="8" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button> Erweiterte Item-Anzeige</li>
-                    <li><button class="shortcut-button" tabindex="9" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Kopiert die jetzige Position als Command</li>
-                    <li><button class="shortcut-button" tabindex="10" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Gedrueckt halten um das Spiel zu crashen</li>
-                    <li><button class="shortcut-button" tabindex="11" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button> Zeigt Hitboxen an</li>
-                    <li><button class="shortcut-button" tabindex="12" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button> Chat wird geleert</li>
-                    <li><button class="shortcut-button" tabindex="13" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button> Wechselt zum Zuschauer-Modus</li>
-                    <li><button class="shortcut-button" tabindex="14" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button> Zeigt Chunk-Grenzen an</li>
-                    <li><button class="shortcut-button" tabindex="15" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button> Pausiert das Spiel</li>
-                    <li><button class="shortcut-button" tabindex="16" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button> Oeffnet das Gamemode-Menue</li>
-                </ul>
+                <div id="keyBindingsContainer">
+                    <h2>Minecraft Tastenkombinationen:</h2>
+                    <ul>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button> Erweiterte Item-Anzeige</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Kopiert die jetzige Position als Command</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Gedrueckt halten um das Spiel zu crashen</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button> Zeigt Hitboxen an</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button> Chat wird geleert</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button> Wechselt zum Zuschauer-Modus</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button> Zeigt Chunk-Grenzen an</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button> Pausiert das Spiel</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button> Oeffnet das Gamemode-Menue</li>
+                    </ul>
+                </div>
             `;
+            setTabIndex(true, 'keyBindingsContainer');
         }
 
         function showCommands() {
             document.getElementById('content').innerHTML = `
-                <h2>Minecraft Commands:</h2>
-                <table id="commandTable">
-                    <thead>
-                        <tr>
-                            <th tabindex="17" onclick="sortTable(0)">Name</th>
-                            <th tabindex="18" onclick="sortTable(1)">Beschreibung</th>
-                            <th tabindex="19" onclick="sortTable(2)">Operator Level</th>
-                            <th tabindex="20" onclick="sortTable(3)">Multiplayer Only</th>
-                            <th tabindex="21" onclick="sortTable(4)">Block</th>
-                            <th tabindex="22" onclick="sortTable(5)">Entitaet</th>
-                            <th tabindex="23" onclick="sortTable(6)">Spieler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                     <tr>
+                <div id="commandsContainer">
+                    <h2>Minecraft Commands:</h2>
+                    <table id="commandTable">
+                        <thead>
+                            <tr>
+                                <th tabindex="17" onclick="sortTable(0)">Name</th>
+                                <th tabindex="18" onclick="sortTable(1)">Beschreibung</th>
+                                <th tabindex="19" onclick="sortTable(2)">Operator Level</th>
+                                <th tabindex="20" onclick="sortTable(3)">Multiplayer Only</th>
+                                <th tabindex="21" onclick="sortTable(4)">Block</th>
+                                <th tabindex="22" onclick="sortTable(5)">Entitaet</th>
+                                <th tabindex="23" onclick="sortTable(6)">Spieler</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                         <tr>
             <td>/advancement</td>
-            <td>Verwalten von Fortschritten fuer Spieler.</td>
+            <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
             <td>Nein</td>
             <td>Nein</td>
@@ -966,63 +983,35 @@
                     <td>Nein</td>
                     <td>Nein</td>
                     <td>Ja</td>
-                </tr>
-                    </tbody>
-                </table>
+                </tr>  
+                        </tbody>
+                    </table>
+                </div>
             `;
+            setTabIndex(true, 'commandsContainer');
         }
 
         function showUsefulInfo() {
             document.getElementById('content').innerHTML = `
-                <h2>Nuetzliche Infos:</h2>
-                <ul>
-                    <li><button class="info-button" tabindex="24" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
-                    <div id="calibrated-info" class="info-content">
-                        <p>Redstone Stufen:</p>
-                        <p>1  | Gehen, Klettern, Springen, Schwimmen und Kriechen.</p>
-                        <p>2  | Landen auf einem Soliden block or der in einer Fluessigkeit.</p>
-                        <p>3  | Item benutzen(Angel werfen, Trank trinken).</p>
-                        <p>4  | Gleiten mit einer Elytra oder ein Mob der eine Faehigkeit benutzt.</p>
-                        <p>5  | Absteigen von einem Mob oder Anziehen von Ruestung.</p>
-                        <p>6  | Auf ein Mob Aufsteigen oder Interagieren mit einem Mob.</p>
-                        <p>7  | Ein Mob oder Spieler der Schaden nimmt.</p>
-                        <p>8  | Essen wird gegessen.</p>
-                        <p>9  | Ein block der deaktieviert wird(Kiste oder Tuer wird geschlossen).</p>
-                        <p>10 | Ein block der aktiviert wird(Kiste oder Tuer die geoeffnet wird).</p>
-                        <p>11 | Ein block der veraendert wird(Essen wird zu einem Lagerfeuer gelegt).</p>
-                        <p>12 | Ein !Wolle block der abgebaut wird.</p>
-                        <p>13 | Ein !Wolle block der platziert wird.</p>
-                        <p>14 | Ein Mob oder Spieler der Teleportiert wird oder spawnt.</p>
-                        <p>15 | Ein Mob oder Spieler der stirbt oder eine Explosion.</p>
-                    </div>
-                </ul>
+                <div id="usefulInfoContainer">
+                    <h2>Nuetzliche Infos:</h2>
+                    <ul>
+                        <li><button class="info-button" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
+                        <div id="calibrated-info" class="info-content">
+                            <p>Ein calbrierter Sculk-Sensor ist eine besondere Art von Sculk-Sensor...</p>
+                            <!-- Weitere Informationen -->
+                        </div>
+                    </ul>
+                </div>
             `;
+            setTabIndex(true, 'usefulInfoContainer');
         }
 
         function toggleInfo(infoId) {
             const infoElement = document.getElementById(infoId);
             const isVisible = infoElement.style.display === "block";
             infoElement.style.display = isVisible ? "none" : "block";
-        }
-
-        function sortTable(columnIndex) {
-            const table = document.getElementById("commandTable");
-            const tbody = table.querySelector("tbody");
-            const rows = Array.from(tbody.rows);
-
-            const ascending = !table.dataset.sortDirection || table.dataset.sortDirection === 'descending';
-            table.dataset.sortDirection = ascending ? 'ascending' : 'descending';
-
-            rows.sort((a, b) => {
-                const aText = a.cells[columnIndex].textContent.trim();
-                const bText = b.cells[columnIndex].textContent.trim();
-
-                if (aText < bText) return ascending ? -1 : 1;
-                if (aText > bText) return ascending ? 1 : -1;
-                return 0;
-            });
-
-            rows.forEach(row => tbody.appendChild(row));
+            setTabIndex(!isVisible, infoId);
         }
     </script>
 </body>
