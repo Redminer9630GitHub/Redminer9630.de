@@ -1044,49 +1044,26 @@
         function showBrewingInfo(potion) {
             let details = '';
             switch(potion) {
-                case 'swiftness':
-                    details = '<p><strong>Trank der Schnelligkeit:</strong> Wird aus Wasserflasche, Netherwarze und Zucker gebraut.</p>';
-                    break;
-                case 'slowness':
-                    details = '<p><strong>Trank der Langsamkeit:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Schnelligkeit gebraut.</p>';
-                    break;
-                case 'leaping':
-                    details = '<p><strong>Trank des Sprungkraft:</strong> Wird aus Wasserflasche, Netherwarze und Hasenpfote gebraut.</p>';
-                    break;
-                case 'strength':
-                    details = '<p><strong>Trank der Staerke:</strong> Wird aus Wasserflasche, Netherwarze und Lohepulver gebraut.</p>';
-                    break;
-                case 'healing':
-                    details = '<p><strong>Trank der Heilung:</strong> Wird aus Wasserflasche, Netherwarze und Glycerinmelone gebraut.</p>';
-                    break;
-                case 'harming':
-                    details = '<p><strong>Trank des Schadens:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Heilung oder eines Trank des Gifts gebraut.</p>';
-                    break;
-                case 'poison':
-                    details = '<p><strong>Trank des Gifts:</strong> Wird aus Wasserflasche, Netherwarze und Spinnenauge gebraut.</p>';
-                    break;
-                case 'regeneration':
-                    details = '<p><strong>Trank der Regeneration:</strong> Wird aus Wasserflasche, Netherwarze und Ghasttraene gebraut.</p>';
-                    break;
-                case 'fireResistance':
-                    details = '<p><strong>Trank des Feuerschutzes:</strong> Wird aus Wasserflasche, Netherwarze und Magmacreme gebraut.</p>';
-                    break;
-                case 'waterBreathing':
-                    details = '<p><strong>Trank des Wasseratmung:</strong> Wird aus Wasserflasche, Netherwarze und Kugelfisch gebraut.</p>';
-                    break;
-                case 'nightVision':
-                    details = '<p><strong>Trank der Nachtsicht:</strong> Wird aus Wasserflasche, Netherwarze und Goldene Karotte gebraut.</p>';
-                    break;
-                case 'invisibility':
-                    details = '<p><strong>Trank der Unsichtbarkeit:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Nachtsicht gebraut.</p>';
-                    break;
-                case 'turtleMaster':
-                    details = '<p><strong>Trank des Schildkroetenmeisters:</strong> Wird aus Wasserflasche, Netherwarze und Schildkroetenpanzer gebraut.</p>';
-                    break;
-                case 'slowFalling':
-                    details = '<p><strong>Trank des Langsam Fallens:</strong> Wird aus Wasserflasche, Netherwarze und Phantommembran gebraut.</p>';
-                    break;
+                case 'swiftness': details = '<p><strong>Trank der Schnelligkeit:</strong> Wird aus Wasserflasche, Netherwarze und Zucker gebraut.</p>'; break;
+                case 'slowness': details = '<p><strong>Trank der Langsamkeit:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Schnelligkeit gebraut.</p>'; break;
+                case 'leaping': details = '<p><strong>Trank der Sprungkraft:</strong> Wird aus Wasserflasche, Netherwarze und Hasenpfote gebraut.</p>'; break;
+                case 'strength': details = '<p><strong>Trank der Staerke:</strong> Wird aus Wasserflasche, Netherwarze und Lohenpulver gebraut.</p>'; break;
+                case 'healing': details = '<p><strong>Trank der Heilung:</strong> Wird aus Wasserflasche, Netherwarze und Goldenen Melone gebraut.</p>'; break;
+                case 'harming': details = '<p><strong>Trank des Schadens:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Heilung oder einem Trank des Gifts.</p>'; break;
+                case 'poison': details = '<p><strong>Trank der Gifts:</strong> Wird aus Wasserflasche, Netherwarze und Magmacreme gebraut.</p>'; break;
+                case 'regeneration': details = '<p><strong>Trank der Regeneration:</strong> Wird aus Wasserflasche, Netherwarze und Kugelfisch gebraut.</p>'; break;
+                case 'fireResistance': details = '<p><strong>Trank des Feuerschutzes:</strong> Wird aus Wasserflasche, Netherwarze und Goldene Karotte gebraut.</p>'; break;
+                case 'waterBreathing': details = '<p><strong>Trank der Wasseratmung:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Nachtsicht gebraut.</p>'; break;
+                case 'nightVision': details = '<p><strong>Trank der Nachtsicht:</strong> </p>'; break;
+                case 'invisibility': details = '<p><strong>Trank der Unsichtbarkeit:</strong> </p>'; break;
+                case 'turtleMaster': details = '<p><strong>Trank des Schildkroetenmeisters:</strong> </p>'; break;
+                case 'slowFalling': details = '<p><strong>Trank des Langsamen Fallens:</strong> </p>'; break;
             }
+            document.getElementById('brewingDetails').innerHTML = details;
+            document.getElementById('brewingDetails').style.display = 'block';
+            document.getElementById('brewingDetails').scrollIntoView({ behavior: 'smooth' });
+        }
+
 
             document.getElementById('brewingDetails').innerHTML = details;
             document.getElementById('brewingDetails').style.display = 'block'; // Zeige die Beschreibung
