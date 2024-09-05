@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
+            src: url('path/to/minecraft_font.ttf') format('truetype');
         }
 
         header {
@@ -120,11 +120,18 @@
                 <option value="stonecutting">Stonecutting</option>
             </select>
 
+            <label for="templateSelect">Wähle Layout-Template:</label>
+            <select id="templateSelect" onchange="updateTemplate()">
+                <option value="default">3x3 Standard</option>
+                <option value="2x2">2x2 Layout</option>
+                <option value="1x9">1x9 Layout</option>
+            </select>
+
             <label for="exactPlacement" id="exactPlacementLabel">
                 <input type="checkbox" id="exactPlacement"> Genau platziert
             </label>
 
-            <div id="inputFields_craft">
+            <div id="inputFields">
                 <input type="text" class="slot-input" id="slot1">
                 <input type="text" class="slot-input" id="slot2">
                 <input type="text" class="slot-input" id="slot3">
@@ -148,18 +155,17 @@
     </footer>
 
     <script>
-        function updateInputFields_craft() {
+        function updateInputFields() {
             const recipeType = document.getElementById('recipeType').value;
-            const inputFields_craft = document.getElementById('inputFields_craft');
+            const inputFields = document.getElementById('inputFields');
             const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
             if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
-                inputFields_craft.style.display = 'grid';
+                inputFields.style.display = 'grid';
             } else {
-                inputFields_craft.style.display = 'none';
+                inputFields.style.display = 'none';
             }
 
-            // Sichtbarkeit des Kontrollkästchens "Genau platziert" steuern
             if (recipeType === 'crafting_shaped') {
                 exactPlacementLabel.style.display = 'block';
             } else {
@@ -167,6 +173,23 @@
             }
 
             adjustFooterPosition();
+        }
+
+        function updateTemplate() {
+            const templateSelect = document.getElementById('templateSelect').value;
+            const inputFields = document.getElementById('inputFields');
+
+            switch (templateSelect) {
+                case '2x2':
+                    inputFields.style.gridTemplateColumns = 'repeat(2, 1fr)';
+                    break;
+                case '1x9':
+                    inputFields.style.gridTemplateColumns = 'repeat(9, 1fr)';
+                    break;
+                default:
+                    inputFields.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                    break;
+            }
         }
 
         function adjustFooterPosition() {
