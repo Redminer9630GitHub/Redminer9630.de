@@ -197,37 +197,41 @@
             document.getElementById('content').innerHTML = `
                 <h2>Handel</h2>
                 <ul>
-                    <p><h3>Bauer:</h3></p>
-                    <h4><p>Neuling | Rote Bete 15x | Smaragd 1x</p>                        
-                    <p>Neuling | Weizen 20x | Smaragd 1x</p>
-                    <p>Neuling | Karotte 22x | Smaragd 1x</p>
-                    <p>Neuling | Kartoffel 26x | Smaragd 1x</p>
-                    <p>Neuling | Smaragd 1x | Brot 6x</p>
-                    <p>Lehrling | Kuerbis 6x | Smaragd 1x</p>
-                    <p>Lehrling | Smaragd 1x | Kuerbiskuchen 4x</p>
-                    <p>Lehrling | Smaragd 1x | Apfel 4x</p>
-                    <p>Geselle | Melone 4x | Smaragd 1x</p>
-                    <p>Geselle | Smaragd 3x | Keks 18x</p>
-                    <p>Experte | Smaragd 1x | Kuchen 1x</p>
-                    <p>Experte | Smaragd 1x | 1-2 Seltsame Suppe 1x</p>
-                    <p>Meister | Smaragd 3x | Goldene Karotte 3x</p>
-                    <p>Meister | Smaragd 4x | Glitzernde Melonenscheibe 3x</p></h4>
+                    <li><button class="info-button" onclick="toggleInfo('farmer-info')">Bauer</button></li>
+                    <div id="farmer-info" class="info-content">
+                        <h4><p>Neuling | Rote Bete 15x | Smaragd 1x</p>                        
+                        <p>Neuling | Weizen 20x | Smaragd 1x</p>
+                        <p>Neuling | Karotte 22x | Smaragd 1x</p>
+                        <p>Neuling | Kartoffel 26x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Brot 6x</p>
+                        <p>Lehrling | Kuerbis 6x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Kuerbiskuchen 4x</p>
+                        <p>Lehrling | Smaragd 1x | Apfel 4x</p>    
+                        <p>Geselle | Melone 4x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 3x | Keks 18x</p>
+                        <p>Experte | Smaragd 1x | Kuchen 1x</p>
+                        <p>Experte | Smaragd 1x | 1-2 Seltsame Suppe 1x</p>
+                        <p>Meister | Smaragd 3x | Goldene Karotte 3x</p>
+                        <p>Meister | Smaragd 4x | Glitzernde Melonenscheibe 3x</p></h4>
+                    </div>
                 </ul>
-                    <p><h3>Bibliothekar:</h3></p>
-                    <h4><p>Neuling | Papier 24x | Smaragd 1x</p>                        
-                    <p>Neuling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
-                    <p>Neuling | Smaragd 6x | Bücherregal 3x</p>
-                    <p>Lehrling | Buch 4x | Smaragd 1x</p>
-                    <p>Lehrling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
-                    <p>Lehrling | Smaragd 1x | Laterne 1x</p>
-                    <p>Geselle | Tintenbeutel 5x | Smaragd 1x</p>
-                    <p>Geselle | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
-                    <p>Geselle | Smaragd 1x | Glas 4x</p>
-                    <p>Experte | Buch und Feder 1x | Smaragd 1x</p>
-                    <p>Experte | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
-                    <p>Experte | Smaragd 4x | Kompass 1x</p>
-                    <p>Experte | Smaragd 5x | Uhr 1x</p>
-                    <p>Meister | Smaragd 20x | Namensschild 1x</p></h4>
+                    <li><button class="info-button" onclick="toggleInfo('librarian-info')">Bibliothekar</button></li>
+                    <div id="librarian-info" class="info-content">
+                        <h4><p>Neuling | Papier 24x | Smaragd 1x</p>                        
+                        <p>Neuling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Neuling | Smaragd 6x | Bücherregal 3x</p>
+                        <p>Lehrling | Buch 4x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Lehrling | Smaragd 1x | Laterne 1x</p>
+                        <p>Geselle | Tintenbeutel 5x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>    
+                        <p>Geselle | Smaragd 1x | Glas 4x</p>
+                        <p>Experte | Buch und Feder 1x | Smaragd 1x</p>    
+                        <p>Experte | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Experte | Smaragd 4x | Kompass 1x</p>
+                        <p>Experte | Smaragd 5x | Uhr 1x</p>
+                        <p>Meister | Smaragd 20x | Namensschild 1x</p></h4>
+                    </div>
                 </ul
             `;
         }
