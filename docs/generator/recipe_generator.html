@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'MinecraftFont';
-            src: url('path/to/minecraft_font.ttf') format('truetype');
+            src: url('minecraft_font.ttf') format('truetype');
         }
 
         header {
@@ -59,9 +59,37 @@
             margin-bottom: 20px;
         }
 
-        #inputFields {
+        #cutter_inputFields {
+            display: grid;
+            grid-template-columns: repeat(1, 2fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #craft_inputFields {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #shape_inputFields {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #furnace_inputFields {
+            display: grid;
+            grid-template-columns: repeat(1, 2fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #smithing_inputFields {
+            display: grid;
+            grid-template-columns: repeat(1, 3fr);
             gap: 10px;
             margin-top: 20px;
         }
