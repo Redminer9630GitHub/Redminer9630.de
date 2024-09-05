@@ -130,7 +130,7 @@
 </head>
 <body>
     <header>
-        <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurück ></a>
+        <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurueck ></a>
         <h1>Advanced Recipe Generator</h1>
     </header>
 
@@ -200,17 +200,27 @@
 
     <script>
         function updateInputFields() {
-            const recipeType = document.getElementById('recipeType').value;
-            const inputFields = document.getElementById('inputFields');
+            const templateSelect = document.getElementById('templateSelect').value;
+            const craft_inputFields = document.getElementById('craft_inputFields');
+            const shape_inputFields = document.getElementById('shape_inputFields');
+            const furnace_inputFields = document.getElementById('furnace_inputFields');
+            const smithing_inputFields = document.getElementById('smithing_inputFields');
+            const cutter_inputFields = document.getElementById('cutter_inputFields');
             const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
-            if (recipeType === 'crafting_shaped') {
+            if (templateSelect === 'default') {
                 craft_inputFields.style.display = 'grid';
-            } else if (recipeType === 'crafting_shapeless'){
+            } else if (templateSelect === '1x9'){
                 shape_inputFields.style.display = 'none';
+            } else if (templateSelect === 'cutter'){
+                cutter_inputFields.style.display = 'none';
+            } else if (templateSelect === '3x1'){
+                smithing_inputFields.style.display = 'none';
+            } else if (templateSelect === '2x1'){
+                furnace_inputFields.style.display = 'none';
             }
 
-            if (recipeType === 'crafting_shaped') {
+            if (templateSelect === 'default') {
                 exactPlacementLabel.style.display = 'block';
             } else {
                 exactPlacementLabel.style.display = 'none';
@@ -258,7 +268,7 @@
         }
 
         function generateRecipe() {
-            const recipeType = document.getElementById('recipeType').value;
+            const templateSelect = document.getElementById('templateSelect').value;
             const exactPlacement = document.getElementById('exactPlacement').checked;
             const validSymbols = new Set(['s', '6', '/', '#', '&', 'e', 'n', 'o', '8', '2', '3', 'l', 'p', 'i', 'k', 'j', 'a']);
             const slots = [];
@@ -276,7 +286,7 @@
             
             let jsonOutput;
 
-            if (recipeType === 'crafting_shaped') {
+            if (templateSelect === 'crafting_shaped') {
                 let pattern = [
                     slots.slice(0, 3).join(''),
                     slots.slice(3, 6).join(''),
@@ -296,7 +306,7 @@
                 });
 
                 jsonOutput = {
-                    type: `minecraft:${recipeType}`,
+                    type: `minecraft:${templateSelect}`,
                     pattern: pattern,
                     key: key,
                     result: {
@@ -308,7 +318,7 @@
                 const ingredientItem = slots[0].includes(":") ? slots[0] : `minecraft:${slots[0]}`;
 
                 jsonOutput = {
-                    type: `minecraft:${recipeType}`,
+                    type: `minecraft:${templateSelect}`,
                     ingredient: { item: ingredientItem },
                     result: {
                         item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
