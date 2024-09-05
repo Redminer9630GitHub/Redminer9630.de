@@ -107,31 +107,23 @@
     </header>
 
     <main>
-        <form id="recipeForm">
-            <label for="recipeType">Wähle Rezepttyp:</label>
-            <select id="recipeType" onchange="updateInputFields()">
-                <option value="crafting_shaped">Crafting Shaped</option>
-                <option value="crafting_shapeless">Crafting Shapeless</option>
-                <option value="furnace">Furnace</option>
-                <option value="blast_furnace">Blast Furnace</option>
-                <option value="smoker">Smoker</option>
-                <option value="campfire">Campfire</option>
-                <option value="smithing">Smithing</option>
-                <option value="stonecutting">Stonecutting</option>
-            </select>
-
-            <label for="templateSelect">Wähle Layout-Template:</label>
+            <label for="templateSelect">Wähle Rezepttyp:</label>    
             <select id="templateSelect" onchange="updateTemplate()">
-                <option value="default">3x3 Standard</option>
-                <option value="2x2">2x2 Layout</option>
-                <option value="1x9">1x9 Layout</option>
+                <option value="default">Crafting Shaped</option>
+                <option value="1x9">Crafting Shapeless</option>
+                <option value="2x1">Furnace</option>
+                <option value="2x1">Blast Furnace</option>
+                <option value="2x1">Smoker</option>
+                <option value="2x1">Campfire</option>
+                <option value="cutter">Stonecutter</option>
+                <option value="3x1">Smithing Table</option>
             </select>
 
             <label for="exactPlacement" id="exactPlacementLabel">
                 <input type="checkbox" id="exactPlacement"> Genau platziert
             </label>
 
-            <div id="inputFields">
+            <div id="craft_inputFields">
                 <input type="text" class="slot-input" id="slot1">
                 <input type="text" class="slot-input" id="slot2">
                 <input type="text" class="slot-input" id="slot3">
@@ -142,6 +134,30 @@
                 <input type="text" class="slot-input" id="slot8">
                 <input type="text" class="slot-input" id="slot9">
             </div> 
+            <div id="shape_inputFields">
+                <input type="text" class="slot-input" id="slot1">
+                <input type="text" class="slot-input" id="slot2">
+                <input type="text" class="slot-input" id="slot3">
+                <input type="text" class="slot-input" id="slot4">
+                <input type="text" class="slot-input" id="slot5">
+                <input type="text" class="slot-input" id="slot6">
+                <input type="text" class="slot-input" id="slot7">
+                <input type="text" class="slot-input" id="slot8">
+                <input type="text" class="slot-input" id="slot9">
+            </div> 
+            <div id="furnace_inputFields">
+                <input type="text" class="slot-input" id="slot1">
+                <input type="text" class="slot-input" id="slot2">
+            </div>
+            <div id="smithing_inputFields">
+                <input type="text" class="slot-input" id="slot1">
+                <input type="text" class="slot-input" id="slot2">
+                <input type="text" class="slot-input" id="slot3">
+            </div> 
+            <div id="cutter_inputFields">
+                <input type="text" class="slot-input" id="slot1">
+                <input type="text" class="slot-input" id="slot2">
+            </div> 
 
             <input type="text" class="result-input" id="result" placeholder="Result Item (z.B. minecraft:iron_pickaxe)">
             <button type="button" onclick="generateRecipe()">Rezept generieren</button>
@@ -151,7 +167,7 @@
     </main>
 
     <footer>
-        <p>© Minecraft Advanced Recipe Generator by Redminer9630</p>
+        <p>©Minecraft Advanced Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
@@ -160,10 +176,10 @@
             const inputFields = document.getElementById('inputFields');
             const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
-            if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
-                inputFields.style.display = 'grid';
-            } else {
-                inputFields.style.display = 'none';
+            if (recipeType === 'crafting_shaped') {
+                craft_inputFields.style.display = 'grid';
+            } else if (recipeType === 'crafting_shapeless'){
+                shape_inputFields.style.display = 'none';
             }
 
             if (recipeType === 'crafting_shaped') {
@@ -177,17 +193,23 @@
 
         function updateTemplate() {
             const templateSelect = document.getElementById('templateSelect').value;
-            const inputFields = document.getElementById('inputFields');
+            const craft_inputFields = document.getElementById('craft_inputFields');
 
             switch (templateSelect) {
-                case '2x2':
-                    inputFields.style.gridTemplateColumns = 'repeat(2, 1fr)';
-                    break;
                 case '1x9':
-                    inputFields.style.gridTemplateColumns = 'repeat(9, 1fr)';
+                    shape_inputFields.style.gridTemplateColumns = 'repeat(9, 1fr)';
+                    break;
+                case '2x1':
+                    furnace_inputFields.style.gridTemplateColumns = 'repeat(1, 2fr)';
+                    break;
+                case '3x1':
+                    smithing_inputFields.style.gridTemplateColumns = 'repeat(1, 3fr)';
+                    break;
+                case 'cutter':
+                    cutter_inputFields.style.gridTemplateColumns = 'repeat(1, 2fr)';
                     break;
                 default:
-                    inputFields.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                    craft_inputFields.style.gridTemplateColumns = 'repeat(3, 1fr)';
                     break;
             }
         }
