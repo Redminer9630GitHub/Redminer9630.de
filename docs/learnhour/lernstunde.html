@@ -237,7 +237,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                             <tr>
+                         <tr>
             <td>/advancement</td>
             <td>Verwalten von Fortschritten für Spieler.</td>
             <td>2</td>
@@ -1015,10 +1015,81 @@
                             <p>14 | Ein Mob oder Spieler der Teleportiert wird oder spawnt.</p>
                             <p>15 | Ein Mob oder Spieler der stirbt oder eine Explosion.</p>
                         </div>
+                        <li><button class="info-button" onclick="toggleInfo('brewing-info')">Brauen</button></li>
+                        <div id="brewing-info" class="info-content">
+                            <ul>
+                                <li><button class="info-button" onclick="showBrewingInfo('swiftness')">Trank der Schnelligkeit</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('slowness')">Trank der Langsamkeit</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('leaping')">Trank des Sprungkraft</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('strength')">Trank der Staerke</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('healing')">Trank der Heilung</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('harming')">Trank des Schadens</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('poison')">Trank des Gifts</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('regeneration')">Trank der Regeneration</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('fireResistance')">Trank des Feuerschutzes</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('waterBreathing')">Trank des Wasseratmung</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('nightVision')">Trank der Nachtsicht</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('invisibility')">Trank der Unsichtbarkeit</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('turtleMaster')">Trank des Schildkroetenmeisters</button></li>
+                                <li><button class="info-button" onclick="showBrewingInfo('slowFalling')">Trank des Langsam Fallens</button></li>
+                            </ul>
+                            <div id="brewingDetails" class="info-content"></div>
+                        </div>
                     </ul>
                 </div>
             `;
             setTabIndex(true, 'usefulInfoContainer');
+        }
+
+        function showBrewingInfo(potion) {
+            let details = '';
+            switch(potion) {
+                case 'swiftness':
+                    details = '<p><strong>Trank der Schnelligkeit:</strong> Wird aus Wasserflasche, Netherwarze und Zucker gebraut.</p>';
+                    break;
+                case 'slowness':
+                    details = '<p><strong>Trank der Langsamkeit:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Schnelligkeit gebraut.</p>';
+                    break;
+                case 'leaping':
+                    details = '<p><strong>Trank des Sprungkraft:</strong> Wird aus Wasserflasche, Netherwarze und Hasenpfote gebraut.</p>';
+                    break;
+                case 'strength':
+                    details = '<p><strong>Trank der Staerke:</strong> Wird aus Wasserflasche, Netherwarze und Lohepulver gebraut.</p>';
+                    break;
+                case 'healing':
+                    details = '<p><strong>Trank der Heilung:</strong> Wird aus Wasserflasche, Netherwarze und Glycerinmelone gebraut.</p>';
+                    break;
+                case 'harming':
+                    details = '<p><strong>Trank des Schadens:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Heilung oder eines Trank des Gifts gebraut.</p>';
+                    break;
+                case 'poison':
+                    details = '<p><strong>Trank des Gifts:</strong> Wird aus Wasserflasche, Netherwarze und Spinnenauge gebraut.</p>';
+                    break;
+                case 'regeneration':
+                    details = '<p><strong>Trank der Regeneration:</strong> Wird aus Wasserflasche, Netherwarze und Ghasttraene gebraut.</p>';
+                    break;
+                case 'fireResistance':
+                    details = '<p><strong>Trank des Feuerschutzes:</strong> Wird aus Wasserflasche, Netherwarze und Magmacreme gebraut.</p>';
+                    break;
+                case 'waterBreathing':
+                    details = '<p><strong>Trank des Wasseratmung:</strong> Wird aus Wasserflasche, Netherwarze und Kugelfisch gebraut.</p>';
+                    break;
+                case 'nightVision':
+                    details = '<p><strong>Trank der Nachtsicht:</strong> Wird aus Wasserflasche, Netherwarze und Goldene Karotte gebraut.</p>';
+                    break;
+                case 'invisibility':
+                    details = '<p><strong>Trank der Unsichtbarkeit:</strong> Wird durch Hinzufuegen eines Fermentierten Spinnenauges zu einem Trank der Nachtsicht gebraut.</p>';
+                    break;
+                case 'turtleMaster':
+                    details = '<p><strong>Trank des Schildkroetenmeisters:</strong> Wird aus Wasserflasche, Netherwarze und Schildkroetenpanzer gebraut.</p>';
+                    break;
+                case 'slowFalling':
+                    details = '<p><strong>Trank des Langsam Fallens:</strong> Wird aus Wasserflasche, Netherwarze und Phantommembran gebraut.</p>';
+                    break;
+            }
+
+            document.getElementById('brewingDetails').innerHTML = details;
+            document.getElementById('brewingDetails').style.display = 'block'; // Zeige die Beschreibung
         }
 
         function toggleInfo(infoId) {
@@ -1040,9 +1111,11 @@
                 const aText = a.cells[columnIndex].textContent.trim();
                 const bText = b.cells[columnIndex].textContent.trim();
 
-                if (aText < bText) return ascending ? -1 : 1;
-                if (aText > bText) return ascending ? 1 : -1;
-                return 0;
+                if (ascending) {
+                    return aText.localeCompare(bText);
+                } else {
+                    return bText.localeCompare(aText);
+                }
             });
 
             rows.forEach(row => tbody.appendChild(row));
