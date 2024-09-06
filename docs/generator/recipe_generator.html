@@ -7,7 +7,7 @@
     <style>
         @font-face {
             font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
+            src: url('path/to/minecraft_font.ttf') format('truetype');
         }
 
         header {
@@ -22,13 +22,19 @@
         }
 
         .header-link {
-            position: absolute;
-            top: 10px;
-            right: 10px;
             color: white;
-            text-decoration: none;
             font-size: 16px;
-            font-family: 'MinecraftFont', sans-serif;
+            text-decoration: none;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 8px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .header-link:hover {
+            background-color: #e53935;
         }
 
         body {
@@ -38,6 +44,7 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            background-color: #ecf0f1;
         }
 
         main {
@@ -48,8 +55,30 @@
 
         select, input, button {
             margin: 10px;
-            padding: 10px;
+            padding: 12px;
             font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #bdc3c7;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+        }
+
+        select:hover, input:hover, button:hover {
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        select, input {
+            background-color: white;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
         }
 
         #recipeForm {
@@ -59,44 +88,15 @@
             margin-bottom: 20px;
         }
 
-        #cutter_inputFields {
+        #inputFields {
             display: grid;
-            grid-template-columns: repeat(1, 2fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        #craft_inputFields {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        #shape_inputFields {
-            display: grid;
-            grid-template-columns: repeat(9, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        #furnace_inputFields {
-            display: grid;
-            grid-template-columns: repeat(1, 2fr);
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        #smithing_inputFields {
-            display: grid;
-            grid-template-columns: repeat(1, 3fr);
             gap: 10px;
             margin-top: 20px;
         }
 
         .slot-input, .result-input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             text-align: center;
         }
 
@@ -107,12 +107,14 @@
 
         #jsonOutput {
             margin-top: 20px;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid #2c3e50;
             background-color: #f4f4f4;
             font-family: monospace;
             white-space: pre-wrap;
             text-align: left;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         footer {
@@ -126,68 +128,89 @@
             width: 100%;
             margin-top: auto;
         }
+
+        .recipe-fields {
+            display: none;
+        }
+
+        /* Einfache visuelle Verbesserung */
+        .input-highlight {
+            background-color: #ecf0f1;
+            border: 2px solid #3498db;
+        }
+
+        .input-highlight:focus {
+            border-color: #2980b9;
+            outline: none;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
     <header>
-        <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurueck ></a>
+        <a href="https://redminer9630github.github.io/Redminer9630.de/" class="header-link">Zurück ></a>
         <h1>Advanced Recipe Generator</h1>
     </header>
 
     <main>
-            <label for="templateSelect">Wähle Rezepttyp:</label>    
-            <select id="templateSelect" onchange="updateTemplate()">
-                <option value="default">Crafting Shaped</option>
-                <option value="1x9">Crafting Shapeless</option>
-                <option value="2x1">Furnace</option>
-                <option value="2x1">Blast Furnace</option>
-                <option value="2x1">Smoker</option>
-                <option value="2x1">Campfire</option>
-                <option value="cutter">Stonecutter</option>
-                <option value="3x1">Smithing Table</option>
+        <form id="recipeForm">
+            <label for="recipeType">Wähle Rezepttyp:</label>
+            <select id="recipeType" class="input-highlight" onchange="updateInputFields()">
+                <option value="crafting_shaped">Crafting Shaped</option>
+                <option value="crafting_shapeless">Crafting Shapeless</option>
+                <option value="furnace">Furnace</option>
+                <option value="blast_furnace">Blast Furnace</option>
+                <option value="smoker">Smoker</option>
+                <option value="campfire">Campfire</option>
+                <option value="smithing">Smithing</option>
+                <option value="stonecutting">Stonecutting</option>
             </select>
 
             <label for="exactPlacement" id="exactPlacementLabel">
                 <input type="checkbox" id="exactPlacement"> Genau platziert
             </label>
 
-            <div id="craft_inputFields">
-                <input type="text" class="slot-input" id="slot1">
-                <input type="text" class="slot-input" id="slot2">
-                <input type="text" class="slot-input" id="slot3">
-                <input type="text" class="slot-input" id="slot4">
-                <input type="text" class="slot-input" id="slot5">
-                <input type="text" class="slot-input" id="slot6">
-                <input type="text" class="slot-input" id="slot7">
-                <input type="text" class="slot-input" id="slot8">
-                <input type="text" class="slot-input" id="slot9">
-            </div> 
-            <div id="shape_inputFields">
-                <input type="text" class="slot-input" id="slot1">
-                <input type="text" class="slot-input" id="slot2">
-                <input type="text" class="slot-input" id="slot3">
-                <input type="text" class="slot-input" id="slot4">
-                <input type="text" class="slot-input" id="slot5">
-                <input type="text" class="slot-input" id="slot6">
-                <input type="text" class="slot-input" id="slot7">
-                <input type="text" class="slot-input" id="slot8">
-                <input type="text" class="slot-input" id="slot9">
-            </div> 
-            <div id="furnace_inputFields">
-                <input type="text" class="slot-input" id="slot1">
-                <input type="text" class="slot-input" id="slot2">
-            </div>
-            <div id="smithing_inputFields">
-                <input type="text" class="slot-input" id="slot1">
-                <input type="text" class="slot-input" id="slot2">
-                <input type="text" class="slot-input" id="slot3">
-            </div> 
-            <div id="cutter_inputFields">
-                <input type="text" class="slot-input" id="slot1">
-                <input type="text" class="slot-input" id="slot2">
+            <div id="inputFields">
+                <!-- Crafting Shaped -->
+                <div id="craftingShapedFields" class="recipe-fields">
+                    <input type="text" class="slot-input input-highlight" id="slot1" placeholder="Slot 1">
+                    <input type="text" class="slot-input input-highlight" id="slot2" placeholder="Slot 2">
+                    <input type="text" class="slot-input input-highlight" id="slot3" placeholder="Slot 3">
+                    <input type="text" class="slot-input input-highlight" id="slot4" placeholder="Slot 4">
+                    <input type="text" class="slot-input input-highlight" id="slot5" placeholder="Slot 5">
+                    <input type="text" class="slot-input input-highlight" id="slot6" placeholder="Slot 6">
+                    <input type="text" class="slot-input input-highlight" id="slot7" placeholder="Slot 7">
+                    <input type="text" class="slot-input input-highlight" id="slot8" placeholder="Slot 8">
+                    <input type="text" class="slot-input input-highlight" id="slot9" placeholder="Slot 9">
+                </div>
+
+                <!-- Crafting Shapeless -->
+                <div id="craftingShapelessFields" class="recipe-fields">
+                    <input type="text" class="slot-input input-highlight" id="slot1" placeholder="Ingredient 1">
+                    <input type="text" class="slot-input input-highlight" id="slot2" placeholder="Ingredient 2">
+                    <input type="text" class="slot-input input-highlight" id="slot3" placeholder="Ingredient 3">
+                    <input type="text" class="slot-input input-highlight" id="slot4" placeholder="Ingredient 4">
+                    <input type="text" class="slot-input input-highlight" id="slot5" placeholder="Ingredient 5">
+                    <input type="text" class="slot-input input-highlight" id="slot6" placeholder="Ingredient 6">
+                    <input type="text" class="slot-input input-highlight" id="slot7" placeholder="Ingredient 7">
+                    <input type="text" class="slot-input input-highlight" id="slot8" placeholder="Ingredient 8">
+                    <input type="text" class="slot-input input-highlight" id="slot9" placeholder="Ingredient 9">
+                </div>
+
+                <!-- Furnace, Blast Furnace, Smoker, Campfire, Smithing, Stonecutting -->
+                <div id="specialFields" class="recipe-fields">
+                    <input type="text" class="slot-input input-highlight" id="ingredient" placeholder="Ingredient Item">
+                </div>
+
+                <!-- Smithing Fields (up to 3 ingredients) -->
+                <div id="smithingFields" class="recipe-fields">
+                    <input type="text" class="slot-input input-highlight" id="baseItem" placeholder="Base Item (z.B. minecraft:iron_pickaxe)">
+                    <input type="text" class="slot-input input-highlight" id="additionItem" placeholder="Addition Item (z.B. minecraft:netherite_ingot)">
+                    <input type="text" class="slot-input input-highlight" id="templateItem" placeholder="Template Item (optional)">
+                </div>
             </div> 
 
-            <input type="text" class="result-input" id="result" placeholder="Result Item (z.B. minecraft:iron_pickaxe)">
+            <input type="text" class="result-input input-highlight" id="result" placeholder="Result Item (z.B. minecraft:netherite_pickaxe)">
             <button type="button" onclick="generateRecipe()">Rezept generieren</button>
         </form>
 
@@ -195,61 +218,30 @@
     </main>
 
     <footer>
-        <p>©Minecraft Advanced Recipe Generator by Redminer9630</p>
+        <p>© Minecraft Advanced Recipe Generator by Redminer9630</p>
     </footer>
 
     <script>
         function updateInputFields() {
-            const templateSelect = document.getElementById('templateSelect').value;
-            const craft_inputFields = document.getElementById('craft_inputFields');
-            const shape_inputFields = document.getElementById('shape_inputFields');
-            const furnace_inputFields = document.getElementById('furnace_inputFields');
-            const smithing_inputFields = document.getElementById('smithing_inputFields');
-            const cutter_inputFields = document.getElementById('cutter_inputFields');
+            const recipeType = document.getElementById('recipeType').value;
+            const inputFields = document.getElementById('inputFields');
             const exactPlacementLabel = document.getElementById('exactPlacementLabel');
 
-            if (templateSelect === 'default') {
-                craft_inputFields.style.display = 'grid';
-            } else if (templateSelect === '1x9'){
-                shape_inputFields.style.display = 'none';
-            } else if (templateSelect === 'cutter'){
-                cutter_inputFields.style.display = 'none';
-            } else if (templateSelect === '3x1'){
-                smithing_inputFields.style.display = 'none';
-            } else if (templateSelect === '2x1'){
-                furnace_inputFields.style.display = 'none';
-            }
+            document.querySelectorAll('.recipe-fields').forEach(field => field.style.display = 'none');
+            exactPlacementLabel.style.display = 'none';
 
-            if (templateSelect === 'default') {
+            if (recipeType === 'crafting_shaped') {
+                document.getElementById('craftingShapedFields').style.display = 'grid';
                 exactPlacementLabel.style.display = 'block';
+            } else if (recipeType === 'crafting_shapeless') {
+                document.getElementById('craftingShapelessFields').style.display = 'grid';
+            } else if (recipeType === 'smithing') {
+                document.getElementById('smithingFields').style.display = 'grid';
             } else {
-                exactPlacementLabel.style.display = 'none';
+                document.getElementById('specialFields').style.display = 'block';
             }
 
             adjustFooterPosition();
-        }
-
-        function updateTemplate() {
-            const templateSelect = document.getElementById('templateSelect').value;
-            const craft_inputFields = document.getElementById('craft_inputFields');
-
-            switch (templateSelect) {
-                case '1x9':
-                    shape_inputFields.style.gridTemplateColumns = 'repeat(9, 1fr)';
-                    break;
-                case '2x1':
-                    furnace_inputFields.style.gridTemplateColumns = 'repeat(1, 2fr)';
-                    break;
-                case '3x1':
-                    smithing_inputFields.style.gridTemplateColumns = 'repeat(1, 3fr)';
-                    break;
-                case 'cutter':
-                    cutter_inputFields.style.gridTemplateColumns = 'repeat(1, 2fr)';
-                    break;
-                default:
-                    craft_inputFields.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                    break;
-            }
         }
 
         function adjustFooterPosition() {
@@ -268,57 +260,79 @@
         }
 
         function generateRecipe() {
-            const templateSelect = document.getElementById('templateSelect').value;
+            const recipeType = document.getElementById('recipeType').value;
             const exactPlacement = document.getElementById('exactPlacement').checked;
-            const validSymbols = new Set(['s', '6', '/', '#', '&', 'e', 'n', 'o', '8', '2', '3', 'l', 'p', 'i', 'k', 'j', 'a']);
-            const slots = [];
-            
-            for (let i = 1; i <= 9; i++) {
-                const symbol = document.getElementById(`slot${i}`).value.trim();
-                if (validSymbols.has(symbol)) {
-                    slots.push(symbol);
-                } else {
-                    slots.push(" "); // Default to empty if invalid symbol
-                }
-            }
-
             const resultItem = document.getElementById('result').value.trim();
-            
             let jsonOutput;
 
-            if (templateSelect === 'crafting_shaped') {
-                let pattern = [
-                    slots.slice(0, 3).join(''),
-                    slots.slice(3, 6).join(''),
-                    slots.slice(6, 9).join('')
-                ];
-
-                if (exactPlacement) {
-                    pattern = pattern.map(row => row.replace(/\s+$/, '')); // Trim trailing spaces
+            if (recipeType === 'crafting_shaped' || recipeType === 'crafting_shapeless') {
+                const slots = [];
+                for (let i = 1; i <= 9; i++) {
+                    const symbol = document.getElementById(`slot${i}`).value.trim();
+                    slots.push(symbol ? symbol : " ");
                 }
 
-                const key = {};
-                slots.forEach(symbol => {
-                    if (symbol.trim() && !key[symbol]) {
-                        let itemValue = symbol.includes(":") ? symbol : `minecraft:${symbol}`;
-                        key[symbol] = { item: itemValue };
+                if (recipeType === 'crafting_shaped') {
+                    let pattern = [
+                        slots.slice(0, 3).join(''),
+                        slots.slice(3, 6).join(''),
+                        slots.slice(6, 9).join('')
+                    ];
+
+                    if (exactPlacement) {
+                        pattern = pattern.map(row => row.replace(/\s+$/, ''));
                     }
-                });
+
+                    const key = {};
+                    slots.forEach(symbol => {
+                        if (symbol.trim() && !key[symbol]) {
+                            let itemValue = symbol.includes(":") ? symbol : `minecraft:${symbol}`;
+                            key[symbol] = { item: itemValue };
+                        }
+                    });
+
+                    jsonOutput = {
+                        type: `minecraft:${recipeType}`,
+                        pattern: pattern,
+                        key: key,
+                        result: {
+                            item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
+                            count: 1
+                        }
+                    };
+                } else {
+                    const ingredients = slots.filter(symbol => symbol.trim()).map(symbol => symbol.includes(":") ? symbol : `minecraft:${symbol}`);
+
+                    jsonOutput = {
+                        type: `minecraft:crafting_shapeless`,
+                        ingredients: ingredients.map(item => ({ item })),
+                        result: {
+                            item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
+                            count: 1
+                        }
+                    };
+                }
+            } else if (recipeType === 'smithing') {
+                const baseItem = document.getElementById('baseItem').value.trim();
+                const additionItem = document.getElementById('additionItem').value.trim();
+                const templateItem = document.getElementById('templateItem').value.trim();
 
                 jsonOutput = {
-                    type: `minecraft:${templateSelect}`,
-                    pattern: pattern,
-                    key: key,
+                    type: `minecraft:${recipeType}`,
+                    base: { item: baseItem.includes(":") ? baseItem : `minecraft:${baseItem}` },
+                    addition: { item: additionItem.includes(":") ? additionItem : `minecraft:${additionItem}` },
+                    ...(templateItem ? { template: { item: templateItem.includes(":") ? templateItem : `minecraft:${templateItem}` } } : {}),
                     result: {
                         item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
                         count: 1
                     }
                 };
             } else {
-                const ingredientItem = slots[0].includes(":") ? slots[0] : `minecraft:${slots[0]}`;
+                const ingredient = document.getElementById('ingredient').value.trim();
+                const ingredientItem = ingredient.includes(":") ? ingredient : `minecraft:${ingredient}`;
 
                 jsonOutput = {
-                    type: `minecraft:${templateSelect}`,
+                    type: `minecraft:${recipeType}`,
                     ingredient: { item: ingredientItem },
                     result: {
                         item: resultItem.includes(":") ? resultItem : `minecraft:${resultItem}`,
