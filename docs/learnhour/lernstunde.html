@@ -111,6 +111,7 @@
     <button class="shortcut-button" tabindex="3" onclick="showCommands()">Minecraft Commands</button>
     <button class="info-button" tabindex="4" onclick="showUsefulInfo()">Nuetzliche Infos</button>
     <button class="shortcut-button" tabindex="5" onclick="showTrading()">Handeln</button>
+    <button class="brewing-button" tabindex="6" onclick="showBrewing()">Brauen</button>
 
     <div id="content">
         <!-- Inhalt wird hier angezeigt -->
@@ -124,7 +125,46 @@
         const keys = {
             'normal': 'normal.jpg',
             '0': '0.tiff',
-            // ... (Rest deiner Tastaturbilder bleibt unverändert) ...
+            '1': '1.tiff',
+            '2': '2.tiff',
+            '3': '3.tiff',
+            '4': '4.tiff',
+            '5': '5.tiff',
+            '6': '6.tiff',
+            '7': '7.tiff',
+            '8': '8.tiff',
+            '9': '9.tiff',
+            'a': 'a.tiff',
+            'alt': 'alt.tiff',
+            'alt2': 'alt2.tiff',
+            'b': 'b.tiff',
+            'backspace': 'backspace.tiff',
+            'c': 'c.tiff',
+            'ctrl': 'ctrl.tiff',
+            'ctrl2': 'ctrl2.tiff',
+            'd': 'd.tiff',
+            'e': 'e.tiff',
+            'enter': 'enter.tiff',
+            'esc': 'esc.tiff',
+            'f': 'f.tiff',
+            'f1': 'f1.tiff',
+            'f2': 'f2.tiff',
+            'f3': 'f3.tiff',
+            'f4': 'f4.tiff',
+            'f5': 'f5.tiff',
+            'f11': 'f11.tiff',
+            'g': 'g.tiff',
+            'h': 'h.tiff',
+            'n': 'n.tiff',
+            'q': 'q.tiff',
+            'r': 'r.tiff',
+            's': 's.tiff',
+            'shift': 'shift.tiff',
+            'shift2': 'shift2.tiff',
+            'tab': 'tab.tiff',
+            'wasd': 'wasd.tiff',
+            'windows': 'windows.tiff',
+            'x': 'x.tiff'
         };
 
         function simulateShortcut(sequence) {
@@ -149,12 +189,20 @@
         function showKeyBindings() {
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Tastenkombinationen:</h2>
-                <ul>
-                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>
-                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
-                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
-                    <!-- ... weitere Shortcuts ... -->
-                </ul>
+                    <ul>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>   
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button> Erweiterte Item-Anzeige</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Kopiert die jetzige Position als Command</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Gedrueckt halten um das Spiel zu crashen</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button> Zeigt Hitboxen an</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button> Chat wird geleert</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button> Wechselt zum Zuschauer-Modus</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button> Zeigt Chunk-Grenzen an</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button> Pausiert das Spiel</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button> Oeffnet das Gamemode-Menue</li>
+                    </ul>
             `;
         }
 
@@ -166,29 +214,812 @@
                         <tr>
                             <th onclick="sortTable(0)">Name</th>
                             <th onclick="sortTable(1)">Beschreibung</th>
-                            <th onclick="sortTable(2)">Operator Level</th>
+                            <th onclick="sortTable(2)">Op Level</th>
                             <th onclick="sortTable(3)">Multiplayer Only</th>
+                            <th onclick="sortTable(4)">Block</th>
+                            <th onclick="sortTable(5)">Entitaet</th>
+                            <th onclick="sortTable(6)">Spieler</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Command-Daten hier einfügen -->
+                         <tr>
+            <td>/advancement</td>
+            <td>Verwalten von Fortschritten für Spieler.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/attribute</td>
+            <td>Veraendern der Attribute von Entitaeten.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/ban</td>
+            <td>Sperrt einen Spieler vom Server.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/ban-ip</td>
+            <td>Sperrt eine IP-Adresse vom Server.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/banlist</td>
+            <td>Zeigt die Liste der gesperrten Spieler und IP-Adressen an.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/bossbar</td>
+            <td>Verwalten von Bossleisten.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/clear</td>
+            <td>Loescht Gegenstände aus dem Inventar eines Spielers.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/clone</td>
+            <td>Kopiert und platziert Bloecke.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/damage</td>
+            <td>Verursacht Schaden bei einer Entitaet.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/data</td>
+            <td>Bearbeiten von NBT-Daten.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/datapack</td>
+            <td>Verwalten von Datenpaketen.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/debug</td>
+            <td>Startet und stoppt Debug-Prozesse.</td>
+            <td>3</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/defaultgamemode</td>
+            <td>Setzt den Standard-Spielmodus für neue Spieler.</td>
+            <td>2</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/deop</td>
+            <td>Nimmt einem Spieler die Operator-Rechte.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/difficulty</td>
+            <td>Setzt die Schwierigkeit des Spiels.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/effect</td>
+            <td>Gibt einem Spieler oder einer Entitaet einen Status-Effekt.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/enchant</td>
+            <td>Verzaubert ein Item im Besitz eines Spielers.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/execute</td>
+            <td>Fuehrt einen Befehl aus, wenn Bedingungen erfuellt sind.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/experience</td>
+            <td>Gibt Erfahrungspunkte an einen Spieler.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/fill</td>
+            <td>Fuellt einen Bereich mit einem Block.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/fillbiome</td>
+            <td>Fuellt einen Bereich mit einem Biom.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/forceload</td>
+            <td>Laedt bestimmte Chunks dauerhaft.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/function</td>
+            <td>Fuehrt eine Gruppe von Befehlen aus einer Datei aus.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/gamemode</td>
+            <td>Aendert den Spielmodus eines Spielers.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/gamerule</td>
+            <td>Setzt oder fragt Spielregeln ab.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/give</td>
+            <td>Gibt einem Spieler einen Gegenstand.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/help</td>
+            <td>Zeigt eine Liste von Befehlen oder detaillierte Informationen zu einem Befehl an.</td>
+            <td>0</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/item</td>
+            <td>Bearbeiten und Verwalten von Gegenstaenden.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/jfr</td>
+            <td>Startet und stoppt die Java-Flight-Recorder-Analyse.</td>
+            <td>4</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/kick</td>
+            <td>Wirft einen Spieler vom Server.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/kill</td>
+            <td>Toetet Entitaeten.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/list</td>
+            <td>Zeigt eine Liste aller Spieler auf dem Server an.</td>
+            <td>0</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/locate</td>
+            <td>Findet die Position von bestimmten Strukturen oder Biomen.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/loot</td>
+            <td>Erzeugt oder verteilt Beute basierend auf Regeln.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/me</td>
+            <td>Zeigt eine Nachricht über den Spieler im Chat an.</td>
+            <td>0</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/msg</td>
+            <td>Sendet eine private Nachricht an einen Spieler.</td>
+            <td>0</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/op</td>
+            <td>Gibt einem Spieler Operator-Rechte.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/pardon</td>
+            <td>Entbannt einen Spieler vom Server.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/pardon-ip</td>
+            <td>Entbannt eine IP-Adresse vom Server.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/particle</td>
+            <td>Erzeugt Partikel-Effekte.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/perf</td>
+            <td>Verwalten von Performance-Parametern.</td>
+            <td>4</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/place</td>
+            <td>Platziert bestimmte Features oder Strukturen.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/playsound</td>
+            <td>Spielt einen Soundeffekt für Spieler ab.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/publish</td>
+            <td>Veroeffentlicht ein Einzelspieler-Spiel im LAN.</td>
+            <td>2</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/random</td>
+            <td>Erzeugt eine zufaellige Zahl oder Auswahl.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/recipe</td>
+            <td>Verwaltet freigeschaltete Rezepte für Spieler.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/reload</td>
+            <td>Laedt Datenpakete und Fortschritte neu.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/return</td>
+            <td>Gibt einen Wert aus einem Funktion-Tag zurueck.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/ride</td>
+            <td>Setzt oder entfernt das Reiten einer Entitaet auf einer anderen.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/save-all</td>
+            <td>Speichert die Welt manuell.</td>
+            <td>4</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/save-off</td>
+            <td>Deaktiviert automatisches Speichern.</td>
+            <td>4</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/save-on</td>
+            <td>Aktiviert automatisches Speichern.</td>
+            <td>4</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/say</td>
+            <td>Sendet eine Nachricht an alle Spieler im Chat.</td>
+            <td>1</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/schedule</td>
+            <td>Plant die Ausfuehrung eines Befehls in der Zukunft.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/scoreboard</td>
+            <td>Verwalten und anzeigen von Scoreboard-Daten.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/seed</td>
+            <td>Zeigt den Seed der Welt an.</td>
+            <td>2</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/setblock</td>
+            <td>Platziert einen Block an einer bestimmten Position.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/setidletimeout</td>
+            <td>Setzt die Inaktivitaetszeit fest, nach der Spieler gekickt werden.</td>
+            <td>3</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/setworldspawn</td>
+            <td>Setzt den globalen Welt-Spawnpunkt.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Ja</td>
+            <td>Nein</td>
+            <td>Nein</td>
+        </tr>
+        <tr>
+            <td>/spawnpoint</td>
+            <td>Setzt den persönlichen Spawnpunkt eines Spielers.</td>
+            <td>2</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Nein</td>
+            <td>Ja</td>
+        </tr>
+        <tr>
+            <td>/spectate</td>
+            <td>Setzt den Zuschauer-Modus für einen Spieler.</td>
+            <td>2</td>
+            <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>        
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/spreadplayers</td>
+                    <td>Verteilt Spieler oder Entitaeten zufaellig auf einer Flaeche.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/stop</td>
+                    <td>Stoppt den Server.</td>
+                    <td>4</td>
+                    <td>Ja</td>        
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/stopsound</td>        
+                    <td>Stoppt Soundeffekte für Spieler.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/summon</td>
+                    <td>Beschwoert eine Entitaet an einer bestimmten Position.</td>
+                    <td>2</td>
+                    <td>Nein</td>    
+                    <td>Ja</td>    
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/tag</td>
+                    <td>Verwaltet Tags für Entitaeten.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>        
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/team</td>
+                    <td>Verwaltet Teams und zugehoerige Optionen.</td>
+                    <td>2</td>        
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/teammsg</td>
+                    <td>Sendet eine Nachricht an alle Mitglieder eines Teams.</td>
+                    <td>0</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/teleport</td>
+                    <td>Teleportiert Spieler oder Entitäten zu einer bestimmten Position.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/tell</td>
+                    <td>Alias für /msg. Sendet eine private Nachricht an einen Spieler.</td>
+                    <td>0</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>        
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/tellraw</td>
+                    <td>Sendet eine Nachricht im JSON-Format an einen Spieler.</td>
+                    <td>2</td>
+                    <td>Nein</td>        
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/tick</td>
+                    <td>Verwalten von Tick-Parametern.</td>
+                    <td>4</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/time</td>
+                    <td>Setzt oder fragt die Zeit in der Spielwelt ab.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>    
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/title</td>
+                    <td>Sendet eine Titel-Nachricht an Spieler.</td>
+                    <td>2</td>
+                    <td>Nein</td>        
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>    
+                <tr>
+                    <td>/tm</td>
+                    <td>Alias für /teammsg. Sendet eine Nachricht an alle Mitglieder eines Teams.</td>
+                    <td>0</td>        
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/tp</td>
+                    <td>Alias für /teleport. Teleportiert Spieler oder Entitaeten zu einer bestimmten Position.</td>
+                    <td>2</td>    
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>        
+                    <td>/transfer</td>
+                    <td>Transferiert einen Spieler zu einem anderen Server.</td>
+                    <td>3</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/trigger</td>
+                    <td>Loest einen benutzerdefinierten Ausloeser aus.</td>
+                    <td>0</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/w</td>
+                    <td>Alias für MSG. Sendet eine private Nachricht an einen Spieler.</td>
+                    <td>0</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
+                <tr>
+                    <td>/weather</td>
+                    <td>Aendert das Wetter in der Spielwelt.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/whitelist</td>
+                    <td>Verwalten der Whitelist des Servers.</td>
+                    <td>3</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/worldborder</td>
+                    <td>Verwalten der Weltgrenze.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                </tr>
+                <tr>
+                    <td>/xp</td>
+                    <td>Alias für /experience. Gibt Erfahrungspunkte an einen Spieler.</td>
+                    <td>2</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Nein</td>
+                    <td>Ja</td>
+                </tr>
                     </tbody>
                 </table>
             `;
         }
-
+        function showBrewing() {
+            document.getElementById('content').innerHTML = `
+                <h2>Brauen:</h2>
+                <ul>
+                    <div>
+                        <ul>
+                            <li><button class="info-button" onclick="showBrewingInfo('swiftness')">Trank der Schnelligkeit</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('slowness')">Trank der Langsamkeit</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('leaping')">Trank des Sprungkraft</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('strength')">Trank der Staerke</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('healing')">Trank der Heilung</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('harming')">Trank des Schadens</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('poison')">Trank des Gifts</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('regeneration')">Trank der Regeneration</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('fireResistance')">Trank des Feuerschutzes</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('waterBreathing')">Trank des Wasseratmung</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('nightVision')">Trank der Nachtsicht</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('invisibility')">Trank der Unsichtbarkeit</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('turtleMaster')">Trank des Schildkroetenmeisters</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('slowFalling')">Trank des Langsam Fallens</button></li>
+                        </ul>
+                    </div>
+                </ul>
+            `;
+        }
         function showUsefulInfo() {
             document.getElementById('content').innerHTML = `
                 <h2>Nuetzliche Infos:</h2>
                 <ul>
                     <li><button class="info-button" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
-                    <div id="calibrated-info" class="info-content">
-                        <!-- Calibrierter Sculk Sensor Infos -->
-                    </div>
-                    <li><button class="info-button" onclick="toggleInfo('brewing-info')">Brauen</button></li>
-                    <div id="brewing-info" class="info-content">
-                        <!-- Brauinfos -->
-                    </div>
+                    <div id="calibrated-info" class="info-content">                            
+                        <p>Redstone Stufen:</p>
+                        <p>1  | Gehen, Klettern, Springen, Schwimmen und Kriechen.</p>
+                        <p>2  | Landen auf einem Soliden block or der in einer Fluessigkeit.</p>
+                        <p>3  | Item benutzen(Angel werfen, Trank trinken).</p>
+                        <p>4  | Gleiten mit einer Elytra oder ein Mob der eine Faehigkeit benutzt.</p>
+                        <p>5  | Absteigen von einem Mob oder Anziehen von Ruestung.</p>    
+                        <p>6  | Auf ein Mob Aufsteigen oder Interagieren mit einem Mob.</p>
+                        <p>7  | Ein Mob oder Spieler der Schaden nimmt.</p>
+                        <p>8  | Essen wird gegessen.</p>
+                        <p>9  | Ein block der deaktieviert wird(Kiste oder Tuer wird geschlossen).</p>
+                        <p>10 | Ein block der aktiviert wird(Kiste oder Tuer die geoeffnet wird).</p>
+                        <p>11 | Ein block der veraendert wird(Essen wird zu einem Lagerfeuer gelegt).</p>
+                        <p>12 | Ein !Wolle block der abgebaut wird.</p>
+                        <p>13 | Ein !Wolle block der platziert wird.</p>
+                        <p>14 | Ein Mob oder Spieler der Teleportiert wird oder spawnt.</p>
+                        <p>15 | Ein Mob oder Spieler der stirbt oder eine Explosion.</p>
                 </ul>
             `;
         }
