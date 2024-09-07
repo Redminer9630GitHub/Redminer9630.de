@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chrome Dino Game</title>
+    <style>
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 600px;
+            height: 150px;
+            background-color: #fff;
+            overflow: hidden;
+            border: 2px solid #000;
+        }
+
+        #dino {
+            position: absolute;
+            bottom: 0;
+            width: 44px;
+            height: 44px;
+            background-color: #000;
+        }
+
+        .obstacle {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 40px;
+            background-color: red;
+            animation: moveObstacle 2s linear infinite;
+        }
+
+        @keyframes moveObstacle {
+            from {
+                left: 100%;
+            }
+            to {
+                left: -20px;
+            }
+        }
+
+        #score {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+
+        .game-button {
+            font-family: 'MinecraftFont', sans-serif;
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .game-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="dino"></div>
+    </div>
+    <p id="score">Score: 0</p>
+    <button class="game-button" onclick="startGame()">Start Game</button>
+
+    <script>
+        let dino = document.getElementById('dino');
+        let gameContainer = document.getElementById('gameContainer');
+        let scoreDisplay = document.getElementById('score');
+        let isJumping = false;
+        let score = 0;
+        let gameInterval, obstacleInterval;
+
+        function startGame() {
+            score = 0;
+            scoreDisplay.innerText = `Score: ${score}`;
+
+            gameInterval = setInterval(() => {
+                score++;
+                scoreDisplay.innerText = `Score: ${score}`;
+            }, 100);
+
+            obstacleInterval = setInterval(createObstacle, 2000);
+            document.addEventListener('keydown', jump);
+        }
+
+        function jump(event) {
+            if (event.keyCode === 32 && !isJumping) { // Space bar to jump
+                isJumping = true;
+                let jumpHeight = 0;
+                let jumpInterval = setInterval(() => {
+                    if (jumpHeight >= 100) {
+                        clearInterval(jumpInterval);
+                        let fallInterval = setInterval(() => {
+                            if (jumpHeight <= 0) {
+                                clearInterval(fallInterval);
+                                isJumping = false;
+                            } else {
+                                jumpHeight -= 10;
+                                dino.style.bottom = jumpHeight + 'px';
+                            }
+                        }, 20);
+                    } else {
+                        jumpHeight += 10;
+                        dino.style.bottom = jumpHeight + 'px';
+                    }
+                }, 20);
+            }
+        }
+
+        function createObstacle() {
+            let obstacle = document.createElement('div');
+            obstacle.classList.add('obstacle');
+            gameContainer.appendChild(obstacle);
+
+            let obstacleInterval = setInterval(() => {
+                let dinoRect = dino.getBoundingClientRect();
+                let obstacleRect = obstacle.getBoundingClientRect();
+
+                if (obstacleRect.left < dinoRect.right && 
+                    obstacleRect.right > dinoRect.left &&
+                    obstacleRect.bottom > dinoRect.top) {
+                    alert('Game Over');
+                    clearInterval(obstacleInterval);
+                    clearInterval(gameInterval);
+                    clearInterval(obstacleInterval);
+                    document.removeEventListener('keydown', jump);
+                    gameContainer.innerHTML = '<div id="dino"></div>';
+                }
+
+                if (obstacleRect.right < 0) {
+                    gameContainer.removeChild(obstacle);
+                    clearInterval(obstacleInterval);
+                }
+            }, 20);
+        }
+    </script>
+</body>
+</html>
