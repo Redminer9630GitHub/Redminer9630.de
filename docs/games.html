@@ -3,15 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrome Dino Game</title>
+    <title>Chrome Dino Game mit Sprites</title>
     <style>
-        @font-face {
-            font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
-        
         body {
             font-family: 'MinecraftFont', sans-serif;
             display: flex;
@@ -37,7 +30,9 @@
             bottom: 0;
             width: 44px;
             height: 44px;
-            background-color: #000;
+            background-image: url('sprites.png');
+            background-position: 0 0; /* Stelle sicher, dass dies zur Dino-Sprite-Position passt */
+            background-size: 220px 40px; /* Skalierung der Sprites */
         }
 
         .obstacle {
@@ -45,7 +40,9 @@
             bottom: 0;
             width: 20px;
             height: 40px;
-            background-color: red;
+            background-image: url('sprites.png');
+            background-position: -100px 0; /* Position für das Hindernis in der Sprites-Datei */
+            background-size: 220px 40px;
             animation: moveObstacle 2s linear infinite;
         }
 
@@ -79,6 +76,27 @@
         .game-button:hover {
             background-color: #45a049;
         }
+
+        #controls {
+            margin-top: 20px;
+        }
+
+        .control-button {
+            font-family: 'MinecraftFont', sans-serif;
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .control-button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -86,19 +104,29 @@
         <div id="dino"></div>
     </div>
     <p id="score">Score: 0</p>
-    <button class="game-button" onclick="startGame()">Starte Spiel</button>
+    <button id="startButton" class="game-button" onclick="startGame()">Starte Spiel</button>
+
+    <div id="controls" style="display: none;">
+        <button class="control-button" onclick="jump()">Jump</button>
+        <button class="control-button" onclick="sneak()">Sneak</button>
+    </div>
 
     <script>
         let dino = document.getElementById('dino');
         let gameContainer = document.getElementById('gameContainer');
         let scoreDisplay = document.getElementById('score');
+        let startButton = document.getElementById('startButton');
+        let controls = document.getElementById('controls');
         let isJumping = false;
+        let isSneaking = false;
         let score = 0;
         let gameInterval, obstacleInterval;
 
         function startGame() {
             score = 0;
             scoreDisplay.innerText = `Score: ${score}`;
+            startButton.style.display = 'none';
+            controls.style.display = 'block';
 
             gameInterval = setInterval(() => {
                 score++;
@@ -106,11 +134,10 @@
             }, 100);
 
             obstacleInterval = setInterval(createObstacle, 2000);
-            document.addEventListener('keydown', jump);
         }
 
-        function jump(event) {
-            if (event.keyCode === 32 && !isJumping) { // Space bar to jump
+        function jump() {
+            if (!isJumping && !isSneaking) {
                 isJumping = true;
                 let jumpHeight = 0;
                 let jumpInterval = setInterval(() => {
@@ -133,6 +160,17 @@
             }
         }
 
+        function sneak() {
+            if (!isJumping && !isSneaking) {
+                isSneaking = true;
+                dino.style.height = '22px'; // Verkleinere den Dino für das Sneaken
+                setTimeout(() => {
+                    dino.style.height = '44px'; // Zurück zur normalen Größe
+                    isSneaking = false;
+                }, 1000); // Sneak für 1 Sekunde
+            }
+        }
+
         function createObstacle() {
             let obstacle = document.createElement('div');
             obstacle.classList.add('obstacle');
@@ -142,15 +180,15 @@
                 let dinoRect = dino.getBoundingClientRect();
                 let obstacleRect = obstacle.getBoundingClientRect();
 
-                if (obstacleRect.left < dinoRect.right && 
+                if (obstacleRect.left < dinoRect.right &&
                     obstacleRect.right > dinoRect.left &&
                     obstacleRect.bottom > dinoRect.top) {
-                    alert('Game Over');
+                    // Game Over
+                    alert('Game Over! Dein Score war: ' + score);
                     clearInterval(obstacleInterval);
                     clearInterval(gameInterval);
                     clearInterval(obstacleInterval);
-                    document.removeEventListener('keydown', jump);
-                    gameContainer.innerHTML = '<div id="dino"></div>';
+                    resetGame();
                 }
 
                 if (obstacleRect.right < 0) {
@@ -158,6 +196,21 @@
                     clearInterval(obstacleInterval);
                 }
             }, 20);
+        }
+
+        function resetGame() {
+            // Stoppe das Spiel
+            clearInterval(gameInterval);
+            clearInterval(obstacleInterval);
+            document.querySelectorAll('.obstacle').forEach(obstacle => {
+                obstacle.remove();
+            });
+            // Reset des Scores
+            score = 0;
+            scoreDisplay.innerText = `Score: ${score}`;
+            // Verstecke die Steuerung und zeige den Start-Button wieder
+            controls.style.display = 'none';
+            startButton.style.display = 'block';
         }
     </script>
 </body>
