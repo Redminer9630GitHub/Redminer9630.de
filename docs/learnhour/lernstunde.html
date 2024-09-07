@@ -233,12 +233,12 @@
             if (theme === 'dark') {
                 body.classList.add('dark-theme');
             } else if (theme === 'light') {
-                body.classList.remove('dark-theme');
+                body.classList.remove('light-theme');
             } else if (theme === 'system') {
                 if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
                     body.classList.add('dark-theme');
                 } else {
-                    body.classList.remove('dark-theme');
+                    body.classList.remove('light-theme');
                 }
             }
         }
@@ -315,7 +315,7 @@
                     img.src = keys[key];
                     img.classList.add('key-image');
                     display.appendChild(img);
-                }, index * 2); // 1.2 Sekunden Verzögerung pro Taste
+                }, index * 2);
             });
 
             // Nach der Sequenz normale Ansicht wiederherstellen
