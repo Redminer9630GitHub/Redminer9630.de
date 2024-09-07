@@ -702,20 +702,6 @@
             infoElement.style.display = isVisible ? "none" : "block";
         }
 
-        // Theme in localStorage speichern
-        localStorage.setItem('theme', selectedTheme);
-
-        // Theme laden
-        const savedTheme = localStorage.getItem('theme') || 'system';
-        applyTheme(savedTheme);
-
-        // Language in localStorage speichern
-        localStorage.setItem('language', selectedLanguage);
-
-        // Language laden
-        const savedLanguage = localStorage.getItem('language') || 'de';
-        applyLanguage(savedLanguage);
-
         function sortTable(columnIndex) {
             const table = document.getElementById("commandTable");
             const tbody = table.querySelector("tbody");
