@@ -157,24 +157,24 @@
     <h1>Minecraft Wiki</h1>
     
     <div id="settings">
-        <label for="language-select">Sprache/Language:</label>
+        <label for="language-select">${language === 'de' ? 'Sprache:' : 'Language:'}</label>
             <select id="language-select" onchange="changeLanguage(this.value)">    
-                <option value="de">Deutsch</option>
-                <option value="en">English</option>
+                <option value="de">${language === 'de' ? 'Deutsch' : 'German'}</option>
+                <option value="en">${language === 'de' ? 'Englisch' : 'English'}</option>
             </select>
         <label for="theme-select">Theme:</label>
             <select id="theme-select" onchange="changeTheme(this.value)">
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
+                <option value="light">${language === 'de' ? 'Hell' : 'Light'}</option>
+                <option value="dark">${language === 'de' ? 'Dunkel' : 'Dark'}</option>
                 <option value="system">System</option>
             </select>
     </div>
 
-    <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">Tastenkombinationen</button>
-    <button class="shortcut-button" tabindex="3" onclick="showCommands()">Minecraft Commands</button>
-    <button class="info-button" tabindex="4" onclick="showUsefulInfo()">Nuetzliche Infos</button>
-    <button class="shortcut-button" tabindex="5" onclick="showTrading()">Handeln</button>
-    <button class="shortcut-button" tabindex="6" onclick="showBrewing()">Brauen</button>
+    <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">${language === 'de' ? 'Tastenkombinationen' : 'Shortcuts'}</button>
+    <button class="shortcut-button" tabindex="3" onclick="showCommands()">${language === 'de' ? 'Minecraft Befehle' : 'Minecraft Commands'}</button>
+    <button class="info-button" tabindex="4" onclick="showUsefulInfo()">${language === 'de' ? 'Nuetzliche Infos' : 'Usefull Info'}</button>
+    <button class="shortcut-button" tabindex="5" onclick="showTrading()">${language === 'de' ? 'Handeln' : 'Trading'}</button>
+    <button class="shortcut-button" tabindex="6" onclick="showBrewing()">${language === 'de' ? 'Brauen' : 'Brewing'}</button>
 
     <div id="content">
         <!-- Inhalt wird hier angezeigt -->
@@ -328,7 +328,7 @@
 
             // Nach der Sequenz normale Ansicht wiederherstellen
             setTimeout(() => {
-                display.innerHTML = '<p>Keine Kombination ausgewählt</p>';
+                display.innerHTML = '<p>${language === 'de' ? 'Keine Kombination ausgewählt' : 'No combination choosen'}</p>';
             }, sequence.length * 500 + 15000); // 10 Sekunden Verzögerung nach der letzten Taste
         }
 
@@ -336,18 +336,18 @@
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Tastenkombinationen:</h2>
                     <ul>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>   
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button> Erweiterte Item-Anzeige</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Kopiert die jetzige Position als Command</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button> Gedrueckt halten um das Spiel zu crashen</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button> Zeigt Hitboxen an</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button> Chat wird geleert</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button> Wechselt zum Zuschauer-Modus</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button> Zeigt Chunk-Grenzen an</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button> Pausiert das Spiel</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button> Oeffnet das Gamemode-Menue</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button>${language === 'de' ? 'Zeigt alle F3 Shortcuts' : 'Shows F3 Shortcuts'}</li>   
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button>${language === 'de' ? 'Laedt die Chunks neu' : 'Reloads Chunks'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button>${language === 'de' ? 'Laedt alle Ressourcepacks neu' : 'Reloads Ressourcepacks'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button>${language === 'de' ? 'Erweiterte Item-Anzeige' : 'Advanced Item Displaying'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button>${language === 'de' ? 'Kopiert die jetzige Position als Befehl' : 'Copy current position as Command'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button>${language === 'de' ? 'Gedrueckt halten um das Spiel zu crashen' : 'Hold down to crash the Game'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button>${language === 'de' ? 'Zeigt Hitboxen' : 'Shows Hitboxes'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button>${language === 'de' ? 'Chat wird Geelert' : 'Clears Chat'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button>${language === 'de' ? 'Wechselt zum Zuschauer-Modus' : 'Switches to Spectator Mode'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button>${language === 'de' ? 'Zeigt Chunk-Grenzen an' : 'Shows Chunk Borders'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button>${language === 'de' ? 'Pausiert das Spiel' : 'Pauses the Game'}</li>
+                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button>${language === 'de' ? 'Oeffnet das Gamemode-Menue' : 'Opens Gamemode Menu'}</li>
                     </ul>
             `;
         }
@@ -377,20 +377,20 @@
                 <ul>
                     <div>
                         <ul>
-                            <li><button class="info-button" onclick="showBrewingInfo('swiftness')">Trank der Schnelligkeit</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('slowness')">Trank der Langsamkeit</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('leaping')">Trank des Sprungkraft</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('strength')">Trank der Staerke</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('healing')">Trank der Heilung</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('harming')">Trank des Schadens</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('poison')">Trank des Gifts</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('regeneration')">Trank der Regeneration</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('fireResistance')">Trank des Feuerschutzes</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('waterBreathing')">Trank des Wasseratmung</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('nightVision')">Trank der Nachtsicht</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('invisibility')">Trank der Unsichtbarkeit</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('turtleMaster')">Trank des Schildkroetenmeisters</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('slowFalling')">Trank des Langsam Fallens</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('swiftness')">${language === 'de' ? 'Trank der Schnelligkeit' : 'Potion of Swiftness'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('slowness')">${language === 'de' ? 'Trank der Langsamkeit' : 'Potion of Slowness'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('leaping')">${language === 'de' ? 'Trank des Sprungkraft' : 'Potion of Leaping'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('strength')">${language === 'de' ? 'Trank der Staerke' : 'Potion of Stregth'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('healing')">${language === 'de' ? 'Trank der Heilung' : 'Potion of Healing'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('harming')">${language === 'de' ? 'Trank des Schadens' : 'Potion of Harming'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('poison')">${language === 'de' ? 'Trank des Gifts' : 'Potion of Poison'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('regeneration')">${language === 'de' ? 'Trank der Regeneration' : 'Potion of Regeneration'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('fireResistance')">${language === 'de' ? 'Trank des Feuerschutzes' : 'Potion of Fire Resistance'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('waterBreathing')">${language === 'de' ? 'Trank des Wasseratmung' : 'Potion of Water Breathing'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('nightVision')">${language === 'de' ? 'Trank der Nachtsicht' : 'Potion of Night Vision'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('invisibility')">${language === 'de' ? 'Trank der Unsichtbarkeit' : 'Potion of Invisibility'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('turtleMaster')">${language === 'de' ? 'Trank des Schildkroetenmeisters' : 'Potion of Turtle Master'}</button></li>
+                            <li><button class="info-button" onclick="showBrewingInfo('slowFalling')">${language === 'de' ? 'Trank des Langsam Fallens' : 'Potion of Slow Falling'}</button></li>
                         </ul>
                     </div>
                 </ul>
@@ -425,7 +425,6 @@
         function showTrading() {
             document.getElementById('content').innerHTML = `
                 <h2>${language === 'de' ? 'Handeln' : 'Trading'}:</h2>
-                <p>${language === 'de' ? 'Hier kommen die Handeln Daten hin...' : 'Trading data goes here...'}</p>
                 <ul>
                     <li><button class="info-button" onclick="toggleInfo('farmer-info')">Bauer</button></li>
                     <div id="farmer-info" class="info-content">
