@@ -1,161 +1,330 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chrome Dino Game mit Sprites</title>
+    <title>Redminer9630.de</title>
     <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         body {
             font-family: 'MinecraftFont', sans-serif;
+            background-color: #eaeaea;
+            margin: 0;
+            padding: 0;
+            color: #333;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
-        #gameContainer {
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px;
             position: relative;
-            width: 600px;
-            height: 150px;
-            background-color: #fff;
-            overflow: hidden;
-            border: 2px solid #000;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        #dino {
+        h1 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            width: auto;
+            white-space: nowrap;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 225px;
+            height: auto;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .border_layer {
+            position: relative;
+            display: inline-block;
+        }
+
+        @property --angle {
+            syntax: "<angle>";
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        .border_layer::after, .border_layer::before {
+            content: '';
             position: absolute;
-            bottom: 0;
-            width: 44px;
-            height: 44px;
-            background-image: url('sprites.png');
-            background-position: 0 0; /* Stelle sicher, dass dies zur Dino-Sprite-Position passt */
-            background-size: 220px 40px; /* Skalierung der Sprites */
+            height: 99%;
+            width: 100%;
+            background-image: conic-gradient(from var(--angle), red, pink, blue, green, yellow, orange, red); 
+            top: 50%;
+            left: 50%;
+            translate: -50% -51%;
+            z-index: -1;
+            padding: 4px;
+            border-radius: 4px;
+            animation: spin 12s linear infinite;
         }
 
-        .obstacle {
-            position: absolute;
-            bottom: 0;
-            width: 20px;
-            height: 40px;
-            background-image: url('sprites.png');
-            background-position: -100px 0; /* Position für das Hindernis in der Sprites-Datei */
-            background-size: 220px 40px;
-            animation: moveObstacle 2s linear infinite;
+        .border_layer::before {
+            filter: blur(1.5rem);
+            opacity: 0.5;
         }
 
-        @keyframes moveObstacle {
+        @keyframes spin {
             from {
-                left: 100%;
+                --angle: 0deg;
             }
             to {
-                left: -20px;
+                --angle: 360deg;
             }
         }
 
-        #score {
-            margin-top: 20px;
-            font-size: 24px;
+        .logo-text {
+            margin-left: 16px;
+            margin-right: 12px;
         }
 
-        .game-button {
-            font-family: 'MinecraftFont', sans-serif;
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            margin: 10px;
+        .hamburger {
+            display: none;
+            flex-direction: column;
             cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            font-size: 18px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 2;
         }
 
-        .game-button:hover {
-            background-color: #45a049;
+        .hamburger div {
+            width: 30px;
+            height: 3px;
+            background-color: white;
+            margin: 5px 0;
+            z-index: 1;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            background-color: #2c3e56;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 225px;
+            height: auto;
+            z-index: 2;
+            transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
+            overflow: hidden;
+            padding-top: 60px;
+            max-height: 0;
+            visibility: hidden;
+        }
+
+        nav.active {
+            visibility: visible;
+        }
+
+        nav .menu-section {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        nav .menu-section > li {
+            padding: 7px;
+            font-weight: bold;
+            color: #FFE9C4; /* Kategorie-Farbe */
+        }
+
+        nav .menu-section ul {
+            padding-left: 15px;
+            margin: 0;
+            list-style: none;
+        }
+
+        nav .menu-section ul li {
+            padding: 5px 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover,
+        nav a:active {
+            background-color: #34495e;
+            color: #e74c3c;
+        }
+
+        @media (max-width: 2020px) {
+            .hamburger {
+                display: flex;
+            }
+
+            nav {
+                visibility: hidden;
+            }
+
+            nav.active {
+                visibility: visible;
+            }
+        }
+
+        main {
+            flex: 1;
+            padding: 20px;
+            margin-top: 0;
+        }
+
+        section {
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #2ecc71;
+        }
+
+        button {
+            background-color: #2ecc71;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-family: 'MinecraftFont';
+        }
+
+        button:hover {
+            background-color: #2ecc87;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <div id="gameContainer">
-        <div id="dino"></div>
-    </div>
-    <p id="score">Score: 0</p>
-    <button class="game-button" onclick="startGame()">Start Game</button>
+    <header>
+        <h1>
+            <div class="logo-container">
+                <div class="border_layer">
+                    <img src="logo.jpeg" alt="Redminer9630 Logo" class="logo">
+                </div>
+                <span class="logo-text">Redminer9630 Website</span>
+            </div>
+        </h1>
+        <div class="hamburger" id="hamburger">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+    <nav id="navMenu">
+        <div class="menu-section">
+            <li>Social Media</li>
+            <ul>
+                <li><a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">YouTube</a></li>
+                <li><a href="https://m.twitch.tv/redminer9630" target="_blank">Twitch</a></li>
+            </ul>
+        </div>
+        <div class="menu-section">
+            <li>Generatoren</li>
+            <ul>
+                <li><a href="https://redminer9630github.github.io/Redminer9630.de/generator/recipe_generator.html">Recipe Generator</a></li>
+            </ul>
+        </div>  
+        <div class="menu-section">
+            <li>Andere</li>
+            <ul>
+                <li><a href="https://redminer9630github.github.io/Redminer9630.de/learnhour/lernstunde.html">MC Wiki</a></li>
+                <li><a href="https://redminer9630github.github.io/Redminer9630.de/games.html">Classic Games</a></li>
+            </ul> 
+        </div>
+        <!-- Hier neue Sektoren hinzufügen -->
+    </nav>
+
+    <main>
+        <section id="about">
+            <h2>Ueber Redminer9630</h2>
+            <p>Ich bin ein neuer Minecraft-YouTuber und Streamer, ich habe meinen Kanal vor Kurzem gestartet. Mein Kanal ist noch im Aufbau, und bisher wurden keine Videos veroeffentlicht. Trotzdem werde ich schon in naher Zukunft spannende Inhalte erstellen, und es lohnt sich von Anfang an dabei zu sein.</p>
+            <button id="moreInfoBtn">Mehr ueber mich erfahren</button>
+            <p id="moreInfo" style="display: none;">Obwohl der Kanal noch keine Videos enthaelt, plane ich, in naher Zukunft viele weitere Minecraft-Inhalte zu veroeffentlichen. Jetzt ist der perfekte Zeitpunkt, um Teil der Community zu werden und die Entwicklung des Kanals mitzuerleben.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
+    </footer>
 
     <script>
-        let dino = document.getElementById('dino');
-        let gameContainer = document.getElementById('gameContainer');
-        let scoreDisplay = document.getElementById('score');
-        let isJumping = false;
-        let score = 0;
-        let gameInterval, obstacleInterval;
+        // Hamburger menu toggle
+        document.getElementById('hamburger').addEventListener('click', function() {
+            var navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            adjustNavHeight();
+        });
 
-        function startGame() {
-            score = 0;
-            scoreDisplay.innerText = `Score: ${score}`;
-
-            gameInterval = setInterval(() => {
-                score++;
-                scoreDisplay.innerText = `Score: ${score}`;
-            }, 100);
-
-            obstacleInterval = setInterval(createObstacle, 2000);
-            document.addEventListener('keydown', jump);
+        // Menü Höhe dynamisch anpassen
+        function adjustNavHeight() {
+            var navMenu = document.getElementById('navMenu');
+            var menuSections = navMenu.querySelectorAll('.menu-section');
+            var totalHeight = 60; // Abstand vom oberen Rand
+            menuSections.forEach(section => {
+                totalHeight += section.offsetHeight;
+            });
+            navMenu.style.maxHeight = totalHeight + 'px';
         }
 
-        function jump(event) {
-            if (event.keyCode === 32 && !isJumping) { // Space bar to jump
-                isJumping = true;
-                let jumpHeight = 0;
-                let jumpInterval = setInterval(() => {
-                    if (jumpHeight >= 100) {
-                        clearInterval(jumpInterval);
-                        let fallInterval = setInterval(() => {
-                            if (jumpHeight <= 0) {
-                                clearInterval(fallInterval);
-                                isJumping = false;
-                            } else {
-                                jumpHeight -= 10;
-                                dino.style.bottom = jumpHeight + 'px';
-                            }
-                        }, 20);
-                    } else {
-                        jumpHeight += 10;
-                        dino.style.bottom = jumpHeight + 'px';
-                    }
-                }, 20);
+        // Statusbericht alle 7 Tage versenden
+        function sendStatusReport() {
+            var lastSent = localStorage.getItem('lastStatusReport');
+            var now = new Date();
+            if (!lastSent || now - new Date(lastSent) > 7 * 24 * 60 * 60 * 1000) {
+                var subject = `Redminer9630.de Statusbericht ${now.toLocaleDateString()}`;
+                var body = 'Statusbericht für alle Websites:\n\n';
+
+                body += '- Website 1: OK\n';
+                body += '- Website 2: OK\n';
+
+                window.location.href = `mailto:redminer9630@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+                localStorage.setItem('lastStatusReport', now);
             }
         }
 
-        function createObstacle() {
-            let obstacle = document.createElement('div');
-            obstacle.classList.add('obstacle');
-            gameContainer.appendChild(obstacle);
+        // Call the function to send a status report if needed
+        sendStatusReport();
 
-            let obstacleInterval = setInterval(() => {
-                let dinoRect = dino.getBoundingClientRect();
-                let obstacleRect = obstacle.getBoundingClientRect();
-
-                if (obstacleRect.left < dinoRect.right && 
-                    obstacleRect.right > dinoRect.left &&
-                    obstacleRect.bottom > dinoRect.top) {
-                    alert('Game Over');
-                    clearInterval(obstacleInterval);
-                    clearInterval(gameInterval);
-                    clearInterval(obstacleInterval);
-                    document.removeEventListener('keydown', jump);
-                    gameContainer.innerHTML = '<div id="dino"></div>';
-                }
-
-                if (obstacleRect.right < 0) {
-                    gameContainer.removeChild(obstacle);
-                    clearInterval(obstacleInterval);
-                }
-            }, 20);
-        }
+        // Mehr Informationen anzeigen
+        document.getElementById('moreInfoBtn').addEventListener('click', function() {
+            var moreInfo = document.getElementById('moreInfo');
+            moreInfo.style.display = moreInfo.style.display === 'none' ? 'block' : 'none';
+        });
     </script>
 </body>
 </html>
