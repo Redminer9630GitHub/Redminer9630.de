@@ -10,36 +10,31 @@
             src: url('minecraft_font.ttf') format('truetype');
         }
 
+        /* Light Theme */
         body {
-            font-family: 'MinecraftFont', sans-serif;
-            background-color: #282c34;
+            background-color: white;
+            color: black;
+        }    
+
+        body.dark-theme {
+            background-color: black;
             color: white;
-            text-align: center;
-            padding: 20px;
         }
 
-        /* Light-Theme */
-        
-        body.light {
-            background-color: #ffffff;
-            color: #000000;
-        }
-
-        /* System-Theme */
+        /* System-basierte Einstellung */
         @media (prefers-color-scheme: dark) {
-            body.system {
-                background-color: #282c34;
+            body {
+                background-color: black;
                 color: white;
             }
         }
-
+        
         @media (prefers-color-scheme: light) {
-            body.system {
-                background-color: #ffffff;
-                color: #000000;
-            }    
+            body {
+                background-color: white;
+                color: black;
+            }
         }
-
 
         h1 {
             font-size: 36px;
@@ -124,26 +119,56 @@
             padding: 10px;
             box-sizing: border-box;
         }
+
+        #settings {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparenter Hintergrund */
+            padding: 10px;
+            border-radius: 8px;
+            color: white;
+            display: flex;
+            flex-direction: column; /* Elemente untereinander anordnen */
+            align-items: flex-start; /* Elemente linksbündig ausrichten */
+        }
+
+        #settings label, #settings select {
+            margin-bottom: 5px;
+            color: inherit; /* Textfarbe von #settings erben */
+        }
+
+        #settings select {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        #settings select:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
-<body>
-    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurueck ></a>
-    <h1>Minecraft Wiki</h1>
+<body
     <div id="settings">
-    <label for="language-select">Sprache/Language:</label>
-        <select id="language-select" onchange="changeLanguage(this.value)">    
-            <option value="de">Deutsch</option>
-            <option value="en">English</option>
-        </select>
+        <label for="language-select">Sprache/Language:</label>
+            <select id="language-select" onchange="changeLanguage(this.value)">    
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+            </select>
+        <label for="theme-select">Theme:</label>
+            <select id="theme-select" onchange="changeTheme(this.value)">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="system">System</option>
+            </select>
+        </div>
 
-    <label for="theme-select">Theme:</label>
-        <select id="theme-select" onchange="changeTheme(this.value)">
-            <option value="light">Light</option>
-            <option value="dark">Dark</option>
-            <option value="system">System</option>
-        </select>
-    </div>
-
+    <a id="back-link" href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurueck ></a>
+    <h1>Minecraft Wiki</h1>
 
     <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">Tastenkombinationen</button>
     <button class="shortcut-button" tabindex="3" onclick="showCommands()">Minecraft Commands</button>
@@ -196,6 +221,51 @@
             const savedTheme = localStorage.getItem('theme') || 'system';
             changeTheme(savedTheme);
             document.getElementById('theme-select').value = savedTheme;
+        });
+        
+        function changeLanguage(lang) {
+            const backLink = document.getElementById('back-link');
+    
+            if (lang === 'de') {
+                backLink.textContent = 'Zurueck >';
+            } else if (lang === 'en') {
+                backLink.textContent = 'Back >';
+            }
+    
+            // Weitere Übersetzungen hier hinzufügen...
+        }
+        
+        function applyTheme(theme) {
+            const body = document.body;
+
+            if (theme === 'dark') {
+                body.classList.add('dark-theme');
+            } else if (theme === 'light') {
+                body.classList.remove('dark-theme');
+            } else if (theme === 'system') {
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    body.classList.add('dark-theme');
+                } else {
+                    body.classList.remove('dark-theme');
+                }
+            }
+        }
+
+        // Überwacht, ob das System-Theme geändert wird
+        function monitorSystemThemeChanges() {
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener('change', (e) => {
+                if (localStorage.getItem('theme') === 'system') {
+                    applyTheme('system');
+                }
+            });
+        }
+
+        // Initialisierung
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'system';        
+            applyTheme(savedTheme);
+            monitorSystemThemeChanges();
         });
 
         const keys = {
@@ -631,6 +701,20 @@
             const isVisible = infoElement.style.display === "block";
             infoElement.style.display = isVisible ? "none" : "block";
         }
+
+        // Theme in localStorage speichern
+        localStorage.setItem('theme', selectedTheme);
+
+        // Theme laden
+        const savedTheme = localStorage.getItem('theme') || 'system';
+        applyTheme(savedTheme);
+
+        // Language in localStorage speichern
+        localStorage.setItem('language', selectedLanguage);
+
+        // Language laden
+        const savedLanguage = localStorage.getItem('language') || 'de';
+        applyLanguage(savedLanguage);
 
         function sortTable(columnIndex) {
             const table = document.getElementById("commandTable");
