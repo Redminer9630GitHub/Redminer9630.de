@@ -156,19 +156,17 @@
     <a id="back-link" href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurueck ></a>
     <h1>Minecraft Wiki</h1>
     
-    <div id="settings">
-        <label for="language-select">${language === 'de' ? 'Sprache:' : 'Language:'}</label>
-            <select id="language-select" onchange="changeLanguage(this.value)">    
-                <option value="de">${language === 'de' ? 'Deutsch' : 'German'}</option>
-                <option value="en">${language === 'de' ? 'Englisch' : 'English'}</option>
-            </select>
-        <label for="theme-select">Theme:</label>
-            <select id="theme-select" onchange="changeTheme(this.value)">
-                <option value="light">${language === 'de' ? 'Hell' : 'Light'}</option>
-                <option value="dark">${language === 'de' ? 'Dunkel' : 'Dark'}</option>
-                <option value="system">System</option>
-            </select>
-    </div>
+    <label for="language-select">Sprache:</label>
+    <select id="language-select" onchange="changeLanguage(this.value)">    
+        <option value="de">Deutsch</option>
+        <option value="en">English</option>
+    </select>
+    <label for="theme-select">Theme:</label>
+    <select id="theme-select" onchange="changeTheme(this.value)">
+        <option value="light">Hell</option>
+        <option value="dark">Dunkel</option>
+        <option value="system">System</option>
+    </select>
 
     <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">${language === 'de' ? 'Tastenkombinationen' : 'Shortcuts'}</button>
     <button class="shortcut-button" tabindex="3" onclick="showCommands()">${language === 'de' ? 'Minecraft Befehle' : 'Minecraft Commands'}</button>
@@ -185,20 +183,35 @@
     </div>
 
     <script>
-        function changeLanguage(language) {
-            localStorage.setItem('language', language);
-            fetch(`${language}.json`)
-                .then(response => response.json())
-                .then(data => {
-                    document.title = data.title;
-                    document.querySelector('.header-link').textContent = data.back;
-                    document.querySelector('button[onclick="showKeyBindings()"]').textContent = data.keyBindings;
-                    document.querySelector('button[onclick="showCommands()"]').textContent = data.commands;
-                    document.querySelector('button[onclick="showUsefulInfo()"]').textContent = data.usefulInfo;
-                    document.querySelector('button[onclick="showBrewing()"]').textContent = data.brewing;
-                    document.querySelector('button[onclick="showTrading()"]').textContent = data.trading;
-                });
+        let language = localStorage.getItem('language') || 'de'; // Standardmäßig Deutsch
+
+        function changeLanguage(lang) {
+            language = lang;
+            localStorage.setItem('language', lang);
+            updateTextContent(); // Aktualisiert alle Texte basierend auf der ausgewählten Sprache
         }
+
+        function updateTextContent() {
+            document.querySelector('label[for="language-select"]').textContent = language === 'de' ? 'Sprache:' : 'Language:';
+            document.querySelector('option[value="de"]').textContent = language === 'de' ? 'Deutsch' : 'German';
+            document.querySelector('option[value="en"]').textContent = language === 'de' ? 'Englisch' : 'English';
+            document.querySelector('label[for="theme-select"]').textContent = language === 'de' ? 'Theme:' : 'Theme:';
+    
+            document.querySelector('button[onclick="showKeyBindings()"]').textContent = language === 'de' ? 'Tastenkombinationen' : 'Shortcuts';
+            document.querySelector('button[onclick="showCommands()"]').textContent = language === 'de' ? 'Minecraft Befehle' : 'Minecraft Commands';
+            document.querySelector('button[onclick="showUsefulInfo()"]').textContent = language === 'de' ? 'Nuetzliche Infos' : 'Useful Info';
+            document.querySelector('button[onclick="showBrewing()"]').textContent = language === 'de' ? 'Brauen' : 'Brewing';
+            document.querySelector('button[onclick="showTrading()"]').textContent = language === 'de' ? 'Handeln' : 'Trading';
+        }
+    
+        // Aktualisiere den Textinhalt beim Laden der Seite
+        document.addEventListener('DOMContentLoaded', () => {
+            updateTextContent();
+                const savedTheme = localStorage.getItem('theme') || 'system';
+            applyTheme(savedTheme);    
+            monitorSystemThemeChanges();
+        });
+
 
         function changeTheme(theme) {
             const body = document.body;
@@ -213,26 +226,6 @@
             localStorage.setItem('theme', theme);
         }
 
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLanguage = localStorage.getItem('language') || 'de';
-            changeLanguage(savedLanguage);
-            document.getElementById('language-select').value = savedLanguage;
-
-            const savedTheme = localStorage.getItem('theme') || 'system';
-            changeTheme(savedTheme);
-            document.getElementById('theme-select').value = savedTheme;
-        });
-        
-        function changeLanguage(lang) {
-            const backLink = document.getElementById('back-link');
-    
-            if (lang === 'de') {
-                backLink.textContent = 'Zurueck';
-            } else if (lang === 'en') {
-                backLink.textContent = 'Back';
-            }
-    
-            // Weitere Übersetzungen hier hinzufügen...
         }
         
         function applyTheme(theme) {
