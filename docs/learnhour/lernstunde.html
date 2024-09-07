@@ -10,30 +10,12 @@
             src: url('minecraft_font.ttf') format('truetype');
         }
 
-        /* Light Theme */
         body {
-            background-color: white;
-            color: black;
-        }    
-
-        body.dark-theme {
-            background-color: black;
+            font-family: 'MinecraftFont', sans-serif;
+            background-color: #282c34;
             color: white;
-        }
-
-        /* System-basierte Einstellung */
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: black;
-                color: white;
-            }
-        }
-        
-        @media (prefers-color-scheme: light) {
-            body {
-                background-color: white;
-                color: black;
-            }
+            text-align: center;
+            padding: 20px;
         }
 
         h1 {
@@ -113,65 +95,22 @@
             margin-top: 15px;
             text-align: left;
             display: none; /* Anfangs nicht anzeigen */
-            max-height: 850px;
+            max-height: 375px;
             overflow-y: auto;
             border: 1px solid #ddd;
             padding: 10px;
             box-sizing: border-box;
         }
-
-        #settings {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px;
-            margin: 10px;
-            cursor: pointer;
-            border: none;
-            border-radius: 8px;
-            font-size: 12px;
-        }
-
-        #settings label, #settings select {
-            margin-bottom: 5px;
-            color: inherit; /* Textfarbe von #settings erben */
-        }
-
-        #settings select {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px;
-            cursor: pointer;
-        }
-
-        #settings select:hover {
-            background-color: #45a049;
-        }
     </style>
 </head>
 <body>
-    <a id="back-link" href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Back</a>
+    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurueck ></a>
     <h1>Minecraft Wiki</h1>
-    
-    <label for="language-select">Sprache:</label>
-    <select id="language-select" onchange="changeLanguage(this.value)">    
-        <option value="de">Deutsch</option>
-        <option value="en">English</option>
-    </select>
-    <label for="theme-select">Theme:</label>
-    <select id="theme-select" onchange="changeTheme(this.value)">
-        <option value="light">Hell</option>
-        <option value="dark">Dunkel</option>
-        <option value="system">System</option>
-    </select>
 
-    <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">Shortcuts</button>
-    <button class="shortcut-button" tabindex="3" onclick="showCommands()">Commands</button>
-    <button class="info-button" tabindex="4" onclick="showUsefulInfo()">Usefull Info</button>
-    <button class="shortcut-button" tabindex="5" onclick="showTrading()">Trading</button>
-    <button class="shortcut-button" tabindex="6" onclick="showBrewing()">Brewing</button>
+    <button class="shortcut-button" tabindex="2" onclick="showKeyBindings()">Tastenkombinationen</button>
+    <button class="shortcut-button" tabindex="3" onclick="showCommands()">Minecraft Commands</button>
+    <button class="info-button" tabindex="4" onclick="showUsefulInfo()">Nuetzliche Infos</button>
+    <button class="shortcut-button" tabindex="5" onclick="showTrading()">Handeln</button>
 
     <div id="content">
         <!-- Inhalt wird hier angezeigt -->
@@ -182,87 +121,9 @@
     </div>
 
     <script>
-        let language = localStorage.getItem('language') || 'de'; // Standardmäßig Deutsch
-
-        function changeLanguage(lang) {
-            language = lang;
-            localStorage.setItem('language', lang);
-            updateTextContent(); // Aktualisiert alle Texte basierend auf der ausgewählten Sprache
-        }
-
-        function updateTextContent() {
-            document.querySelector('label[for="language-select"]').textContent = language === 'de' ? 'Sprache:' : 'Language:';
-            document.querySelector('option[value="de"]').textContent = language === 'de' ? 'Deutsch' : 'German';
-            document.querySelector('option[value="en"]').textContent = language === 'de' ? 'Englisch' : 'English';
-            document.querySelector('label[for="theme-select"]').textContent = language === 'de' ? 'Theme:' : 'Theme:';
-    
-            document.querySelector('button[onclick="showKeyBindings()"]').textContent = language === 'de' ? 'Tastenkombinationen' : 'Shortcuts';
-            document.querySelector('button[onclick="showCommands()"]').textContent = language === 'de' ? 'Minecraft Befehle' : 'Minecraft Commands';
-            document.querySelector('button[onclick="showUsefulInfo()"]').textContent = language === 'de' ? 'Nuetzliche Infos' : 'Usefull Info';
-            document.querySelector('button[onclick="showBrewing()"]').textContent = language === 'de' ? 'Brauen' : 'Brewing';
-            document.querySelector('button[onclick="showTrading()"]').textContent = language === 'de' ? 'Handeln' : 'Trading';
-        }
-    
-        // Aktualisiere den Textinhalt beim Laden der Seite
-        document.addEventListener('DOMContentLoaded', () => {
-            updateTextContent();
-                const savedTheme = localStorage.getItem('theme') || 'system';
-            applyTheme(savedTheme);    
-            monitorSystemThemeChanges();
-        });
-
-
-        function changeTheme(theme) {
-            const body = document.body;
-            body.classList.remove('light', 'dark', 'system');
-
-            if (theme === 'system') {
-                body.classList.add('system');
-            } else {
-                body.classList.add(theme);
-            }
-
-            localStorage.setItem('theme', theme);
-        }
-
-        }
-        
-        function applyTheme(theme) {
-            const body = document.body;
-
-            if (theme === 'dark') {
-                body.classList.add('dark-theme');
-            } else if (theme === 'light') {
-                body.classList.remove('light-theme');
-            } else if (theme === 'system') {
-                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                    body.classList.add('dark-theme');
-                } else {
-                    body.classList.remove('light-theme');
-                }
-            }
-        }
-
-        // Überwacht, ob das System-Theme geändert wird
-        function monitorSystemThemeChanges() {
-            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-            mediaQuery.addEventListener('change', (e) => {
-                if (localStorage.getItem('theme') === 'system') {
-                    applyTheme('system');
-                }
-            });
-        }
-
-        // Initialisierung
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme') || 'system';        
-            applyTheme(savedTheme);
-            monitorSystemThemeChanges();
-        });
-
         const keys = {
             'normal': 'normal.jpg',
-            '0': '0.tiff',
+            '0': '0.tiff',            
             '1': '1.tiff',
             '2': '2.tiff',
             '3': '3.tiff',
@@ -315,109 +176,332 @@
                     img.src = keys[key];
                     img.classList.add('key-image');
                     display.appendChild(img);
-                }, index * 2);
+                }, index * 2); // 1.2 Sekunden Verzögerung pro Taste
             });
 
             // Nach der Sequenz normale Ansicht wiederherstellen
             setTimeout(() => {
-                display.innerHTML = '<p>${language === 'de' ? 'Keine Kombination ausgewählt' : 'No combination choosen'}</p>';
+                display.innerHTML = '<p>Keine Kombination ausgewählt</p>';
             }, sequence.length * 500 + 15000); // 10 Sekunden Verzögerung nach der letzten Taste
         }
 
         function showKeyBindings() {
             document.getElementById('content').innerHTML = `
                 <h2>Minecraft Tastenkombinationen:</h2>
-                    <ul>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button>${language === 'de' ? 'Zeigt alle F3 Shortcuts' : 'Shows F3 Shortcuts'}</li>   
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button>${language === 'de' ? 'Laedt die Chunks neu' : 'Reloads Chunks'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button>${language === 'de' ? 'Laedt alle Ressourcepacks neu' : 'Reloads Ressourcepacks'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'h'])">F3 + H</button>${language === 'de' ? 'Erweiterte Item-Anzeige' : 'Advanced Item Displaying'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button>${language === 'de' ? 'Kopiert die jetzige Position als Befehl' : 'Copy current position as Command'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'c'])">F3 + C</button>${language === 'de' ? 'Gedrueckt halten um das Spiel zu crashen' : 'Hold down to crash the Game'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'b'])">F3 + B</button>${language === 'de' ? 'Zeigt Hitboxen' : 'Shows Hitboxes'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'd'])">F3 + D</button>${language === 'de' ? 'Chat wird Geelert' : 'Clears Chat'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'n'])">F3 + N</button>${language === 'de' ? 'Wechselt zum Zuschauer-Modus' : 'Switches to Spectator Mode'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'g'])">F3 + G</button>${language === 'de' ? 'Zeigt Chunk-Grenzen an' : 'Shows Chunk Borders'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'esc'])">F3 + ESC</button>${language === 'de' ? 'Pausiert das Spiel' : 'Pauses the Game'}</li>
-                        <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'f4'])">F3 + F4</button>${language === 'de' ? 'Oeffnet das Gamemode-Menue' : 'Opens Gamemode Menu'}</li>
-                    </ul>
+                <ul>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'q'])">F3 + Q</button> Zeigt alle F3 Shortcuts</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 'a'])">F3 + A</button> Laedt die Chunks neu</li>
+                    <li><button class="shortcut-button" onclick="simulateShortcut(['f3', 't'])">F3 + T</button> Laedt alle Ressourcepacks neu</li>
+                    <!-- ... weitere Shortcuts ... -->
+                </ul>
             `;
         }
 
         function showCommands() {
             document.getElementById('content').innerHTML = `
-                <h2>${language === 'de' ? 'Minecraft Befehle' : 'Minecraft Commands'}:</h2>
+                <h2>Minecraft Commands:</h2>
                 <table id="commandTable">
                     <thead>
                         <tr>
-                            <th onclick="sortTable(0)">${language === 'de' ? 'Name' : 'Name'}</th>
-                            <th onclick="sortTable(1)">${language === 'de' ? 'Beschreibung' : 'Description'}</th>
-                            <th onclick="sortTable(2)">Op Level</th>
-                            <th onclick="sortTable(3)">${language === 'de' ? 'Nur Multiplayer' : 'Multiplayer Only'}</th>
+                            <th onclick="sortTable(0)">Name</th>
+                            <th onclick="sortTable(1)">Beschreibung</th>
+                            <th onclick="sortTable(2)">Operator Level</th>
+                            <th onclick="sortTable(3)">Multiplayer Only</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Füge hier die Commands ein -->
+                        <!-- Command-Daten hier einfügen -->
                     </tbody>
                 </table>
             `;
         }
 
-        function showBrewing() {
-            document.getElementById('content').innerHTML = `
-                <h2>Brauen:</h2>
-                <ul>
-                    <div>
-                        <ul>
-                            <li><button class="info-button" onclick="showBrewingInfo('swiftness')">${language === 'de' ? 'Trank der Schnelligkeit' : 'Potion of Swiftness'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('slowness')">${language === 'de' ? 'Trank der Langsamkeit' : 'Potion of Slowness'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('leaping')">${language === 'de' ? 'Trank des Sprungkraft' : 'Potion of Leaping'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('strength')">${language === 'de' ? 'Trank der Staerke' : 'Potion of Stregth'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('healing')">${language === 'de' ? 'Trank der Heilung' : 'Potion of Healing'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('harming')">${language === 'de' ? 'Trank des Schadens' : 'Potion of Harming'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('poison')">${language === 'de' ? 'Trank des Gifts' : 'Potion of Poison'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('regeneration')">${language === 'de' ? 'Trank der Regeneration' : 'Potion of Regeneration'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('fireResistance')">${language === 'de' ? 'Trank des Feuerschutzes' : 'Potion of Fire Resistance'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('waterBreathing')">${language === 'de' ? 'Trank des Wasseratmung' : 'Potion of Water Breathing'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('nightVision')">${language === 'de' ? 'Trank der Nachtsicht' : 'Potion of Night Vision'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('invisibility')">${language === 'de' ? 'Trank der Unsichtbarkeit' : 'Potion of Invisibility'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('turtleMaster')">${language === 'de' ? 'Trank des Schildkroetenmeisters' : 'Potion of Turtle Master'}</button></li>
-                            <li><button class="info-button" onclick="showBrewingInfo('slowFalling')">${language === 'de' ? 'Trank des Langsam Fallens' : 'Potion of Slow Falling'}</button></li>
-                        </ul>
-                    </div>
-                </ul>
-            `;
-        }
         function showUsefulInfo() {
             document.getElementById('content').innerHTML = `
                 <h2>Nuetzliche Infos:</h2>
                 <ul>
                     <li><button class="info-button" onclick="toggleInfo('calibrated-info')">Calibrierter Sculk Sensor</button></li>
-                    <div id="calibrated-info" class="info-content">                            
-                        <p>Redstone Stufen:</p>
-                        <p>1  | Gehen, Klettern, Springen, Schwimmen und Kriechen.</p>
-                        <p>2  | Landen auf einem Soliden block or der in einer Fluessigkeit.</p>
-                        <p>3  | Item benutzen(Angel werfen, Trank trinken).</p>
-                        <p>4  | Gleiten mit einer Elytra oder ein Mob der eine Faehigkeit benutzt.</p>
-                        <p>5  | Absteigen von einem Mob oder Anziehen von Ruestung.</p>    
-                        <p>6  | Auf ein Mob Aufsteigen oder Interagieren mit einem Mob.</p>
-                        <p>7  | Ein Mob oder Spieler der Schaden nimmt.</p>
-                        <p>8  | Essen wird gegessen.</p>
-                        <p>9  | Ein block der deaktieviert wird(Kiste oder Tuer wird geschlossen).</p>
-                        <p>10 | Ein block der aktiviert wird(Kiste oder Tuer die geoeffnet wird).</p>
-                        <p>11 | Ein block der veraendert wird(Essen wird zu einem Lagerfeuer gelegt).</p>
-                        <p>12 | Ein !Wolle block der abgebaut wird.</p>
-                        <p>13 | Ein !Wolle block der platziert wird.</p>
-                        <p>14 | Ein Mob oder Spieler der Teleportiert wird oder spawnt.</p>
-                        <p>15 | Ein Mob oder Spieler der stirbt oder eine Explosion.</p>
+                    <div id="calibrated-info" class="info-content">
+                        <!-- Calibrierter Sculk Sensor Infos -->
+                    </div>
+                    <li><button class="info-button" onclick="toggleInfo('brewing-info')">Brauen</button></li>
+                    <div id="brewing-info" class="info-content">
+                        <!-- Brauinfos -->
+                    </div>
                 </ul>
             `;
         }
 
         function showTrading() {
             document.getElementById('content').innerHTML = `
-                <h2>${language === 'de' ? 'Handeln' : 'Trading'}:</h2>
-                //trades
+                <h2>Handel</h2>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('farmer-info')">Bauer</button></li>
+                    <div id="farmer-info" class="info-content">
+                        <h4><p>Neuling | Rote Bete 15x | Smaragd 1x</p>                        
+                        <p>Neuling | Weizen 20x | Smaragd 1x</p>
+                        <p>Neuling | Karotte 22x | Smaragd 1x</p>
+                        <p>Neuling | Kartoffel 26x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Brot 6x</p>
+                        <p>Lehrling | Kuerbis 6x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Kuerbiskuchen 4x</p>
+                        <p>Lehrling | Smaragd 1x | Apfel 4x</p>    
+                        <p>Geselle | Melone 4x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 3x | Keks 18x</p>
+                        <p>Experte | Smaragd 1x | Kuchen 1x</p>
+                        <p>Experte | Smaragd 1x | 1-2 Seltsame Suppe 1x</p>
+                        <p>Meister | Smaragd 3x | Goldene Karotte 3x</p>
+                        <p>Meister | Smaragd 4x | Glitzernde Melonenscheibe 3x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('librarian-info')">Bibliothekar</button></li>
+                    <div id="librarian-info" class="info-content">
+                        <h4><p>Neuling | Papier 24x | Smaragd 1x</p>                        
+                        <p>Neuling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Neuling | Smaragd 6x | Bücherregal 3x</p>
+                        <p>Lehrling | Buch 4x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Lehrling | Smaragd 1x | Laterne 1x</p>
+                        <p>Geselle | Tintenbeutel 5x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>    
+                        <p>Geselle | Smaragd 1x | Glas 4x</p>
+                        <p>Experte | Buch und Feder 1x | Smaragd 1x</p>    
+                        <p>Experte | Smaragd 5-64x + Buch 1x | Verzaubertes Buch 1x</p>
+                        <p>Experte | Smaragd 4x | Kompass 1x</p>
+                        <p>Experte | Smaragd 5x | Uhr 1x</p>
+                        <p>Meister | Smaragd 20x | Namensschild 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('fisher-info')">Fisher</button></li>
+                    <div id="fisher-info" class="info-content">
+                        <h4><p>Neuling | Kohle 10x | Smaragd 1x</p>
+                        <p>Neuling | Faden 20x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x + Roher Kabeljau 6x | Gebratener Kabeljau 6x</p>
+                        <p>Neuling | Smaragd 3x | Kabeljaueimer 1x</p>
+                        <p>Lehrling | Roher Kabeljau 15x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x + Roher Lachs 6x | Gebratener Lachs 6x</p>
+                        <p>Lehrling | Smaragd 2x | Lagerfeuer 1</p>
+                        <p>Geselle | Roher Lachs 13x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 7-22x | Verzauberte Angel 1x</p>
+                        <p>Experte | Tropenfisch 6x | Smaragd 1x</p>
+                        <p>Meister | Kugelfisch 4x | Smaragd 1x</p>
+                        <p>Meister | Boot 1x | Smaragd 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('cleric-info')">Geistlicher</button></li>
+                    <div id="cleric-info" class="info-content">
+                        <h4><p>Neuling | Verrottetes Fleisch 32x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Redstone Staub 2x</p>
+                        <p>Lehrling | Goldbaren 3x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Lapislazuli 1x</p>
+                        <p>Geselle | Hasenpfote 2x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 4x | Leuchtstein 1x</p>
+                        <p>Experte | Schildkroeten-Hornschild 4x | Smaragd 1x</p>
+                        <p>Experte | Glasflasche 9x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 5x | Enderperle 1x</p>
+                        <p>Meister | Netherwarze 22x | Smaragd 1x</p>
+                        <p>Meister | Smaragd 3x | Erfahrungsfläschchen 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('leatherworker-info')">Gerber</button></li>
+                    <div id="leatherworker-info" class="info-content">
+                        <h4><p>Neuling | Leder 6x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 3x | Lederhose 1x</p>
+                        <p>Neuling | Smaragd 7x | Lederjacke 1x</p>
+                        <p>Lehrling | Feuerstein 26x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 4x | Lederstiefel 1x</p>
+                        <p>Lehrling | Smaragd 5x | Lederkappe 5x</p>
+                        <p>Geselle | Kaninchenfell 9x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 7x | Verzauberte Lederjacke 1x</p>
+                        <p>Experte | Schildkroeten-Hornschild 4x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 4x | Lederner Rossharnisch 1x</p>
+                        <p>Meister | Smaragd 6x | Verzauberte Lederkappe 1x</p>
+                        <p>Meister | Smaragd 5x | Sattel 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('schimd-info')">Grobschmied</button></li>
+                    <div id="schimd-info" class="info-content">
+                        <h4><p>Neuling | Kohle 15x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Steinaxt 1x<p>
+                        <p>Neuling | Smaragd 1x | Steinschaufel 1x<p>
+                        <p>Neuling | Smaragd 1x | Steinspitzhacke 1x<p>
+                        <p>Neuling | Smaragd 1x | Steinhacke 1x<p>
+                        <p>Lehrling | Eisenbaren 4x | Smaragd 1x<p>
+                        <p>Lehrling | Smaragd 36x | Glocke 1x<p>
+                        <p>Geselle | Feuerstein 30x | Smaragd 1x<p>
+                        <p>Geselle | Smaragd 4x | Diamandhacke 1x<p>
+                        <p>Geselle | Smaragd 7-22x | Verzauberte Eisenaxt 1x<p>
+                        <p>Geselle | Smaragd 7-22x | Verzauberte Eisenschaufel 1x<p>
+                        <p>Geselle | Smaragd 7-22x | Verzauberte Eisenspitzhacke 1x<p>
+                        <p>Experte | Diamand 1x | Smaragd 1x<p>
+                        <p>Experte | Smaragd 18-35x | Verzauberte Diamandaxt 1x<p>
+                        <p>Experte | Smaragd 11-27x | Verzauberte Diamandschaufel 1x<p>
+                        <p>Meister | Smaragd 18-35x | Verzauberte Diamandspitzhacke 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('cartographer-info')">Kartograf</button></li>
+                    <div id="cartographer-info" class="info-content">
+                        <h4><p>Neuling | Papier 24x | Smaragd 1x<p>
+                        <p>Neuling | Smaragd 7x | Leere Karte 1x<p>
+                        <p>Lehrling | Glasscheibe 11x | Smaragd 1x<p>
+                        <p>Lehrling | Smaragd 13x + Kompass 1x | Ozean-Entdeckerkarte 1x<p>
+                        <p>Geselle | Kompass 1x | Smaragd 1x<p>
+                        <p>Geselle | Smaragd 14x + Kompass 1x | Wald-Entdeckerkarte 1x<p>
+                        <p>Experte | Smaragd 3x | 1-2 Banner 1x<p>
+                        <p>Experte | Smaragd 7x | Rahmen 1x<p>
+                        <p>Meister | Smaragd 8x | Bannervorlage(Globus) 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('mason-info')">Maurer</button></li>
+                    <div id="mason-info" class="info-content">
+                        <h4><p>Neuling | Tonklumpen 10x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Ziegel 10x</p>
+                        <p>Lehrling | Stein 20x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Gemeißelte Steinziegel 4x</p>
+                        <p>Geselle | Andesit 16x | Smaragd 1x</p>
+                        <p>Geselle | Diorit 16x | Smaragd 1x</p>
+                        <p>Geselle | Granit 16x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 1x | Polierter Andesit</p>
+                        <p>Geselle | Smaragd 1x | Polierter Diorit</p>
+                        <p>Geselle | Smaragd 1x | Polierter Granit</p>
+                        <p>Experte | Netherquarz 12x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 1x | 1-2 Keramik</p>
+                        <p>Experte | Smaragd 1x | 1-2 Glasierte Keramik</p>
+                        <p>Meister | Smaragd 1x | Quartzblock 1x</p>
+                        <p>Meister | Smaragd 1x | Quartzsäule 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('butcher-info')">Metzger</button></li>
+                    <div id="butcher-info" class="info-content">
+                        <h4><p>Neuling | Rohes Kaninchen 4x | Smaragd 1x</p>
+                        <p>Neuling | Rohes Schweinefleisch 7x | Smaragd 1x</p>
+                        <p>Neuling | Rohes Huehnchen 14x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Kanichenragout 1x</p>
+                        <p>Lehrling | Kohle 15x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Gebratenes Huehnchen 8x</p>
+                        <p>Lehrling | Smaragd 1x | Gebratenes Schweinefleisch 5x</p>
+                        <p>Geselle | Rohes Hammelfleisch 7x | Smaragd 1x</p>
+                        <p>Geselle | Rohes Rindfleisch 10x | Smaragd 1x</p>
+                        <p>Experte | Getrockneter Seetankblock 10x | Smaragd 1x</p>
+                        <p>Meister | Süßbeeren 10x | Smaragd 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('armorer-info')">Panzermacher</button></li>
+                    <div id="armorer-info" class="info-content">
+                        <h4><p>Neuling | Kohle 15x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 4x | Eisenstiefel 1x</p>
+                        <p>Neuling | Smaragd 5x | Eisenhelm 1x</p>
+                        <p>Neuling | Smaragd 7x | Eisenbeinschutz 1x</p>
+                        <p>Neuling | Smaragd 9x | Eisenharnisch 1x</p>
+                        <p>Lehrling | Eisenbaren 4x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | Kettenstiefel 1x</p>
+                        <p>Lehrling | Smaragd 3x | Kettenhose 1x</p>
+                        <p>Lehrling | Smaragd 36x | Glocke 1x</p>
+                        <p>Geselle | Lavaeimer 1x | Smaragd 1x</p>
+                        <p>Geselle | Diamand 1x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 1x | Kettenhaube 1x</p>
+                        <p>Geselle | Smaragd 4x | Kettenhemd 1x</p> 
+                        <p>Geselle | Smaragd 5x | Schild 1x</p>
+                        <p>Experte | Smaragd 11-27x | Verzauberte Diamandstiefel 1x</p>
+                        <p>Experte | Smaragd 18-35x | Verzauberter Diamandbeinschutz 1x</p>
+                        <p>Meister | Smaragd 11-27x | Verzauberter Diamandhelm 1x</p>
+                        <p>Meister | Smaragd 18-35x | Verzauberter Diamandharnisch 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('fletcher-info')">Pfeilmacher</button></li>
+                    <div id="fletcher-info" class="info-content">
+                        <h4><p>Neuling | Stock 32x | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 1x | Pfeil 16x</p>
+                        <p>Neuling | Smaragd 1x + Kies 10x | Feuerstein 10x</p>
+                        <p>Lehrling | Feuerstein 26x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 2x | Bogen 1x</p>
+                        <p>Geselle | Faden 14x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 3x | Armbrust 1x</p>
+                        <p>Experte | Feder 24x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 7-22x | Verzauberter Bogen 1x</p>
+                        <p>Meister | Haken 8x | Smaragd 1x</p>
+                        <p>Meister | Smaragd 7-22x | Verzauberte Armbrust 1x</p>
+                        <p>Meister | Smaragd 2x + Pfeil 5x | Getränkter Pfeil 5x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('sheperd-info')">Schaefer</button></li>
+                    <div id="sheperd-info" class="info-content">
+                        <h4><p>Neuling | Schwarze Wolle | Smaragd 1x</p>
+                        <p>Neuling | Graue Wolle | Smaragd 1x</p>
+                        <p>Neuling | Weiße Wolle | Smaragd 1x</p>
+                        <p>Neuling | Braune Wolle | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 2x | Schere 1x</p>
+                        <p>Lehrling | Schwarzer Farbstoff 12x | Smaragd 1x</p>
+                        <p>Lehrling | Grauer Farbstoff 12x | Smaragd 1x</p>
+                        <p>Lehrling | Weißer Farbstoff 12x | Smaragd 1x</p>
+                        <p>Lehrling | Hellblauer Farbstoff 12x | Smaragd 1x</p>
+                        <p>Lehrling | Hellgrüner Farbstoff 12x | Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 1x | 1-2 Wolle 1x</p>
+                        <p>Lehrling | Smaragd 1x | 1-2 Teppich 1x</p>
+                        <p>Geselle | Hellgrüner Farbstoff 12x | Smaragd 1x</p>
+                        <p>Geselle | Gelber Farbstoff 12x | Smaragd 1x</p>
+                        <p>Geselle | Oranger Farbstoff 12x | Smaragd 1x</p>
+                        <p>Geselle | Roter Farbstoff 12x | Smaragd 1x</p>
+                        <p>Geselle | Rosa Farbstoff 12x | Smaragd 1x</p>
+                        <p>Geselle | Smaragd 3x | 1-2 Bett 1x</p>
+                        <p>Experte | Magenta Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Violetter Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Blauer Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Tuerkiser Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Grüner Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Brauner Farbstoff 12x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 3x | 1-2 Banner 1x</p>
+                        <p>Meister | Smaragd 2x | Gemaelde 3x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('weaponssmith-info')">Waffenschmied</button></li>
+                    <div id="weaponssmith-info" class="info-content">
+                        <h4><p>Neuling | Kohle | Smaragd 1x</p>
+                        <p>Neuling | Smaragd 3x | Eisenaxt 1x</p>
+                        <p>Neuling | Smaragd 7-22x | Verzaubertes Eisenschwert 1x</p>
+                        <p>Lehrling | Eisenbaren 4x |  Smaragd 1x</p>
+                        <p>Lehrling | Smaragd 36x | Glocke 1x</p>
+                        <p>Geselle | Feuerstein 24x | Smaragd 1x</p>
+                        <p>Experte | Diamand 1x | Smaragd 1x</p>
+                        <p>Experte | Smaragd 18-35x | Verzauberte Diamandaxt 1x</p>
+                        <p>Meister | Smaragd 11-27x | Verzaubertes Diamandschwert 1x</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('trader-info')">Fahrender Haendler</button></li>
+                    <div id="trader-info" class="info-content">
+                        <h4<p>1 Smaragd: #Blumen, #Große Blumen, Farn, Weizenkörner, Rote-Bete-Samen, Kuerbiskerne, Melonenkerne, Brauner Pilz, Roter Pilz, Ranken, Kakaobohnen 3x, #Farbstoffe 3x, Lapislazuli 3x, Tintenbeutel 3x, Blaue Orchidee, Schwarzpulver, Zuckerrohr, Sand 8x, Maigloekchen, Roter Sand 4x, Seerose 2x, Kleines Tropfblatt 2x, Spitzer Tropfstein 2x, Moosblock 2x, Wurzelerde 2x, Kuerbis
+                        <p>2 Smaragde: Meeresgurke, Leuchtstein
+                        <p>3 Smaragde: Seetang, Kaktus, #Korallenblock, Packeis, Podsol 3x
+                        <p>4 Smaragde: Schleimball
+                        <p>5 Smaragde: #Setzlinge, Nautilusschale, Kugelfischeimer, Tropenfischeimer
+                        <p>6 Smaragde: Blaueis
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('sellable-info')">Verkaufbar</button></li>
+                    <div id="sellable-info" class="info-content">
+                        <h4><p>Andesit, Braune Wolle, Buch, Buch und Feder, Diamand, Diorit, Eisenbaren, Faden, Feder, Feuerstein, Getrockneter Seetankblock, Glasflasche, Glasscheibe, Goldbaren, Granit, Graue Wolle, Haken, Hasenpfote, Kaninchenfell, Karotte, Kartoffel, Kohle, Kompass, Kuerbis, Kugelfisch, Lavaeimer, Leder, Melone, Netherquartz, Netherwarze, Papier, Rohes Hammelfleisch, Rohes Huenchen, Roher Kabeljau, Rohes Kaninchen, Roher Lachs, Rohes Rindfleisch, Rohes Scheinefleisch, Rote Bete, Schildkroten Hornschild, Schwarze Wolle, Stein, Stock, Suesbeeren, Tintenbeutel, Tonklumpen, Tropenfisch, Verottetes Fleisch, Weizen, Weiße Wolle, #Boote</p></h4>
+                    </div>
+                </ul>
+                <ul>
+                    <li><button class="info-button" onclick="toggleInfo('buyable-info')">Kaufbares</button></li>
+                    <div id="buyable-info" class="info-content">
+                        <h4><p>Apfel, Armbrust, Banner, Bannervorlage(Globus), Bett, Bogen, Brot, Buecherregal, Eisenaxt, Eisenbeinschutz, Eisenharnisch, Eisenhelm, Eisenschwert, Eisenstiefel, Enderperle, Erfahrungsflaeschen, Feuerstein, Gebratenes Huenchen, Gebratener Kabeljau, Gebratener Lachs, Gebratener Schweinefleisch, Gemaelde, Gemeißelte Steinziegel, Getränkter Pfeil, Glas, Glasierte Keramik, Glitzernde Melonenscheibe, Glocke, Goldene Karotte, Kabeljaueimer, Kaninchenragout, Keks, Keramik, Kettenhaube, Kettenhemd, Kettenhose, Kettenstiefel, Kompass, Kuchen, Kuerbiskuchen, Lagerfeuer, Lapislazuli, Laterne, Lederhose, Lederjacke, Lederkappe, Lederner Rossharnisch, Lederstiefel, Leere Karte, Leuchtstein, Namensschild, Ozean Entdeckerkarte, Polierter Andesit, Polierter Diorit, Polierter Granit, Pfeil, Quartzblock, Quartzsaeule, Rahmen, Redstone Staub, Sattel, Schere, Seltame Suppe, Steinaxt, Steinschaufel, Steinhacke, Steinspitzhacke, Uhr, Verzauberte Armbrust, Verzaubertes Angel, Verzauberter Bogen, Verzauberte Buch, Verzauberte Diamandaxt, Verzauberter Diamandbeinschutz, Verzauberter Diamandhelm, Verzauberter Diamandharnisch, Verzauberte Diamandschwert, Verzaubertes Diamandstiefel, Verzauberte Eisenaxt, Verzauberte Eisenschaufel, Verzauberte Eisenspitzhacke, Verzauberte Lederjacke, Verzauberte Lederkappe, Wald Entdeckerkarte, Ziegel, #Wolle, #Teppich</p></h4>
+                    </div>
+                </ul>
             `;
         }
 
