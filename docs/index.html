@@ -4,229 +4,268 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redminer9630.de</title>
-    <style>
-        @font-face {
-            font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-        }
+<style>
+    @font-face {
+        font-family: 'MinecraftFont';
+        src: url('minecraft_font.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-        body {
-            font-family: 'MinecraftFont', sans-serif;
-            background-color: #eaeaea;
-            margin: 0;
-            padding: 0;
-            color: #333;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            box-sizing: border-box;
-        }
+    /* Standard-Styles (Light-Theme) */
+    body {
+        font-family: 'MinecraftFont', sans-serif;
+        background-color: #eaeaea;
+        margin: 0;
+        padding: 0;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
 
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            position: relative;
-            z-index: 2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+    header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 20px;
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-        h1 {
-            margin: 0;
-            display: flex;
-            align-items: center;
-            width: auto;
-            white-space: nowrap;
-        }
+    h1 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        width: auto;
+        white-space: nowrap;
+    }
 
-        .logo-container {
-            display: flex;
-            align-items: center;
-            position: relative;
-        }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
 
-        .logo {
-            width: 225px;
-            height: auto;
-            border-radius: 4px;
-            position: relative;
-        }
+    .logo {
+        width: 225px;
+        height: auto;
+        border-radius: 4px;
+        position: relative;
+    }
 
-        .border_layer {
-            position: relative;
-            display: inline-block;
-        }
+    .border_layer {
+        position: relative;
+        display: inline-block;
+    }
 
-        @property --angle {
-            syntax: "<angle>";
-            initial-value: 0deg;
-            inherits: false;
-        }
-        
-        .border_layer::after, .border_layer::before {
-            content: '';
-            position: absolute;
-            height: 99%;
-            width: 100%;
-            background-image: conic-gradient(from var(--angle), red, pink, blue, green, yellow, orange, red); 
-            top: 50%;
-            left: 50%;
-            translate: -50% -51%;
-            z-index: -1;
-            padding: 4px;
-            border-radius: 4px;
-            animation: spin 12s linear infinite;
-        }
+    @property --angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+    
+    .border_layer::after, .border_layer::before {
+        content: '';
+        position: absolute;
+        height: 99%;
+        width: 100%;
+        background-image: conic-gradient(from var(--angle), red, pink, blue, green, yellow, orange, red); 
+        top: 50%;
+        left: 50%;
+        translate: -50% -51%;
+        z-index: -1;
+        padding: 4px;
+        border-radius: 4px;
+        animation: spin 12s linear infinite;
+    }
 
-        .border_layer::before {
-            filter: blur(1.5rem);
-            opacity: 0.5;
-        }
+    .border_layer::before {
+        filter: blur(1.5rem);
+        opacity: 0.5;
+    }
 
-        @keyframes spin {
-            from {
-                --angle: 0deg;
-            }
-            to {
-                --angle: 360deg;
-            }
+    @keyframes spin {
+        from {
+            --angle: 0deg;
         }
-
-        .logo-text {
-            margin-left: 16px;
-            margin-right: 12px;
+        to {
+            --angle: 360deg;
         }
+    }
 
+    .logo-text {
+        margin-left: 16px;
+        margin-right: 12px;
+    }
+
+    .hamburger {
+        display: none;
+        flex-direction: column;
+        cursor: pointer;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1;
+    }
+
+    .hamburger div {
+        width: 30px;
+        height: 3px;
+        background-color: white;
+        margin: 5px 0;
+        z-index: 2;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        background-color: #2c3e56;
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 225px;
+        height: auto;
+        z-index: 2;
+        transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
+        overflow: hidden;
+        padding-top: 60px;
+        max-height: 0;
+        visibility: hidden;
+    }
+
+    nav.active {
+        visibility: visible;
+    }
+
+    nav .menu-section {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    nav .menu-section > li {
+        padding: 7px;
+        font-weight: bold;
+        color: #FFE9C4; /* Kategorie-Farbe */
+    }
+
+    nav .menu-section ul {
+        padding-left: 15px;
+        margin: 0;
+        list-style: none;
+    }
+
+    nav .menu-section ul li {
+        padding: 5px 0;
+    }
+
+    nav a {
+        color: white;
+        text-decoration: none;
+        display: block;
+        padding: 10px;
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover,
+    nav a:active {
+        background-color: #34495e;
+        color: #e74c3c;
+    }
+
+    @media (max-width: 2020px) {
         .hamburger {
-            display: none;
-            flex-direction: column;
-            cursor: pointer;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 1;
-        }
-
-        .hamburger div {
-            width: 30px;
-            height: 3px;
-            background-color: white;
-            margin: 5px 0;
-            z-index: 2;
+            display: flex;
         }
 
         nav {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            background-color: #2c3e56;
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 225px;
-            height: auto;
-            z-index: 2;
-            transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
-            overflow: hidden;
-            padding-top: 60px;
-            max-height: 0;
             visibility: hidden;
         }
 
         nav.active {
             visibility: visible;
         }
+    }
 
-        nav .menu-section {
-            margin: 0;
-            padding: 0;
-            list-style: none;
+    main {
+        flex: 1;
+        padding: 20px;
+        margin-top: 0;
+    }
+
+    section {
+        margin-bottom: 20px;
+    }
+
+    h2 {
+        color: #2ecc71;
+    }
+
+    button {
+        background-color: #2ecc71;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-family: 'MinecraftFont';
+    }
+
+    button:hover {
+        background-color: #2ecc87;
+    }
+
+    footer {
+        background-color: #2c3e50;
+        color: white;
+        text-align: center;
+        padding: 10px 0;
+        width: 100%;
+        position: relative;
+    }
+
+    /* Dark Theme Styles */
+    @media (prefers-color-scheme: dark) {
+        body {
+            background-color: #1a1a1a;
+            color: #f5f5f5;
         }
 
-        nav .menu-section > li {
-            padding: 7px;
-            font-weight: bold;
-            color: #FFE9C4; /* Kategorie-Farbe */
+        header, footer {
+            background-color: #1c2a34;
         }
 
-        nav .menu-section ul {
-            padding-left: 15px;
-            margin: 0;
-            list-style: none;
-        }
-
-        nav .menu-section ul li {
-            padding: 5px 0;
+        nav {
+            background-color: #1c2a34;
         }
 
         nav a {
-            color: white;
-            text-decoration: none;
-            display: block;
-            padding: 10px;
-            transition: background-color 0.3s, color 0.3s;
+            color: #f5f5f5;
         }
 
         nav a:hover,
         nav a:active {
-            background-color: #34495e;
+            background-color: #2a3e50;
             color: #e74c3c;
         }
 
-        @media (max-width: 2020px) {
-            .hamburger {
-                display: flex;
-            }
-
-            nav {
-                visibility: hidden;
-            }
-
-            nav.active {
-                visibility: visible;
-            }
-        }
-
-        main {
-            flex: 1;
-            padding: 20px;
-            margin-top: 0;
-        }
-
-        section {
-            margin-bottom: 20px;
-        }
-
         h2 {
-            color: #2ecc71;
+            color: #27ae60;
         }
 
         button {
-            background-color: #2ecc71;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-family: 'MinecraftFont';
+            background-color: #27ae60;
         }
 
         button:hover {
-            background-color: #2ecc87;
-        }
-
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 10px 0;
-            width: 100%;
-            position: relative;
-        }
-    </style>
+            background-color: #2ecc71;
+            }
+    }
+</style>
 </head>
 <body>
     <header>
