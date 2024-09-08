@@ -12,16 +12,71 @@
             font-style: normal;
         }
 
+        /* Standard-Theme (falls das System keine Präferenz festlegt) */
         body {
             font-family: 'MinecraftFont', sans-serif;
             background-color: #eaeaea;
-            margin: 0;
-            padding: 0;
             color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Dark-Theme */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #282c34;
+                color: white;
+            }
+
+            .icon-youtube {
+                color: #FF4444;
+            }
+
+            .icon-twitch {
+                color: #BB86FC;
+            }
+        }
+
+        /* Light-Theme */
+        @media (prefers-color-scheme: light) {
+            body {    
+                background-color: #f0f0f0;    
+                color: black;
+            }
+
+            .icon-youtube {
+                color: #FF0000;
+            }
+
+            .icon-twitch {
+                color: #9146FF;
+            }
+        }
+
+        .icon-youtube,
+        .icon-twitch {
+            display: inline-block;    
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        .icon-youtube {
+            color: #FF0000;
+        }
+
+        .icon-twitch {
+            color: #9146FF;
+        }
+
+        .social-link {
+            font-size: 18px;
+            text-decoration: none;     
+            color: inherit;
             display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            box-sizing: border-box;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
         header {
@@ -249,14 +304,14 @@
             <li>Social Media</li>
             <ul>
                 <li>
-                    <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" target="_blank">
-                        <img src="images/youtube.svg" alt="YouTube" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                    <a href="https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ" class="social-link" target="_blank">
+                        <img src="youtube.svg" class="icon-youtube" alt="YouTube">
                         YouTube
                     </a>
                 </li>
                 <li>
-                    <a href="https://m.twitch.tv/redminer9630" target="_blank">
-                        <img src="images/twitch.svg" alt="Twitch" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 5px;">
+                    <a href="https://m.twitch.tv/redminer9630" class="social-link" target="_blank">
+                        <img src="twitch.svg" class="icon-twitch" alt="Twitch">
                         Twitch
                     </a>
                 </li>
