@@ -9,25 +9,22 @@
             font-family: 'MinecraftFont';
             src: url('minecraft_font.ttf') format('truetype');
         }
-
+        /* Standard-Stil (wird auf beide Themes angewendet) */
         body {
             font-family: 'MinecraftFont', sans-serif;
-            background-color: #282c34;
-            color: white;
-            text-align: center;
+            text-align: center;        
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 36px;    
             margin-bottom: 20px;
         }
 
         .header-link {
-            color: white;
             font-size: 16px;
             text-decoration: none;
-            background-color: #f44336;
             padding: 10px 20px;
             border-radius: 8px;
             position: absolute;
@@ -35,26 +32,85 @@
             right: 20px;
         }
 
-        .header-link:hover {
-            background-color: #e53935;
-        }
-
-        .shortcut-button, .info-button {
-            font-family: 'MinecraftFont', sans-serif;
+        .shortcut-button, .info-button, .brewing-button {
             display: inline-block;
-            background-color: #4CAF50;
-            color: white;
             padding: 15px;
             margin: 10px;
             cursor: pointer;
             border: none;
             border-radius: 8px;
             font-size: 18px;
+            transition: background-color 0.3s;
         }
 
-        .shortcut-button:hover, .info-button:hover {
-            background-color: #45a049;
+        .icon-youtube {
+            color: #FF0000;
         }
+
+        .icon-twitch {
+            color: #9146FF;
+        }
+        
+        /* Dark Theme (wenn das Gerät im Dark Mode ist) */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #282c34;
+                color: white;
+            }
+
+            .header-link {
+                background-color: #f44336;    
+                color: white;
+            }
+
+            .header-link:hover {
+                background-color: #e53935;
+            }
+
+            .shortcut-button, .info-button, .brewing-button {
+                background-color: #4CAF50;
+                color: white;    
+            }
+
+            .shortcut-button:hover, .info-button:hover, .brewing-button:hover {
+                background-color: #45a049;
+            }
+
+            #content {
+                border: 1px solid #ddd;
+            }    
+        }
+
+         /* Light Theme (wenn das Gerät im Light Mode ist) */
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #f0f0f0;
+                color: black;
+            }
+
+            .header-link {
+                background-color: #f44336;
+                color: white;
+            }    
+
+            .header-link:hover {
+                background-color: #e53935;
+            }
+
+            .shortcut-button, .info-button, .brewing-button {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .shortcut-button:hover, .info-button:hover, .brewing-button:hover {
+                background-color: #45a049;
+            }
+
+            #content {
+                border: 1px solid #aaa;
+            }
+        }
+
 
         .trading-one {
             color: #616161
