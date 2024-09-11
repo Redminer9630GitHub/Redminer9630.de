@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitte Warten</title>
+</head>
+<body>
+    <h1>Bitte Warten</h1>
+    <p>Verarbeitung der Authentifizierung...</p>
+
+    <script>
+        // Fiktive Rückgabe des OAuth-Tokens (in einem echten Szenario käme dieser vom Server)
+        const urlParams = new URLSearchParams(window.location.search);
+        const token = urlParams.get('token');  // Das wäre das Access-Token von GitHub, Google, etc.
+
+        if (token) {
+            saveToLocalStorage(token);
+            alert('Anmeldung erfolgreich!');
+            // Weiterleitung zur Hauptseite oder zum Dashboard
+            window.location.href = '/';
+        } else {
+            alert('Fehler bei der Authentifizierung.');
+            window.location.href = '/login.html';
+        }
+
+        function saveToLocalStorage(token) {
+            if (localStorage.getItem('authToken') || sessionStorage.getItem('authToken')) {
+                return;
+            }
+
+            if (localStorage.getItem('rememberMe') === 'true') {
+                localStorage.setItem('authToken', token);
+            } else {
+                sessionStorage.setItem('authToken', token);
+            }
+        }
+    </script>
+</body>
+</html>
