@@ -1,1 +1,78 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redminer9630.de - Login</title>
+    <style>
+        .continue-button {
+            display: inline-block;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
 
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            text-align: center;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #282c34;
+                color: white;
+            }
+
+            .continue-button {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .continue-button:hover {
+                background-color: #45a049;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #f0f0f0;
+                color: black;
+            }
+
+            .continue-button {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .continue-button:hover {
+                background-color: #45a049;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <button class="continue-button" onclick="window.location.href='https://accounts.google.com'">Mit Google anmelden</button>
+    <button class="continue-button" onclick="window.location.href='https://login.microsoftonline.com'">Mit Microsoft anmelden</button>
+    <button class="continue-button" onclick="window.location.href='https://appleid.apple.com'">Mit Apple anmelden</button>
+    <button class="continue-button" onclick="window.location.href='https://github.com/login'">Mit GitHub anmelden</button>
+    <button class="continue-button" onclick="window.location.href='mailto:email@example.com'">Mit E-Mail anmelden</button>
+</body>
+</html>
