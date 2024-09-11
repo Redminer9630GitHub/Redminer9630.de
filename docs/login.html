@@ -16,16 +16,10 @@
             transition: background-color 0.3s;
         }
 
-        @font-face {
-            font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
-        }
-
         body {
-            font-family: 'MinecraftFont', sans-serif;
+            font-family: sans-serif;
             text-align: center;
             padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
@@ -33,36 +27,13 @@
             margin-bottom: 20px;
         }
 
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: #282c34;
-                color: white;
-            }
-
-            .continue-button {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            .continue-button:hover {
-                background-color: #45a049;
-            }
+        .continue-button {
+            background-color: #4CAF50;
+            color: white;
         }
 
-        @media (prefers-color-scheme: light) {
-            body {
-                background-color: #f0f0f0;
-                color: black;
-            }
-
-            .continue-button {
-                background-color: #4CAF50;
-                color: white;
-            }
-
-            .continue-button:hover {
-                background-color: #45a049;
-            }
+        .continue-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
@@ -71,43 +42,21 @@
 
     <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
     <button class="continue-button" onclick="loginWithGoogle()">Mit Google anmelden</button>
-    <button class="continue-button" onclick="loginWithApple()">Mit Apple anmelden</button>
-
-    <div style="margin-top: 20px;">
-        <input type="checkbox" id="rememberMe"> Angemeldet bleiben
-    </div>
 
     <script>
-        function saveToLocalStorage(token) {
-            if (document.getElementById('rememberMe').checked) {
-                localStorage.setItem('authToken', token);
-            } else {
-                sessionStorage.setItem('authToken', token);
-            }
-        }
-
         function loginWithGitHub() {
-            const authUrl = 'https://github.com/login/oauth/authorize'; // Fiktive URL zum Testen
-            window.location.href = `${authUrl}?client_id=GITHUB_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
+            const authUrl = 'https://github.com/login/oauth/authorize';
+            const clientId = 'GITHUB_CLIENT_ID'; // Ersetze dies mit deiner tatsächlichen Client-ID
+            const redirectUri = `${window.location.origin}/callback.html`;
+            window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
         }
 
         function loginWithGoogle() {
-            const authUrl = 'https://accounts.google.com/o/oauth2/auth'; // Fiktive URL zum Testen
-            window.location.href = `${authUrl}?client_id=GOOGLE_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
-        }
-
-        function loginWithApple() {
-            const authUrl = 'https://appleid.apple.com/auth/authorize'; // Fiktive URL zum Testen
-            window.location.href = `${authUrl}?client_id=APPLE_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
-        }
-
-        // Überprüfung der gespeicherten Anmeldedaten beim Laden der Seite
-        window.onload = function() {
-            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
-            if (token) {
-                alert('Du bist bereits angemeldet!');
-                // Hier könntest du die Nutzer zu einer anderen Seite weiterleiten, z.B. zu einem Dashboard.
-            }
+            const authUrl = 'https://accounts.google.com/o/oauth2/auth';
+            const clientId = 'GOOGLE_CLIENT_ID'; // Ersetze dies mit deiner tatsächlichen Client-ID
+            const redirectUri = `${window.location.origin}/callback.html`;
+            const responseType = 'token'; // Nur für Implicit Flow
+            window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=profile email`;
         }
     </script>
 </body>
