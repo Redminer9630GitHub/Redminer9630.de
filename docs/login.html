@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redminer9630.de - Login</title>
+    <title>Login</title>
     <style>
         .continue-button {
             display: inline-block;
@@ -69,9 +69,46 @@
 <body>
     <h1>Login</h1>
 
-    <button class="continue-button" onclick="window.location.href='https://accounts.google.com'">Mit Google anmelden</button>
-    <button class="continue-button" onclick="window.location.href='https://login.microsoftonline.com'">Mit Microsoft anmelden</button>
-    <button class="continue-button" onclick="window.location.href='https://appleid.apple.com'">Mit Apple anmelden</button>
-    <button class="continue-button" onclick="window.location.href='https://github.com/login/oauth/authorize'">Mit GitHub anmelden</button>
+    <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
+    <button class="continue-button" onclick="loginWithGoogle()">Mit Google anmelden</button>
+    <button class="continue-button" onclick="loginWithApple()">Mit Apple anmelden</button>
+
+    <div style="margin-top: 20px;">
+        <input type="checkbox" id="rememberMe"> Angemeldet bleiben
+    </div>
+
+    <script>
+        function saveToLocalStorage(token) {
+            if (document.getElementById('rememberMe').checked) {
+                localStorage.setItem('authToken', token);
+            } else {
+                sessionStorage.setItem('authToken', token);
+            }
+        }
+
+        function loginWithGitHub() {
+            const authUrl = 'https://github.com/login/oauth/authorize'; // Fiktive URL zum Testen
+            window.location.href = `${authUrl}?client_id=GITHUB_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
+        }
+
+        function loginWithGoogle() {
+            const authUrl = 'https://accounts.google.com/o/oauth2/auth'; // Fiktive URL zum Testen
+            window.location.href = `${authUrl}?client_id=GOOGLE_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
+        }
+
+        function loginWithApple() {
+            const authUrl = 'https://appleid.apple.com/auth/authorize'; // Fiktive URL zum Testen
+            window.location.href = `${authUrl}?client_id=APPLE_CLIENT_ID&redirect_uri=${window.location.origin}/callback.html`;
+        }
+
+        // Überprüfung der gespeicherten Anmeldedaten beim Laden der Seite
+        window.onload = function() {
+            const token = localStorage.getItem('authToken') || sessionStorage.getItem('authToken');
+            if (token) {
+                alert('Du bist bereits angemeldet!');
+                // Hier könntest du die Nutzer zu einer anderen Seite weiterleiten, z.B. zu einem Dashboard.
+            }
+        }
+    </script>
 </body>
 </html>
