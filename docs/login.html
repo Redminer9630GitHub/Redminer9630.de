@@ -16,10 +16,16 @@
             transition: background-color 0.3s;
         }
 
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+        }
+
         body {
-            font-family: sans-serif;
+            font-family: 'MinecraftFont', sans-serif;
             text-align: center;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
@@ -27,13 +33,36 @@
             margin-bottom: 20px;
         }
 
-        .continue-button {
-            background-color: #4CAF50;
-            color: white;
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #282c34;
+                color: white;
+            }
+
+            .continue-button {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .continue-button:hover {
+                background-color: #45a049;
+            }
         }
 
-        .continue-button:hover {
-            background-color: #45a049;
+        @media (prefers-color-scheme: light) {
+            body {
+                background-color: #f0f0f0;
+                color: black;
+            }
+
+            .continue-button {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            .continue-button:hover {
+                background-color: #45a049;
+            }
         }
     </style>
 </head>
