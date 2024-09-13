@@ -138,10 +138,9 @@
 <body>
 
 <!-- Zurück-Button -->
-<button id="back-button" onclick="goBack()">Zurück zur Hauptseite</button>
+<button id="back-button" onclick="goBack()">Zurueck</button>
 
 <h1>Willkommen!</h1>
-<p>Deine Sitzung ist für 4 Minuten aktiv.</p>
 
 <!-- Login Buttons -->
 <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
@@ -149,9 +148,9 @@
 
 <!-- Warnungsfenster für Session Timeout -->
 <div id="sessionWarning">
-    <p>Deine Sitzung läuft bald ab. Willst du weiter auf der Seite bleiben?</p>
+    <p>Deine Sitzung laeuft bald ab. Willst du weiter auf der Seite bleiben?</p>
     <p>Automatisches Ausloggen in <span id="timer">60</span> Sekunden.</p>
-    <button class="continue-button" onclick="extendSession()">Ja, ich möchte bleiben!</button>
+    <button class="continue-button" onclick="extendSession()">Sitzung verlaengern</button>
 </div>
 
 <script>
