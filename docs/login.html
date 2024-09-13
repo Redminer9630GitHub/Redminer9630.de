@@ -25,8 +25,11 @@
             margin-bottom: 20px;
         }
 
+        p {
+            font-size: 18px;
+        }
+
         .continue-button {
-            font-family: 'MinecraftFont', sans-serif;
             display: inline-block;
             padding: 15px;
             margin: 10px;
@@ -37,16 +40,15 @@
             transition: background-color 0.3s;
             background-color: #4CAF50;
             color: white;
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Buttons */
         }
 
-        .continue-button:hover { 
-            font-family: 'MinecraftFont', sans-serif;
+        .continue-button:hover {
             background-color: #45a049;
         }
 
-        /* Zurück-Button oben rechts */
+        /* Zurueck-Button oben rechts */
         #back-button {
-            font-family: 'MinecraftFont', sans-serif;
             position: absolute;
             top: 10px;
             right: 10px;
@@ -57,10 +59,10 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Zurueck-Button */
         }
 
         #back-button:hover {
-            font-family: 'MinecraftFont', sans-serif;
             background-color: #d32f2f;
         }
 
@@ -76,34 +78,30 @@
 
         #timer {
             font-weight: bold;
+            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Timer */
         }
 
         /* Dark Mode */
         @media (prefers-color-scheme: dark) {
             body {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #282c34;
                 color: white;
             }
 
             .continue-button {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #4CAF50;
                 color: white;
             }
 
             .continue-button:hover {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #45a049;
             }
 
             #back-button {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #f44336;
             }
 
             #back-button:hover {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #d32f2f;
             }
 
@@ -116,29 +114,24 @@
         /* Light Mode */
         @media (prefers-color-scheme: light) {
             body {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #f0f0f0;
                 color: black;
             }
 
             .continue-button {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #4CAF50;
                 color: white;
             }
 
             .continue-button:hover {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #45a049;
             }
 
             #back-button {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #f44336;
             }
 
             #back-button:hover {
-                font-family: 'MinecraftFont', sans-serif;
                 background-color: #d32f2f;
             }
 
@@ -151,10 +144,11 @@
 </head>
 <body>
 
-<!-- Zurück-Button -->
-<button id="back-button" onclick="goBack()">Zurueck</button>
+<!-- Zurueck-Button -->
+<button id="back-button" onclick="goBack()">Zurueck zur Hauptseite</button>
 
-<h1>Willkommen!</h1>
+<h1 id="welcome-message">Bitte melde dich an, um fortzufahren</h1>
+<p id="session-info"></p>
 
 <!-- Login Buttons -->
 <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
@@ -162,19 +156,24 @@
 
 <!-- Warnungsfenster für Session Timeout -->
 <div id="sessionWarning">
-    <p>Deine Sitzung laeuft bald ab. Willst du weiter auf der Seite bleiben?</p>
+    <p>Deine Sitzung läuft bald ab. Willst du weiter auf der Seite bleiben?</p>
     <p>Automatisches Ausloggen in <span id="timer">60</span> Sekunden.</p>
-    <button class="continue-button" onclick="extendSession()">Sitzung verlaengern</button>
+    <button class="continue-button" onclick="extendSession()">Ja, ich möchte bleiben!</button>
 </div>
 
 <script>
-    // Zurück zur Hauptseite
+    // Umlaute durch ae, ue, oe ersetzen
+    function replaceUmlauts(text) {
+        return text.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue');
+    }
+
+    // Zurueck zur Hauptseite
     function goBack() {
         window.location.href = "https://redminer9630github.github.io/Redminer9630.de";
     }
 
     // Funktion zum Starten der Sitzung (Token für 4 Minuten)
-    function startSession() {
+    function startSession(username) {
         const token = "exampleToken"; // Hier kannst du ein echtes Token verwenden
         sessionStorage.setItem('authToken', token);
 
@@ -182,20 +181,40 @@
         const expiryTime = Date.now() + 4 * 60 * 1000; // 4 Minuten in Millisekunden
         sessionStorage.setItem('expiryTime', expiryTime);
 
+        updateWelcomeMessage(username);
         checkSession();
+    }
+
+    // Aktualisiere die Begrüßungsnachricht
+    function updateWelcomeMessage(username) {
+        const welcomeMessage = document.getElementById('welcome-message');
+        if (username) {
+            welcomeMessage.textContent = `Willkommen, ${replaceUmlauts(username)}!`;
+        } else {
+            welcomeMessage.textContent = 'Bitte melde dich an, um fortzufahren';
+        }
     }
 
     // Überprüfen, ob das Token abläuft
     function checkSession() {
         const expiryTime = sessionStorage.getItem('expiryTime');
         const currentTime = Date.now();
+        const sessionInfo = document.getElementById('session-info');
 
-        if (expiryTime && currentTime > expiryTime) {
-            // Wenn das Token abgelaufen ist, zeige das Warnfenster an
-            showSessionWarning();
-        } else {
-            // Überprüfe alle 1 Sekunde, ob das Token abläuft
-            setTimeout(checkSession, 1000);
+        if (expiryTime) {
+            const timeLeft = Math.max(0, expiryTime - currentTime);
+            const minutesLeft = Math.floor(timeLeft / (60 * 1000));
+            const secondsLeft = Math.floor((timeLeft % (60 * 1000)) / 1000);
+
+            sessionInfo.textContent = `Sitzung läuft ab in: ${minutesLeft} Minuten und ${secondsLeft} Sekunden`;
+
+            if (timeLeft <= 0) {
+                // Wenn das Token abgelaufen ist, zeige das Warnfenster an
+                showSessionWarning();
+            } else {
+                // Überprüfe jede Sekunde, ob das Token abläuft
+                setTimeout(checkSession, 1000);
+            }
         }
     }
 
@@ -241,7 +260,7 @@
         const redirectUri = 'https://dein-backend-url.com/auth/github/callback'; // Backend-URL für GitHub-Callback
         window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
 
-        startSession(); // Starte die Sitzung nach dem Login-Versuch
+        startSession('GitHub-Nutzer'); // Beispielusername
     }
 
     // Funktion für Google-Login
@@ -253,13 +272,14 @@
         const scope = 'profile email';
         window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
 
-        startSession(); // Starte die Sitzung nach dem Login-Versuch
+        startSession('Google-Nutzer'); // Beispielusername
     }
 
     // Starte die Sitzung beim Laden der Seite
     window.onload = function() {
         const token = sessionStorage.getItem('authToken');
         if (token) {
+            updateWelcomeMessage('User'); // Beispielusername
             checkSession(); // Falls es bereits eine Sitzung gibt, starte die Überprüfung
         }
     };
