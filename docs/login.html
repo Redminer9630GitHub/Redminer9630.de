@@ -4,7 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+
     <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+        }
+
+        /* Standard-Stil */
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            text-align: center;
+            padding: 20px;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
         .continue-button {
             display: inline-block;
             padding: 15px;
@@ -14,25 +34,47 @@
             border-radius: 8px;
             font-size: 18px;
             transition: background-color 0.3s;
+            background-color: #4CAF50;
+            color: white;
         }
 
-        @font-face {
-            font-family: 'MinecraftFont';
-            src: url('minecraft_font.ttf') format('truetype');
+        .continue-button:hover {
+            background-color: #45a049;
         }
 
-        body {
-            font-family: 'MinecraftFont', sans-serif;
-            text-align: center;
+        /* Zurück-Button oben rechts */
+        #back-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #back-button:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Warnungsfenster Styling */
+        #sessionWarning {
+            display: none;
+            border: 1px solid red;
             padding: 20px;
-            transition: background-color 0.3s, color 0.3s;
+            margin: 20px;
+            background-color: #f8d7da;
+            color: #721c24;
         }
 
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
+        #timer {
+            font-weight: bold;
         }
 
+        /* Dark Mode */
         @media (prefers-color-scheme: dark) {
             body {
                 background-color: #282c34;
@@ -47,8 +89,22 @@
             .continue-button:hover {
                 background-color: #45a049;
             }
+
+            #back-button {
+                background-color: #f44336;
+            }
+
+            #back-button:hover {
+                background-color: #d32f2f;
+            }
+
+            #sessionWarning {
+                background-color: #42202c;
+                color: white;
+            }
         }
 
+        /* Light Mode */
         @media (prefers-color-scheme: light) {
             body {
                 background-color: #f0f0f0;
@@ -63,30 +119,138 @@
             .continue-button:hover {
                 background-color: #45a049;
             }
+
+            #back-button {
+                background-color: #f44336;
+            }
+
+            #back-button:hover {
+                background-color: #d32f2f;
+            }
+
+            #sessionWarning {
+                background-color: #f8d7da;
+                color: black;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
 
-    <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
-    <button class="continue-button" onclick="loginWithGoogle()">Mit Google anmelden</button>
+<!-- Zurück-Button -->
+<button id="back-button" onclick="goBack()">Zurück zur Hauptseite</button>
 
-    <script>
-        function loginWithGitHub() {
-            const authUrl = 'https://github.com/login/oauth/authorize';
-            const clientId = 'GITHUB_CLIENT_ID'; // Ersetze dies mit deiner tatsächlichen Client-ID
-            const redirectUri = `${window.location.origin}/callback.html`;
-            window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
+<h1>Willkommen!</h1>
+<p>Deine Sitzung ist für 4 Minuten aktiv.</p>
+
+<!-- Login Buttons -->
+<button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
+<button class="continue-button" onclick="loginWithGoogle()">Mit Google anmelden</button>
+
+<!-- Warnungsfenster für Session Timeout -->
+<div id="sessionWarning">
+    <p>Deine Sitzung läuft bald ab. Willst du weiter auf der Seite bleiben?</p>
+    <p>Automatisches Ausloggen in <span id="timer">60</span> Sekunden.</p>
+    <button class="continue-button" onclick="extendSession()">Ja, ich möchte bleiben!</button>
+</div>
+
+<script>
+    // Zurück zur Hauptseite
+    function goBack() {
+        window.location.href = "https://redminer9630github.github.io/Redminer9630.de";
+    }
+
+    // Funktion zum Starten der Sitzung (Token für 4 Minuten)
+    function startSession() {
+        const token = "exampleToken"; // Hier kannst du ein echtes Token verwenden
+        sessionStorage.setItem('authToken', token);
+
+        // Setze die Ablaufzeit auf 4 Minuten
+        const expiryTime = Date.now() + 4 * 60 * 1000; // 4 Minuten in Millisekunden
+        sessionStorage.setItem('expiryTime', expiryTime);
+
+        checkSession();
+    }
+
+    // Überprüfen, ob das Token abläuft
+    function checkSession() {
+        const expiryTime = sessionStorage.getItem('expiryTime');
+        const currentTime = Date.now();
+
+        if (expiryTime && currentTime > expiryTime) {
+            // Wenn das Token abgelaufen ist, zeige das Warnfenster an
+            showSessionWarning();
+        } else {
+            // Überprüfe alle 1 Sekunde, ob das Token abläuft
+            setTimeout(checkSession, 1000);
         }
+    }
 
-        function loginWithGoogle() {
-            const authUrl = 'https://accounts.google.com/o/oauth2/auth';
-            const clientId = 'GOOGLE_CLIENT_ID'; // Ersetze dies mit deiner tatsächlichen Client-ID
-            const redirectUri = `${window.location.origin}/callback.html`;
-            const responseType = 'token'; // Nur für Implicit Flow
-            window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=profile email`;
+    // Zeige das Fenster an, wenn die Sitzung abläuft
+    function showSessionWarning() {
+        const sessionWarning = document.getElementById('sessionWarning');
+        sessionWarning.style.display = 'block';
+
+        // Timer von 60 Sekunden für die Entscheidung
+        let countdown = 60;
+        const timerElement = document.getElementById('timer');
+        const intervalId = setInterval(() => {
+            countdown--;
+            timerElement.textContent = countdown;
+
+            if (countdown <= 0) {
+                clearInterval(intervalId);
+                logout(); // Automatisches Ausloggen, wenn der Countdown 0 erreicht
+            }
+        }, 1000);
+    }
+
+    // Funktion zum Verlängern der Sitzung (erneut 4 Minuten)
+    function extendSession() {
+        sessionStorage.setItem('expiryTime', Date.now() + 4 * 60 * 1000); // Verlängere um weitere 4 Minuten
+        const sessionWarning = document.getElementById('sessionWarning');
+        sessionWarning.style.display = 'none'; // Verstecke das Warnfenster
+        checkSession(); // Starte die Überprüfung neu
+    }
+
+    // Funktion zum automatischen Ausloggen
+    function logout() {
+        alert("Deine Sitzung ist abgelaufen. Du wirst ausgeloggt.");
+        sessionStorage.removeItem('authToken');
+        sessionStorage.removeItem('expiryTime');
+        window.location.href = "login.html"; // Weiterleitung zur Login-Seite
+    }
+
+    // Funktion für GitHub-Login
+    function loginWithGitHub() {
+        const authUrl = 'https://github.com/login/oauth/authorize';
+        const clientId = 'YOUR_GITHUB_CLIENT_ID'; // Hier deine GitHub Client-ID einfügen
+        const redirectUri = 'https://dein-backend-url.com/auth/github/callback'; // Backend-URL für GitHub-Callback
+        window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
+
+        startSession(); // Starte die Sitzung nach dem Login-Versuch
+    }
+
+    // Funktion für Google-Login
+    function loginWithGoogle() {
+        const authUrl = 'https://accounts.google.com/o/oauth2/auth';
+        const clientId = 'YOUR_GOOGLE_CLIENT_ID'; // Hier deine Google Client-ID einfügen
+        const redirectUri = 'https://dein-backend-url.com/auth/google/callback'; // Backend-URL für Google-Callback
+        const responseType = 'code'; // Autorisierungscode für den Server
+        const scope = 'profile email';
+        window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+
+        startSession(); // Starte die Sitzung nach dem Login-Versuch
+    }
+
+    // Starte die Sitzung beim Laden der Seite
+    window.onload = function() {
+        const token = sessionStorage.getItem('authToken');
+        if (token) {
+            checkSession(); // Falls es bereits eine Sitzung gibt, starte die Überprüfung
         }
-    </script>
+    };
+</script>
+
 </body>
 </html>
