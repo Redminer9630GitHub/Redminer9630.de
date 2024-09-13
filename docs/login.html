@@ -20,9 +20,9 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        h1-title {
+        h1 {
             font-size: 36px;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
         }
 
         p {
@@ -40,7 +40,7 @@
             transition: background-color 0.3s;
             background-color: #4CAF50;
             color: white;
-            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Buttons */
+            font-family: 'MinecraftFont', sans-serif;
         }
 
         .continue-button:hover {
@@ -59,7 +59,7 @@
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Zurueck-Button */
+            font-family: 'MinecraftFont', sans-serif;
         }
 
         #back-button:hover {
@@ -74,11 +74,6 @@
             margin: 20px;
             background-color: #f8d7da;
             color: #721c24;
-        }
-
-        #timer {
-            font-weight: bold;
-            font-family: 'MinecraftFont', sans-serif; /* Minecraft Font für Timer */
         }
 
         /* Dark Mode */
@@ -147,8 +142,7 @@
 <!-- Zurueck-Button -->
 <button id="back-button" onclick="goBack()">Zurueck zur Hauptseite</button>
 
-<h1-title id="welcome-message">Bitte melde dich an, um fortzufahren</h1-title>
-<p id="session-info"></p>
+<h1 id="welcome-message">Bitte melde dich an, um fortzufahren</h1>
 
 <!-- Login Buttons -->
 <button class="continue-button" onclick="loginWithGitHub()">Mit GitHub anmelden</button>
@@ -157,12 +151,11 @@
 <!-- Warnungsfenster für Session Timeout -->
 <div id="sessionWarning">
     <p>Deine Sitzung läuft bald ab. Willst du weiter auf der Seite bleiben?</p>
-    <p>Automatisches Ausloggen in <span id="timer">60</span> Sekunden.</p>
     <button class="continue-button" onclick="extendSession()">Ja, ich möchte bleiben!</button>
 </div>
 
 <script>
-    // Umlaute durch ae, ue, oe ersetzen
+    // Umlaute durch ae, oe, ue ersetzen
     function replaceUmlauts(text) {
         return text.replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue');
     }
@@ -176,6 +169,7 @@
     function startSession(username) {
         const token = "exampleToken"; // Hier kannst du ein echtes Token verwenden
         sessionStorage.setItem('authToken', token);
+        sessionStorage.setItem('username', username); // Speichere den Username im sessionStorage
 
         // Setze die Ablaufzeit auf 4 Minuten
         const expiryTime = Date.now() + 4 * 60 * 1000; // 4 Minuten in Millisekunden
@@ -199,14 +193,9 @@
     function checkSession() {
         const expiryTime = sessionStorage.getItem('expiryTime');
         const currentTime = Date.now();
-        const sessionInfo = document.getElementById('session-info');
 
         if (expiryTime) {
             const timeLeft = Math.max(0, expiryTime - currentTime);
-            const minutesLeft = Math.floor(timeLeft / (60 * 1000));
-            const secondsLeft = Math.floor((timeLeft % (60 * 1000)) / 1000);
-
-            sessionInfo.textContent = `Sitzung läuft ab in: ${minutesLeft} Minuten und ${secondsLeft} Sekunden`;
 
             if (timeLeft <= 0) {
                 // Wenn das Token abgelaufen ist, zeige das Warnfenster an
@@ -223,18 +212,10 @@
         const sessionWarning = document.getElementById('sessionWarning');
         sessionWarning.style.display = 'block';
 
-        // Timer von 60 Sekunden für die Entscheidung
-        let countdown = 60;
-        const timerElement = document.getElementById('timer');
-        const intervalId = setInterval(() => {
-            countdown--;
-            timerElement.textContent = countdown;
-
-            if (countdown <= 0) {
-                clearInterval(intervalId);
-                logout(); // Automatisches Ausloggen, wenn der Countdown 0 erreicht
-            }
-        }, 1000);
+        // Automatisches Ausloggen nach Ablauf
+        setTimeout(() => {
+            logout(); // Automatisches Ausloggen
+        }, 60000); // 60 Sekunden Timeout
     }
 
     // Funktion zum Verlängern der Sitzung (erneut 4 Minuten)
@@ -259,8 +240,6 @@
         const clientId = 'YOUR_GITHUB_CLIENT_ID'; // Hier deine GitHub Client-ID einfügen
         const redirectUri = 'https://dein-backend-url.com/auth/github/callback'; // Backend-URL für GitHub-Callback
         window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
-
-        startSession('GitHub-Nutzer'); // Beispielusername
     }
 
     // Funktion für Google-Login
@@ -271,16 +250,18 @@
         const responseType = 'code'; // Autorisierungscode für den Server
         const scope = 'profile email';
         window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
-
-        startSession('Google-Nutzer'); // Beispielusername
     }
 
     // Starte die Sitzung beim Laden der Seite
     window.onload = function() {
         const token = sessionStorage.getItem('authToken');
+        const username = sessionStorage.getItem('username');
+        
         if (token) {
-            updateWelcomeMessage('User'); // Beispielusername
-            checkSession(); // Falls es bereits eine Sitzung gibt, starte die Überprüfung
+            // Wenn der Benutzer noch eingeloggt ist, leite zur Hauptseite weiter
+            window.location.href = "https://redminer9630github.github.io/Redminer9630.de";
+        } else {
+            updateWelcomeMessage(username);
         }
     };
 </script>
