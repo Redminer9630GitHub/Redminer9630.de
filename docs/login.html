@@ -22,6 +22,7 @@
 
         h1 {
             font-size: 36px;
+            margin-top: 100px; /* Titel nach unten verschoben */
             margin-bottom: 20px;
         }
 
@@ -140,7 +141,7 @@
 <body>
 
 <!-- Zurueck-Button -->
-<button id="back-button" onclick="goBack()">Zurueck zur Hauptseite</button>
+<button id="back-button" onclick="goBack()">Zurueck</button>
 
 <h1 id="welcome-message">Bitte melde dich an, um fortzufahren</h1>
 
@@ -171,9 +172,11 @@
         sessionStorage.setItem('authToken', token);
         sessionStorage.setItem('username', username); // Speichere den Username im sessionStorage
 
-        // Setze die Ablaufzeit auf 4 Minuten
-        const expiryTime = Date.now() + 4 * 60 * 1000; // 4 Minuten in Millisekunden
-        sessionStorage.setItem('expiryTime', expiryTime);
+        // Wenn keine Ablaufzeit gesetzt ist, setze sie
+        if (!sessionStorage.getItem('expiryTime')) {
+            const expiryTime = Date.now() + 4 * 60 * 1000; // 4 Minuten in Millisekunden
+            sessionStorage.setItem('expiryTime', expiryTime);
+        }
 
         updateWelcomeMessage(username);
         checkSession();
@@ -185,7 +188,7 @@
         if (username) {
             welcomeMessage.textContent = `Willkommen, ${replaceUmlauts(username)}!`;
         } else {
-            welcomeMessage.textContent = 'Bitte melde dich an, um fortzufahren';
+            welcomeMessage.textContent = 'Bitte melde dich an, um fortzufahren!';
         }
     }
 
@@ -228,10 +231,11 @@
 
     // Funktion zum automatischen Ausloggen
     function logout() {
+        const referrer = document.referrer || "login.html"; // Hole die vorherige Seite oder gehe zur Login-Seite
         alert("Deine Sitzung ist abgelaufen. Du wirst ausgeloggt.");
         sessionStorage.removeItem('authToken');
         sessionStorage.removeItem('expiryTime');
-        window.location.href = "login.html"; // Weiterleitung zur Login-Seite
+        window.location.href = referrer; // Weiterleitung zur vorherigen Seite
     }
 
     // Funktion für GitHub-Login
