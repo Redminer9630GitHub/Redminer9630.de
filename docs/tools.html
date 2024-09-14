@@ -138,6 +138,18 @@
             background-color: #444;
             border-radius: 8px;
         }
+
+        input[type="number"] {
+            font-size: 24px;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #333;
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 <body>
@@ -165,7 +177,7 @@
                         <button class="calculator-button" onclick="appendNumber('9')">9</button>
                         <button class="calculator-button" onclick="chooseOperation('/')">/</button>
                         <button class="calculator-button" onclick="appendNumber('0')">0</button>
-                        <button class="calculator-button" onclick="appendNumber('.')">.</button>
+                        <button class="calculator-button" onclick="clearCalculator()">AC</button>
                         <button class="calculator-button" onclick="appendNumber(',')">,</button>
                         <button class="calculator-button" onclick="chooseOperation('*')">*</button>
                         <button class="calculator-button calculator-button-equal" onclick="calculate()">=</button>
@@ -243,18 +255,22 @@
             currentOperand = result;
             operation = null;
             previousOperand = '';
-
-            history.push(`${prev} ${operation} ${current} = ${result}`);
-            updateHistory();
             updateDisplay();
+
+            // Add to history
+            history.push(`${prev} ${operation || ''} ${current} = ${result}`);
+            document.getElementById('calc-history').textContent = 'Verlauf:\n' + history.join('\n');
         }
 
         function updateDisplay() {
             document.getElementById('calc-display').textContent = currentOperand || '0';
         }
 
-        function updateHistory() {
-            document.getElementById('calc-history').textContent = 'Verlauf:\n' + history.join('\n');
+        function clearCalculator() {
+            currentOperand = '';
+            previousOperand = '';
+            operation = null;
+            updateDisplay();
         }
 
         // Stoppuhr
@@ -262,21 +278,23 @@
         let stopwatchStartTime = 0;
 
         function startStopwatch() {
-            if (stopwatchInterval) return;
-            stopwatchStartTime = Date.now() - (localStorage.getItem('stopwatchStartTime') || 0);
-            stopwatchInterval = setInterval(updateStopwatchDisplay, 10);
+            if (!stopwatchInterval) {
+                stopwatchStartTime = Date.now();
+                localStorage.setItem('stopwatchTimestamp', stopwatchStartTime);
+                stopwatchInterval = setInterval(updateStopwatchDisplay, 10);
+            }
         }
 
         function stopStopwatch() {
             clearInterval(stopwatchInterval);
             stopwatchInterval = null;
-            localStorage.setItem('stopwatchStartTime', Date.now() - stopwatchStartTime);
+            localStorage.setItem('stopwatchTimestamp', Date.now() - stopwatchStartTime);
         }
 
         function resetStopwatch() {
             stopStopwatch();
             stopwatchStartTime = 0;
-            localStorage.removeItem('stopwatchStartTime');
+            localStorage.removeItem('stopwatchTimestamp');
             updateStopwatchDisplay();
         }
 
@@ -332,8 +350,8 @@
 
         // LocalStorage
         window.onload = function() {
-            if (localStorage.getItem('stopwatchStartTime')) {
-                stopwatchStartTime = Date.now() - parseInt(localStorage.getItem('stopwatchStartTime'));
+            if (localStorage.getItem('stopwatchTimestamp')) {
+                stopwatchStartTime = Date.now() - parseInt(localStorage.getItem('stopwatchTimestamp'));
                 updateStopwatchDisplay();
                 startStopwatch();
             }
