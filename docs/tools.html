@@ -39,6 +39,21 @@
             background-color: #e53935;
         }
 
+        .info-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 32px;
+            height: 32px;
+            background-image: url('info.png');
+            background-size: cover;
+            cursor: pointer;
+        }
+
+        .info-button:hover {
+            background-image: url('info_hover.png');
+        }
+
         .tool-section {
             margin-top: 20px;
             border-top: 2px solid #fff;
@@ -104,12 +119,24 @@
             background-color: #1976D2;
         }
 
-        .timer-display, .stopwatch-display {
+        .timer-display, .stopwatch-display, .calculator-display {
             font-size: 24px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 8px;
             background-color: #333;
+            margin-bottom: 10px;
+        }
+
+        .history {
+            text-align: left;
+            font-size: 16px;
+            max-height: 100px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #444;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -122,109 +149,157 @@
         <div class="tool-content">
             <div class="calculator-container">
                 <h2>Taschenrechner</h2>
+                <div class="calculator-display" id="calc-display">0</div>
                 <div class="calculator-buttons">
                     <div class="calculator-grid">
-                        <button class="calculator-button">1</button>
-                        <button class="calculator-button">2</button>
-                        <button class="calculator-button">3</button>
-                        <button class="calculator-button">+</button>
-                        <button class="calculator-button">4</button>
-                        <button class="calculator-button">5</button>
-                        <button class="calculator-button">6</button>
-                        <button class="calculator-button">-</button>
-                        <button class="calculator-button">7</button>
-                        <button class="calculator-button">8</button>
-                        <button class="calculator-button">9</button>
-                        <button class="calculator-button">/</button>
-                        <button class="calculator-button">0</button>
-                        <button class="calculator-button">.</button>
-                        <button class="calculator-button">,</button>
-                        <button class="calculator-button">*</button>
-                        <button class="calculator-button calculator-button-equal">=</button>
+                        <button class="calculator-button" onclick="appendNumber('1')">1</button>
+                        <button class="calculator-button" onclick="appendNumber('2')">2</button>
+                        <button class="calculator-button" onclick="appendNumber('3')">3</button>
+                        <button class="calculator-button" onclick="chooseOperation('+')">+</button>
+                        <button class="calculator-button" onclick="appendNumber('4')">4</button>
+                        <button class="calculator-button" onclick="appendNumber('5')">5</button>
+                        <button class="calculator-button" onclick="appendNumber('6')">6</button>
+                        <button class="calculator-button" onclick="chooseOperation('-')">-</button>
+                        <button class="calculator-button" onclick="appendNumber('7')">7</button>
+                        <button class="calculator-button" onclick="appendNumber('8')">8</button>
+                        <button class="calculator-button" onclick="appendNumber('9')">9</button>
+                        <button class="calculator-button" onclick="chooseOperation('/')">/</button>
+                        <button class="calculator-button" onclick="appendNumber('0')">0</button>
+                        <button class="calculator-button" onclick="appendNumber('.')">.</button>
+                        <button class="calculator-button" onclick="appendNumber(',')">,</button>
+                        <button class="calculator-button" onclick="chooseOperation('*')">*</button>
+                        <button class="calculator-button calculator-button-equal" onclick="calculate()">=</button>
                     </div>
                 </div>
-            </div>
-            <div class="stopwatch-container">
-                <h2>Stoppuhr</h2>
-                <div class="stopwatch-display" id="stopwatch">00:00:00</div>
-                <button class="stopwatch-button" onclick="startStopwatch()">Start</button>
-                <button class="stopwatch-button" onclick="stopStopwatch()">Stop</button>
-                <button class="stopwatch-button" onclick="resetStopwatch()">Reset</button>
-            </div>
-        </div>
-        <div class="tool-content">
-            <div class="timer-container">
-                <h2>Timer</h2>
-                <div class="timer-display" id="timer">00:00:00</div>
-                <input type="number" id="timer-hours" placeholder="Stunden" min="0" max="24">
-                <input type="number" id="timer-minutes" placeholder="Minuten" min="0" max="60">
-                <input type="number" id="timer-seconds" placeholder="Sekunden" min="0" max="60">
-                <button class="timer-button" onclick="startTimer()">Start</button>
-                <button class="timer-button" onclick="stopTimer()">Stop</button>
-                <button class="timer-button" onclick="resetTimer()">Reset</button>
+                <div class="history" id="calc-history">Verlauf:</div>
             </div>
         </div>
     </div>
 
+    <div class="tool-section">
+        <div class="stopwatch-container">
+            <h2>Stoppuhr</h2>
+            <div class="stopwatch-display" id="stopwatch">00:00:00</div>
+            <button class="stopwatch-button" onclick="startStopwatch()">Start</button>
+            <button class="stopwatch-button" onclick="stopStopwatch()">Stop</button>
+            <button class="stopwatch-button" onclick="resetStopwatch()">Reset</button>
+        </div>
+        <div class="timer-container">
+            <h2>Timer</h2>
+            <div class="timer-display" id="timer">00:00:00</div>
+            <input type="number" id="timer-hours" placeholder="Stunden" min="0">
+            <input type="number" id="timer-minutes" placeholder="Minuten" min="0">
+            <input type="number" id="timer-seconds" placeholder="Sekunden" min="0">
+            <button class="timer-button" onclick="startTimer()">Start</button>
+            <button class="timer-button" onclick="stopTimer()">Stop</button>
+            <button class="timer-button" onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+
     <script>
-        // Stopwatch Logic
+        // Taschenrechner
+        let currentOperand = '';
+        let previousOperand = '';
+        let operation = null;
+        let history = [];
+
+        function appendNumber(number) {
+            if (number === '.' && currentOperand.includes('.')) return;
+            currentOperand += number;
+            updateDisplay();
+        }
+
+        function chooseOperation(op) {
+            if (currentOperand === '') return;
+            if (previousOperand !== '') calculate();
+            operation = op;
+            previousOperand = currentOperand;
+            currentOperand = '';
+        }
+
+        function calculate() {
+            let result;
+            const prev = parseFloat(previousOperand);
+            const current = parseFloat(currentOperand);
+            if (isNaN(prev) || isNaN(current)) return;
+
+            switch (operation) {
+                case '+':
+                    result = prev + current;
+                    break;
+                case '-':
+                    result = prev - current;
+                    break;
+                case '*':
+                    result = prev * current;
+                    break;
+                case '/':
+                    result = prev / current;
+                    break;
+                default:
+                    return;
+            }
+
+            currentOperand = result;
+            operation = null;
+            previousOperand = '';
+
+            history.push(`${prev} ${operation} ${current} = ${result}`);
+            updateHistory();
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('calc-display').textContent = currentOperand || '0';
+        }
+
+        function updateHistory() {
+            document.getElementById('calc-history').textContent = 'Verlauf:\n' + history.join('\n');
+        }
+
+        // Stoppuhr
         let stopwatchInterval;
-        let stopwatchStartTime = 0; // in milliseconds
+        let stopwatchStartTime = 0;
 
         function startStopwatch() {
             if (stopwatchInterval) return;
             stopwatchStartTime = Date.now() - (localStorage.getItem('stopwatchStartTime') || 0);
-            stopwatchInterval = setInterval(() => {
-                updateStopwatchDisplay();
-                localStorage.setItem('stopwatchStartTime', Date.now() - stopwatchStartTime);
-            }, 100);
+            stopwatchInterval = setInterval(updateStopwatchDisplay, 10);
         }
 
         function stopStopwatch() {
             clearInterval(stopwatchInterval);
             stopwatchInterval = null;
+            localStorage.setItem('stopwatchStartTime', Date.now() - stopwatchStartTime);
         }
 
         function resetStopwatch() {
-            clearInterval(stopwatchInterval);
-            stopwatchInterval = null;
+            stopStopwatch();
             stopwatchStartTime = 0;
-            updateStopwatchDisplay();
             localStorage.removeItem('stopwatchStartTime');
+            updateStopwatchDisplay();
         }
 
         function updateStopwatchDisplay() {
-            const elapsed = Date.now() - stopwatchStartTime;
-            const hours = Math.floor(elapsed / 3600000);
-            const minutes = Math.floor((elapsed % 3600000) / 60000);
-            const seconds = Math.floor((elapsed % 60000) / 1000);
-            const milliseconds = Math.floor(elapsed % 1000 / 10);
-            document.getElementById('stopwatch').textContent = 
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}.${String(milliseconds).padStart(2, '0')}`;
+            const elapsedTime = Date.now() - stopwatchStartTime;
+            const seconds = Math.floor((elapsedTime / 1000) % 60);
+            const minutes = Math.floor((elapsedTime / (1000 * 60)) % 60);
+            const hours = Math.floor((elapsedTime / (1000 * 60 * 60)) % 24);
+            document.getElementById('stopwatch').textContent =
+                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        // Timer Logic
+        // Timer
         let timerInterval;
-        let timerEndTime = 0; // in milliseconds
+        let timerEndTime = 0;
 
         function startTimer() {
             const hours = parseInt(document.getElementById('timer-hours').value) || 0;
             const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
             const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
-            const now = Date.now();
-            timerEndTime = now + (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
-            if (timerInterval) return;
-            timerInterval = setInterval(() => {
-                if (Date.now() >= timerEndTime) {
-                    clearInterval(timerInterval);
-                    timerInterval = null;
-                    document.getElementById('timer').textContent = '00:00:00';
-                    localStorage.removeItem('timerEndTime');
-                    return;
-                }
-                updateTimerDisplay();
-                localStorage.setItem('timerEndTime', timerEndTime);
-            }, 1000);
+            timerEndTime = Date.now() + (hours * 3600000) + (minutes * 60000) + (seconds * 1000);
+            timerInterval = setInterval(updateTimerDisplay, 10);
+            localStorage.setItem('timerEndTime', timerEndTime);
         }
 
         function stopTimer() {
@@ -233,23 +308,29 @@
         }
 
         function resetTimer() {
-            clearInterval(timerInterval);
-            timerInterval = null;
-            document.getElementById('timer').textContent = '00:00:00';
+            stopTimer();
+            timerEndTime = 0;
+            updateTimerDisplay();
             localStorage.removeItem('timerEndTime');
         }
 
         function updateTimerDisplay() {
             const now = Date.now();
             const timeLeft = timerEndTime - now;
+            if (timeLeft <= 0) {
+                stopTimer();
+                document.getElementById('timer').textContent = '00:00:00';
+                return;
+            }
+
             const hours = Math.floor(timeLeft / 3600000);
             const minutes = Math.floor((timeLeft % 3600000) / 60000);
             const seconds = Math.floor((timeLeft % 60000) / 1000);
-            document.getElementById('timer').textContent = 
+            document.getElementById('timer').textContent =
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
         }
 
-        // Load previous states from localStorage
+        // LocalStorage
         window.onload = function() {
             if (localStorage.getItem('stopwatchStartTime')) {
                 stopwatchStartTime = Date.now() - parseInt(localStorage.getItem('stopwatchStartTime'));
