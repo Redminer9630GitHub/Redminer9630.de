@@ -10,12 +10,49 @@
             src: url('https://redminer9630github.github.io/Redminer9630.de/minecraft_font.ttf') format('truetype');
         }
 
-        body {
-            font-family: 'MinecraftFont', sans-serif;
-            background-color: #282c34;
-            color: white;
-            text-align: center;
-            padding: 20px;
+        :root {
+            --bg-color-dark: #282c34;
+            --text-color-dark: white;
+            --bg-color-light: #f4f4f4;
+            --text-color-light: black;
+            --button-bg-color: #4CAF50;
+            --button-hover-color: #45a049;
+            --border-color-dark: white;
+            --border-color-light: black;
+        }
+
+        /* Dark Mode Styles */
+        @media (prefers-color-scheme: dark) {
+            body {
+                font-family: 'MinecraftFont', sans-serif;
+                background-color: var(--bg-color-dark);
+                color: var(--text-color-dark);
+            }
+
+            table, th, td {
+                border: 1px solid var(--border-color-dark);
+            }
+
+            th {
+                background-color: var(--button-bg-color);
+            }
+        }
+
+        /* Light Mode Styles */
+        @media (prefers-color-scheme: light) {
+            body {
+                font-family: 'MinecraftFont', sans-serif;
+                background-color: var(--bg-color-light);
+                color: var(--text-color-light);
+            }
+
+            table, th, td {
+                border: 1px solid var(--border-color-light);
+            }
+
+            th {
+                background-color: var(--button-bg-color);
+            }
         }
 
         h1 {
@@ -60,22 +97,13 @@
             margin-top: 20px;
         }
 
-        table, th, td {
-            border: 1px solid white;
-        }
-
         th, td {
             padding: 8px;
             text-align: left;
         }
 
-        th {
-            background-color: #4CAF50;
-            cursor: pointer;
-        }
-
         .download-button {
-            background-color: #4CAF50;
+            background-color: var(--button-bg-color);
             color: white;
             padding: 10px;
             text-decoration: none;
@@ -84,7 +112,7 @@
         }
 
         .download-button:hover {
-            background-color: #45a049;
+            background-color: var(--button-hover-color);
         }
     </style>
 </head>
@@ -100,7 +128,7 @@
                 <th onclick="sortTable(1)">Titel</th>
                 <th onclick="sortTable(2)">Beschreibung</th>
                 <th onclick="sortTable(3)">Typ</th>
-                <th>Datei</th></th>
+                <th>Datei</th>
             </tr>
         </thead>
         <tbody>
@@ -109,16 +137,15 @@
                 <td>MC is Bones</td>
                 <td>Veraendert End Game Items zur Knochen Textur</td>
                 <td>Resourcepack</td>
-                <td><a href="files/mc_is_bones.zip" class="download-button">mc_is_bones.zip</a></td>
+                <td><a href="files/mc_is_bones.zip" class="download-button" download="mc_is_bones.zip">mc_is_bones.zip</a></td>
             </tr>
             <tr>
                 <td>1.21</td>
                 <td>Higher Enchantments</td>
                 <td>Veraendert die hoechste Stufe von den meisten Verzauberungen</td>
                 <td>Datapack</td>
-                <td><a href="files/higher_enchantments.zip" class="download-button">higher_enchantments.zip</a></td>
+                <td><a href="files/higher_enchantments.zip" class="download-button" download="higher_enchantments.zip">higher_enchantments.zip</a></td>
             </tr>
-            <!-- Füge hier weitere Inhalte hinzu -->
         </tbody>
     </table>
 
