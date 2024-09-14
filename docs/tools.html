@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools</title>
+    <style>
+        @font-face {
+            font-family: 'MinecraftFont';
+            src: url('minecraft_font.ttf') format('truetype');
+        }
+
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            background-color: #282c34;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .header-link {
+            color: white;
+            font-size: 16px;
+            text-decoration: none;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 8px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .header-link:hover {
+            background-color: #e53935;
+        }
+
+        .tool-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .tool-button:hover {
+            background-color: #45a049;
+        }
+
+        .tool-container {
+            margin-top: 20px;
+            text-align: left;
+            font-size: 18px;
+            max-height: 500px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurück ></a>
+    <h1>Tools</h1>
+
+    <button class="tool-button" onclick="showCalculator()">Taschenrechner</button>
+    <button class="tool-button" onclick="showTimer()">Stoppuhr</button>
+
+    <div id="tool-content" class="tool-container">
+        <!-- Tools werden hier angezeigt -->
+    </div>
+
+    <script>
+        function showCalculator() {
+            document.getElementById('tool-content').innerHTML = `
+                <h2>Taschenrechner</h2>
+                <div>
+                    <input type="text" id="calc-display" disabled style="width: 100%; font-size: 24px; text-align: right;">
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
+                        <button onclick="clearCalc()">C</button>
+                        <button onclick="appendCalc('/')">/</button>
+                        <button onclick="appendCalc('*')">*</button>
+                        <button onclick="deleteCalc()">DEL</button>
+                        <button onclick="appendCalc('7')">7</button>
+                        <button onclick="appendCalc('8')">8</button>
+                        <button onclick="appendCalc('9')">9</button>
+                        <button onclick="appendCalc('-')">-</button>
+                        <button onclick="appendCalc('4')">4</button>
+                        <button onclick="appendCalc('5')">5</button>
+                        <button onclick="appendCalc('6')">6</button>
+                        <button onclick="appendCalc('+')">+</button>
+                        <button onclick="appendCalc('1')">1</button>
+                        <button onclick="appendCalc('2')">2</button>
+                        <button onclick="appendCalc('3')">3</button>
+                        <button onclick="calculate()">=</button>
+                        <button onclick="appendCalc('0')" style="grid-column: span 2;">0</button>
+                        <button onclick="appendCalc('.')">.</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function appendCalc(value) {
+            document.getElementById('calc-display').value += value;
+        }
+
+        function clearCalc() {
+            document.getElementById('calc-display').value = '';
+        }
+
+        function deleteCalc() {
+            const display = document.getElementById('calc-display');
+            display.value = display.value.slice(0, -1);
+        }
+
+        function calculate() {
+            const display = document.getElementById('calc-display');
+            try {
+                display.value = eval(display.value);
+            } catch (error) {
+                display.value = 'Error';
+            }
+        }
+
+        function showTimer() {
+            document.getElementById('tool-content').innerHTML = `
+                <h2>Stoppuhr</h2>
+                <div>
+                    <p id="timer-display" style="font-size: 24px;">00:00:00</p>
+                    <button onclick="startTimer()">Start</button>
+                    <button onclick="stopTimer()">Stop</button>
+                    <button onclick="resetTimer()">Reset</button>
+                </div>
+            `;
+        }
+
+        let timerInterval;
+        let elapsedSeconds = 0;
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                elapsedSeconds++;
+                document.getElementById('timer-display').textContent = formatTime(elapsedSeconds);
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            elapsedSeconds = 0;
+            document.getElementById('timer-display').textContent = '00:00:00';
+        }
+
+        function formatTime(seconds) {
+            const hours = Math.floor(seconds / 3600).toString().padStart(2, '0');
+            const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+            const secs = (seconds % 60).toString().padStart(2, '0');
+            return `${hours}:${minutes}:${secs}`;
+        }
+    </script>
+</body>
+</html>
