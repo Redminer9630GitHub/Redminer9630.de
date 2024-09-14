@@ -17,6 +17,7 @@
             --text-color-light: #000;
             --button-bg: #4CAF50;
             --button-hover-bg: #45a049;
+            --line-color: #ccc;
         }
 
         body {
@@ -32,17 +33,6 @@
             font-size: 30px;
             margin-bottom: 20px;
             text-align: center;
-        }
-
-        .theme-toggle {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            width: 32px;
-            height: 32px;
-            cursor: pointer;
-            background-image: url('theme-toggle.png');
-            background-size: cover;
         }
 
         .button {
@@ -66,9 +56,13 @@
             margin: 20px;
         }
 
+        .calculator, .stopwatch, .timer {
+            width: 45%;
+            margin: 10px;
+        }
+
         .calculator {
             text-align: left;
-            margin-right: 20px;
         }
 
         .calculator input, .calculator button {
@@ -83,9 +77,11 @@
             font-size: 20px;
         }
 
-        .stopwatch, .timer {
-            width: 300px;
-            margin: 10px;
+        .line {
+            border-left: 2px solid var(--line-color);
+            height: 300px;
+            margin: 0 20px;
+            display: inline-block;
         }
 
         .stopwatch-display, .timer-display {
@@ -93,8 +89,7 @@
             margin-bottom: 10px;
         }
 
-        .log {
-            text-align: left;
+        .stopwatch, .timer {
             background-color: rgba(255, 255, 255, 0.1);
             padding: 10px;
             border-radius: 8px;
@@ -128,13 +123,8 @@
             <button class="button" onclick="calcOperation('+')">+</button>
         </div>
 
-        <div class="log">
-            <h2>Rechenverlauf</h2>
-            <div id="calc-log"></div>
-        </div>
-    </div>
+        <div class="line"></div>
 
-    <div class="container">
         <div class="stopwatch">
             <h2>Stoppuhr</h2>
             <div id="stopwatch-display" class="stopwatch-display">00:00:000</div>
@@ -142,6 +132,8 @@
             <button class="button" onclick="stopStopwatch()">Stopp</button>
             <button class="button" onclick="resetStopwatch()">Zurücksetzen</button>
         </div>
+
+        <div class="line"></div>
 
         <div class="timer">
             <h2>Timer</h2>
@@ -173,8 +165,8 @@
             }
         }
 
+        // Calculator
         let calcDisplay = document.getElementById('calc-display');
-        let calcLog = document.getElementById('calc-log');
         let currentCalc = '';
 
         function calcInput(value) {
@@ -190,7 +182,6 @@
         function calculate() {
             try {
                 const result = eval(currentCalc);
-                calcLog.innerHTML += `<p>${currentCalc} = ${result}</p>`;
                 currentCalc = result.toString();
                 calcDisplay.value = currentCalc;
             } catch (error) {
@@ -203,15 +194,17 @@
             calcDisplay.value = '';
         }
 
-        let stopwatchInterval, timerTimeout;
-        let stopwatchTime = 0;
+        // Stopwatch
+        let stopwatchTime = parseInt(localStorage.getItem('stopwatchTime')) || 0;
         let isStopwatchRunning = false;
+        let stopwatchInterval;
 
         function startStopwatch() {
             if (isStopwatchRunning) return;
             isStopwatchRunning = true;
             stopwatchInterval = setInterval(() => {
                 stopwatchTime += 10;
+                localStorage.setItem('stopwatchTime', stopwatchTime);
                 displayStopwatch();
             }, 10);
         }
@@ -224,6 +217,7 @@
         function resetStopwatch() {
             stopStopwatch();
             stopwatchTime = 0;
+            localStorage.setItem('stopwatchTime', stopwatchTime);
             displayStopwatch();
         }
 
@@ -235,21 +229,36 @@
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
         }
 
+        displayStopwatch(); // Initial display
+
+        // Timer
+        let timerInterval;
+        let timerEndTime = parseInt(localStorage.getItem('timerEndTime')) || 0;
+
         function startTimer() {
             const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
             const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
             const totalTime = (minutes * 60 + seconds) * 1000;
-            if (totalTime <= 0) return;
+            if (timerInterval) clearInterval(timerInterval);
+            timerEndTime = Date.now() + totalTime;
+            localStorage.setItem('timerEndTime', timerEndTime);
+            updateTimer();
+        }
 
-            document.getElementById('timer-display').textContent = formatTime(totalTime);
-            timerTimeout = setTimeout(() => {
-                alert('Zeit abgelaufen!');
-                document.getElementById('timer-display').textContent = '00:00';
-            }, totalTime);
+        function updateTimer() {
+            timerInterval = setInterval(() => {
+                const remainingTime = timerEndTime - Date.now();
+                if (remainingTime <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById('timer-display').textContent = '00:00';
+                } else {
+                    document.getElementById('timer-display').textContent = formatTime(remainingTime);
+                }
+            }, 1000);
         }
 
         function stopTimer() {
-            clearTimeout(timerTimeout);
+            clearInterval(timerInterval);
         }
 
         function formatTime(milliseconds) {
