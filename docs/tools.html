@@ -35,11 +35,22 @@
             text-align: center;
         }
 
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            background-image: url('theme-toggle.png');
+            background-size: cover;
+        }
+
         .button {
             background-color: var(--button-bg);
             color: white;
             padding: 15px;
-            margin: 10px;
+            margin: 5px;
             border: none;
             border-radius: 8px;
             font-size: 18px;
@@ -94,6 +105,28 @@
             padding: 10px;
             border-radius: 8px;
         }
+
+        .calculator-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 10px;
+            justify-items: center;
+            margin: 0 auto;
+        }
+
+        .calculator-button {
+            grid-column: span 1;
+        }
+
+        .operator-button {
+            grid-column: span 1;
+        }
+
+        .equal-button {
+            grid-column: span 4;
+            font-size: 24px;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
@@ -104,23 +137,33 @@
         <div class="calculator">
             <h2>Taschenrechner</h2>
             <input type="text" id="calc-display" class="result" readonly>
-            <button class="button" onclick="clearCalc()">AC</button>
-            <button class="button" onclick="calcInput(7)">7</button>
-            <button class="button" onclick="calcInput(8)">8</button>
-            <button class="button" onclick="calcInput(9)">9</button>
-            <button class="button" onclick="calcOperation('/')">/</button>
-            <button class="button" onclick="calcInput(4)">4</button>
-            <button class="button" onclick="calcInput(5)">5</button>
-            <button class="button" onclick="calcInput(6)">6</button>
-            <button class="button" onclick="calcOperation('*')">*</button>
-            <button class="button" onclick="calcInput(1)">1</button>
-            <button class="button" onclick="calcInput(2)">2</button>
-            <button class="button" onclick="calcInput(3)">3</button>
-            <button class="button" onclick="calcOperation('-')">-</button>
-            <button class="button" onclick="calcInput(0)">0</button>
-            <button class="button" onclick="calcInput('.')">.</button>
-            <button class="button" onclick="calculate()">=</button>
-            <button class="button" onclick="calcOperation('+')">+</button>
+            <div class="calculator-container">
+                <!-- 4x4 Grid for Calculator -->
+                <button class="button calculator-button" onclick="clearCalc()">AC</button>
+                <button class="button calculator-button" onclick="calcOperation('/')">/</button>
+                <button class="button calculator-button" onclick="calcOperation('*')">*</button>
+                <button class="button calculator-button" onclick="calcOperation('-')">-</button>
+
+                <button class="button calculator-button" onclick="calcInput(7)">7</button>
+                <button class="button calculator-button" onclick="calcInput(8)">8</button>
+                <button class="button calculator-button" onclick="calcInput(9)">9</button>
+                <button class="button calculator-button" onclick="calcOperation('+')">+</button>
+
+                <button class="button calculator-button" onclick="calcInput(4)">4</button>
+                <button class="button calculator-button" onclick="calcInput(5)">5</button>
+                <button class="button calculator-button" onclick="calcInput(6)">6</button>
+                <button class="button operator-button"></button>
+
+                <button class="button calculator-button" onclick="calcInput(1)">1</button>
+                <button class="button calculator-button" onclick="calcInput(2)">2</button>
+                <button class="button calculator-button" onclick="calcInput(3)">3</button>
+                <button class="button operator-button"></button>
+
+                <button class="button calculator-button" onclick="calcInput(0)">0</button>
+                <button class="button calculator-button" onclick="calcInput('.')">.</button>
+                <button class="button calculator-button"></button>
+                <button class="button equal-button" onclick="calculate()">=</button>
+            </div>
         </div>
 
         <div class="line"></div>
@@ -226,20 +269,20 @@
             let seconds = Math.floor((stopwatchTime / 1000) % 60);
             let milliseconds = stopwatchTime % 1000;
             document.getElementById('stopwatch-display').textContent =
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${Math.floor(milliseconds / 10).toString().padStart(2, '0')}`;
         }
 
-        displayStopwatch(); // Initial display
+        displayStopwatch();
 
         // Timer
         let timerInterval;
         let timerEndTime = parseInt(localStorage.getItem('timerEndTime')) || 0;
 
         function startTimer() {
+            clearInterval(timerInterval);
             const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
             const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
             const totalTime = (minutes * 60 + seconds) * 1000;
-            if (timerInterval) clearInterval(timerInterval);
             timerEndTime = Date.now() + totalTime;
             localStorage.setItem('timerEndTime', timerEndTime);
             updateTimer();
@@ -257,15 +300,15 @@
             }, 1000);
         }
 
-        function stopTimer() {
-            clearInterval(timerInterval);
-        }
-
         function formatTime(milliseconds) {
             let totalSeconds = Math.floor(milliseconds / 1000);
             let minutes = Math.floor(totalSeconds / 60);
             let seconds = totalSeconds % 60;
             return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
         }
     </script>
 </body>
