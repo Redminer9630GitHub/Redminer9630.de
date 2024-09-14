@@ -3,85 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloads - Redminer9630</title>
+    <title>Downloads - Packs</title>
     <style>
         @font-face {
             font-family: 'MinecraftFont';
-            src: url('https://redminer9630github.github.io/Redminer9630.de/minecraft_font.ttf') format('truetype');
+            src: url('minecraft_font.ttf') format('truetype');
         }
-        
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
+            font-family: 'MinecraftFont', sans-serif;
+            background-color: #282c34;
+            color: white;
+            text-align: center;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
         h1 {
-            color: #2c3e50;
+            font-size: 36px;
+            margin-bottom: 20px;
         }
 
-        .download-container {
-            margin: 20px 0;
-        }
-
-        .download-link {
-            background-color: #4CAF50;
+        .header-link {
             color: white;
-            padding: 15px 25px;
+            font-size: 16px;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 10px;
-            display: inline-block;
+            background-color: #f44336;
+            padding: 10px 20px;
+            border-radius: 8px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
         }
 
-        .download-link:hover {
-            background-color: #45a049;
+        .header-link:hover {
+            background-color: #e53935;
         }
 
         .info-button {
-            background-color: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 32px;
+            height: 32px;
+            background-image: url('info.png');
+            background-size: cover;
             cursor: pointer;
-            text-decoration: none;
-            margin: 10px;
         }
 
         .info-button:hover {
-            background-color: #2980b9;
+            background-image: url('info_hover.png');
         }
 
-        .back-button {
-            background-color: #e74c3c;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid white;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
             cursor: pointer;
-            text-decoration: none;
-            margin-top: 30px;
         }
 
-        .back-button:hover {
-            background-color: #c0392b;
+        .download-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .download-button:hover {
+            background-color: #45a049;
         }
     </style>
 </head>
 <body>
-    <h1>Download Packs</h1>
+    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurück ></a>
+    <div class="info-button" onclick="openInfoPage()"></div>
+    <h1>Downloads - Packs</h1>
 
-    <div class="download-container">
-        <a href="link_zum_download_pack1.zip" class="download-link">Download Pack 1</a>
-    </div>
+    <table id="downloadTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">Version</th>
+                <th onclick="sortTable(1)">Beschreibung</th>
+                <th onclick="sortTable(2)">Typ</th>
+                <th>Download</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.0.0</td>
+                <td>Erstes Datapack für Minecraft.</td>
+                <td>Datapack</td>
+                <td><a href="downloads/files/datapack_1.0.0.zip" class="download-button">Download</a></td>
+            </tr>
+            <tr>
+                <td>1.0.1</td>
+                <td>Kleines Bugfix Update.</td>
+                <td>Datapack</td>
+                <td><a href="downloads/files/datapack_1.0.1.zip" class="download-button">Download</a></td>
+            </tr>
+            <tr>
+                <td>1.1.0</td>
+                <td>Erstes Mod Update mit neuen Inhalten.</td>
+                <td>Mod</td>
+                <td><a href="downloads/files/mod_1.1.0.zip" class="download-button">Download</a></td>
+            </tr>
+            <!-- Füge hier weitere Inhalte hinzu -->
+        </tbody>
+    </table>
 
-    <a href="https://github.com/Redminer9630GitHub/Redminer9630.de/wiki/Downloads" class="info-button" target="_blank">Mehr Info</a>
+    <script>
+        function openInfoPage() {
+            window.location.href = "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki/Downloads";
+        }
 
-    <button class="back-button" onclick="window.history.back();">Zurück</button>
+        function sortTable(columnIndex) {
+            const table = document.getElementById("downloadTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.rows);
+
+            const ascending = !table.dataset.sortDirection || table.dataset.sortDirection === 'descending';
+            table.dataset.sortDirection = ascending ? 'ascending' : 'descending';
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+
+                if (ascending) {
+                    return aText.localeCompare(bText);
+                } else {
+                    return bText.localeCompare(aText);
+                }
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
 </body>
 </html>
