@@ -41,6 +41,8 @@
             width: 32px;
             height: 32px;
             cursor: pointer;
+            background-image: url('theme-toggle.png');
+            background-size: cover;
         }
 
         .button {
@@ -60,7 +62,7 @@
 
         .container {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             margin: 20px;
         }
 
@@ -81,11 +83,12 @@
             font-size: 20px;
         }
 
-        .stopwatch {
-            text-align: left;
+        .stopwatch, .timer {
+            width: 300px;
+            margin: 10px;
         }
 
-        .stopwatch-display {
+        .stopwatch-display, .timer-display {
             font-size: 20px;
             margin-bottom: 10px;
         }
@@ -131,20 +134,23 @@
         </div>
     </div>
 
-    <div class="stopwatch">
-        <h2>Stoppuhr</h2>
-        <div id="stopwatch-display" class="stopwatch-display">00:00:000</div>
-        <button class="button" onclick="startStopwatch()">Start</button>
-        <button class="button" onclick="stopStopwatch()">Stopp</button>
-        <button class="button" onclick="resetStopwatch()">Zurücksetzen</button>
-    </div>
+    <div class="container">
+        <div class="stopwatch">
+            <h2>Stoppuhr</h2>
+            <div id="stopwatch-display" class="stopwatch-display">00:00:000</div>
+            <button class="button" onclick="startStopwatch()">Start</button>
+            <button class="button" onclick="stopStopwatch()">Stopp</button>
+            <button class="button" onclick="resetStopwatch()">Zurücksetzen</button>
+        </div>
 
-    <div class="timer">
-        <h2>Timer</h2>
-        <input type="number" id="timer-minutes" placeholder="Minuten" min="0">
-        <input type="number" id="timer-seconds" placeholder="Sekunden" min="0" max="59">
-        <button class="button" onclick="startTimer()">Start</button>
-        <button class="button" onclick="stopTimer()">Stopp</button>
+        <div class="timer">
+            <h2>Timer</h2>
+            <input type="number" id="timer-minutes" placeholder="Minuten" min="0">
+            <input type="number" id="timer-seconds" placeholder="Sekunden" min="0" max="59">
+            <button class="button" onclick="startTimer()">Start</button>
+            <button class="button" onclick="stopTimer()">Stopp</button>
+            <div id="timer-display" class="timer-display">00:00</div>
+        </div>
     </div>
 
     <script>
@@ -235,13 +241,22 @@
             const totalTime = (minutes * 60 + seconds) * 1000;
             if (totalTime <= 0) return;
 
+            document.getElementById('timer-display').textContent = formatTime(totalTime);
             timerTimeout = setTimeout(() => {
                 alert('Zeit abgelaufen!');
+                document.getElementById('timer-display').textContent = '00:00';
             }, totalTime);
         }
 
         function stopTimer() {
             clearTimeout(timerTimeout);
+        }
+
+        function formatTime(milliseconds) {
+            let totalSeconds = Math.floor(milliseconds / 1000);
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = totalSeconds % 60;
+            return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
     </script>
 </body>
