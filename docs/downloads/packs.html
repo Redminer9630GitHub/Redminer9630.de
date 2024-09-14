@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloads - Packs</title>
+    <title>Downloads - Redminer9630</title>
     <style>
         @font-face {
             font-family: 'MinecraftFont';
@@ -79,8 +79,8 @@
             color: white;
             padding: 10px;
             text-decoration: none;
-            border-radius: 8px;
-            font-size: 16px;
+            border-radius: 5px;
+            font-size: 10px;
         }
 
         .download-button:hover {
@@ -89,37 +89,34 @@
     </style>
 </head>
 <body>
-    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurück ></a>
+    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurueck ></a>
     <div class="info-button" onclick="openInfoPage()"></div>
-    <h1>Downloads - Packs</h1>
+    <h1>Downloads - Redminer9630</h1>
 
     <table id="downloadTable">
         <thead>
             <tr>
-                <th onclick="sortTable(0)">Version</th>
-                <th onclick="sortTable(1)">Beschreibung</th>
-                <th onclick="sortTable(2)">Typ</th>
-                <th>Download</th>
+                <th onclick="sortTable(0)">MC Version</th>
+                <th onclick="sortTable(1)">Titel</th>
+                <th onclick="sortTable(2)">Beschreibung</th>
+                <th onclick="sortTable(3)">Typ</th>
+                <th>Datei</th></th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td>1.0.0</td>
-                <td>Erstes Datapack für Minecraft.</td>
-                <td>Datapack</td>
-                <td><a href="downloads/files/datapack_1.0.0.zip" class="download-button">Download</a></td>
+                <td>1.21</td>
+                <td>MC is Bones</td>
+                <td>Veraendert End Game Items zur Knochen Textur</td>
+                <td>Resourcepack</td>
+                <td><a href="files/mc_is_bones.zip" class="download-button">mc_is_bones.zip</a></td>
             </tr>
             <tr>
-                <td>1.0.1</td>
-                <td>Kleines Bugfix Update.</td>
+                <td>1.21</td>
+                <td>Higher Enchantments</td>
+                <td>Veraendert die hoechste Stufe von den meisten Verzauberungen</td>
                 <td>Datapack</td>
-                <td><a href="downloads/files/datapack_1.0.1.zip" class="download-button">Download</a></td>
-            </tr>
-            <tr>
-                <td>1.1.0</td>
-                <td>Erstes Mod Update mit neuen Inhalten.</td>
-                <td>Mod</td>
-                <td><a href="downloads/files/mod_1.1.0.zip" class="download-button">Download</a></td>
+                <td><a href="files/higher_enchantments.zip" class="download-button">higher_enchantments.zip</a></td>
             </tr>
             <!-- Füge hier weitere Inhalte hinzu -->
         </tbody>
@@ -127,7 +124,7 @@
 
     <script>
         function openInfoPage() {
-            window.location.href = "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki/Downloads";
+            window.location.href = "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki/Downloads-%E2%80%90-Redminer9630";
         }
 
         function sortTable(columnIndex) {
