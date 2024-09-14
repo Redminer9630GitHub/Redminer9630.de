@@ -3,170 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tools</title>
+    <title>Tools - Redminer9630</title>
     <style>
         @font-face {
             font-family: 'MinecraftFont';
             src: url('https://redminer9630github.github.io/Redminer9630.de/minecraft_font.ttf') format('truetype');
         }
 
+        :root {
+            --bg-color-dark: #282c34;
+            --text-color-dark: white;
+            --bg-color-light: #f0f0f0;
+            --text-color-light: #000;
+            --button-bg: #4CAF50;
+            --button-hover-bg: #45a049;
+        }
+
         body {
             font-family: 'MinecraftFont', sans-serif;
-            background-color: #282c34;
-            color: white;
+            background-color: var(--bg-color-dark);
+            color: var(--text-color-dark);
             text-align: center;
             padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         h1 {
-            font-size: 36px;
+            font-size: 30px;
             margin-bottom: 20px;
+            text-align: center;
         }
 
-        .header-link {
-            color: white;
-            font-size: 16px;
-            text-decoration: none;
-            background-color: #f44336;
-            padding: 10px 20px;
-            border-radius: 8px;
+        .theme-toggle {
             position: absolute;
             top: 20px;
             right: 20px;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
         }
 
-        .header-link:hover {
-            background-color: #e53935;
-        }
-
-        .tool-button {
-            display: inline-block;
-            background-color: #4CAF50;
+        .button {
+            background-color: var(--button-bg);
             color: white;
             padding: 15px;
             margin: 10px;
-            cursor: pointer;
             border: none;
             border-radius: 8px;
             font-size: 18px;
+            cursor: pointer;
         }
 
-        .tool-button:hover {
-            background-color: #45a049;
+        .button:hover {
+            background-color: var(--button-hover-bg);
         }
 
-        .tool-container {
-            margin-top: 20px;
+        .container {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+
+        .calculator {
             text-align: left;
+            margin-right: 20px;
+        }
+
+        .calculator input, .calculator button {
+            display: block;
+            margin-bottom: 10px;
             font-size: 18px;
-            max-height: 500px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
             padding: 10px;
-            box-sizing: border-box;
+        }
+
+        .result {
+            height: 50px;
+            font-size: 20px;
+        }
+
+        .stopwatch {
+            text-align: left;
+        }
+
+        .stopwatch-display {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .log {
+            text-align: left;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
-    <a href="https://redminer9630github.github.io/Redminer9630.de/" tabindex="1" class="header-link">Zurück ></a>
-    <h1>Tools</h1>
+    <h1>Tools - Redminer9630</h1>
+    <div class="theme-toggle" onclick="toggleTheme()"></div>
 
-    <button class="tool-button" onclick="showCalculator()">Taschenrechner</button>
-    <button class="tool-button" onclick="showTimer()">Stoppuhr</button>
+    <div class="container">
+        <div class="calculator">
+            <h2>Taschenrechner</h2>
+            <input type="text" id="calc-display" class="result" readonly>
+            <button class="button" onclick="clearCalc()">AC</button>
+            <button class="button" onclick="calcInput(7)">7</button>
+            <button class="button" onclick="calcInput(8)">8</button>
+            <button class="button" onclick="calcInput(9)">9</button>
+            <button class="button" onclick="calcOperation('/')">/</button>
+            <button class="button" onclick="calcInput(4)">4</button>
+            <button class="button" onclick="calcInput(5)">5</button>
+            <button class="button" onclick="calcInput(6)">6</button>
+            <button class="button" onclick="calcOperation('*')">*</button>
+            <button class="button" onclick="calcInput(1)">1</button>
+            <button class="button" onclick="calcInput(2)">2</button>
+            <button class="button" onclick="calcInput(3)">3</button>
+            <button class="button" onclick="calcOperation('-')">-</button>
+            <button class="button" onclick="calcInput(0)">0</button>
+            <button class="button" onclick="calcInput('.')">.</button>
+            <button class="button" onclick="calculate()">=</button>
+            <button class="button" onclick="calcOperation('+')">+</button>
+        </div>
 
-    <div id="tool-content" class="tool-container">
-        <!-- Tools werden hier angezeigt -->
+        <div class="log">
+            <h2>Rechenverlauf</h2>
+            <div id="calc-log"></div>
+        </div>
+    </div>
+
+    <div class="stopwatch">
+        <h2>Stoppuhr</h2>
+        <div id="stopwatch-display" class="stopwatch-display">00:00:000</div>
+        <button class="button" onclick="startStopwatch()">Start</button>
+        <button class="button" onclick="stopStopwatch()">Stopp</button>
+        <button class="button" onclick="resetStopwatch()">Zurücksetzen</button>
+    </div>
+
+    <div class="timer">
+        <h2>Timer</h2>
+        <input type="number" id="timer-minutes" placeholder="Minuten" min="0">
+        <input type="number" id="timer-seconds" placeholder="Sekunden" min="0" max="59">
+        <button class="button" onclick="startTimer()">Start</button>
+        <button class="button" onclick="stopTimer()">Stopp</button>
     </div>
 
     <script>
-        function showCalculator() {
-            document.getElementById('tool-content').innerHTML = `
-                <h2>Taschenrechner</h2>
-                <div>
-                    <input type="text" id="calc-display" disabled style="width: 100%; font-size: 24px; text-align: right;">
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 10px;">
-                        <button onclick="clearCalc()">C</button>
-                        <button onclick="appendCalc('/')">/</button>
-                        <button onclick="appendCalc('*')">*</button>
-                        <button onclick="deleteCalc()">DEL</button>
-                        <button onclick="appendCalc('7')">7</button>
-                        <button onclick="appendCalc('8')">8</button>
-                        <button onclick="appendCalc('9')">9</button>
-                        <button onclick="appendCalc('-')">-</button>
-                        <button onclick="appendCalc('4')">4</button>
-                        <button onclick="appendCalc('5')">5</button>
-                        <button onclick="appendCalc('6')">6</button>
-                        <button onclick="appendCalc('+')">+</button>
-                        <button onclick="appendCalc('1')">1</button>
-                        <button onclick="appendCalc('2')">2</button>
-                        <button onclick="appendCalc('3')">3</button>
-                        <button onclick="calculate()">=</button>
-                        <button onclick="appendCalc('0')" style="grid-column: span 2;">0</button>
-                        <button onclick="appendCalc('.')">.</button>
-                    </div>
-                </div>
-            `;
+        let currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        applyTheme(currentTheme);
+
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', currentTheme);
+            applyTheme(currentTheme);
         }
 
-        function appendCalc(value) {
-            document.getElementById('calc-display').value += value;
-        }
-
-        function clearCalc() {
-            document.getElementById('calc-display').value = '';
-        }
-
-        function deleteCalc() {
-            const display = document.getElementById('calc-display');
-            display.value = display.value.slice(0, -1);
-        }
-
-        function calculate() {
-            const display = document.getElementById('calc-display');
-            try {
-                display.value = eval(display.value);
-            } catch (error) {
-                display.value = 'Error';
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.body.style.backgroundColor = 'var(--bg-color-light)';
+                document.body.style.color = 'var(--text-color-light)';
+            } else {
+                document.body.style.backgroundColor = 'var(--bg-color-dark)';
+                document.body.style.color = 'var(--text-color-dark)';
             }
         }
 
-        function showTimer() {
-            document.getElementById('tool-content').innerHTML = `
-                <h2>Stoppuhr</h2>
-                <div>
-                    <p id="timer-display" style="font-size: 24px;">00:00:00</p>
-                    <button onclick="startTimer()">Start</button>
-                    <button onclick="stopTimer()">Stop</button>
-                    <button onclick="resetTimer()">Reset</button>
-                </div>
-            `;
+        let calcDisplay = document.getElementById('calc-display');
+        let calcLog = document.getElementById('calc-log');
+        let currentCalc = '';
+
+        function calcInput(value) {
+            currentCalc += value;
+            calcDisplay.value = currentCalc;
         }
 
-        let timerInterval;
-        let elapsedSeconds = 0;
+        function calcOperation(op) {
+            currentCalc += ' ' + op + ' ';
+            calcDisplay.value = currentCalc;
+        }
+
+        function calculate() {
+            try {
+                const result = eval(currentCalc);
+                calcLog.innerHTML += `<p>${currentCalc} = ${result}</p>`;
+                currentCalc = result.toString();
+                calcDisplay.value = currentCalc;
+            } catch (error) {
+                calcDisplay.value = 'Error';
+            }
+        }
+
+        function clearCalc() {
+            currentCalc = '';
+            calcDisplay.value = '';
+        }
+
+        let stopwatchInterval, timerTimeout;
+        let stopwatchTime = 0;
+        let isStopwatchRunning = false;
+
+        function startStopwatch() {
+            if (isStopwatchRunning) return;
+            isStopwatchRunning = true;
+            stopwatchInterval = setInterval(() => {
+                stopwatchTime += 10;
+                displayStopwatch();
+            }, 10);
+        }
+
+        function stopStopwatch() {
+            isStopwatchRunning = false;
+            clearInterval(stopwatchInterval);
+        }
+
+        function resetStopwatch() {
+            stopStopwatch();
+            stopwatchTime = 0;
+            displayStopwatch();
+        }
+
+        function displayStopwatch() {
+            let minutes = Math.floor((stopwatchTime / 1000) / 60);
+            let seconds = Math.floor((stopwatchTime / 1000) % 60);
+            let milliseconds = stopwatchTime % 1000;
+            document.getElementById('stopwatch-display').textContent =
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}:${milliseconds.toString().padStart(3, '0')}`;
+        }
 
         function startTimer() {
-            timerInterval = setInterval(() => {
-                elapsedSeconds++;
-                document.getElementById('timer-display').textContent = formatTime(elapsedSeconds);
-            }, 1000);
+            const minutes = parseInt(document.getElementById('timer-minutes').value) || 0;
+            const seconds = parseInt(document.getElementById('timer-seconds').value) || 0;
+            const totalTime = (minutes * 60 + seconds) * 1000;
+            if (totalTime <= 0) return;
+
+            timerTimeout = setTimeout(() => {
+                alert('Zeit abgelaufen!');
+            }, totalTime);
         }
 
         function stopTimer() {
-            clearInterval(timerInterval);
-        }
-
-        function resetTimer() {
-            stopTimer();
-            elapsedSeconds = 0;
-            document.getElementById('timer-display').textContent = '00:00:00';
-        }
-
-        function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600).toString().padStart(2, '0');
-            const minutes = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-            const secs = (seconds % 60).toString().padStart(2, '0');
-            return `${hours}:${minutes}:${secs}`;
+            clearTimeout(timerTimeout);
         }
     </script>
 </body>
