@@ -318,8 +318,7 @@ footer .version {
 .suggestions li:hover {
     background-color: #f0f0f0; /* Hellgraue Hintergrundfarbe bei Hover */
 }
-
-</style>
+    </style>
 </head>
 <body>
     <header>
@@ -378,7 +377,7 @@ footer .version {
         <span class="version">0.8.4</span>
         <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
     </footer>
-
+    
     <script>
         // Hamburger menu toggle
         document.getElementById('hamburger').addEventListener('click', function() {
@@ -392,31 +391,28 @@ footer .version {
             moreInfo.style.display = moreInfo.style.display === 'none' ? 'block' : 'none';
         });
 
-        // Suchfunktion
-        document.getElementById('searchInput').addEventListener('input', function() {
-            var searchValue = this.value.toLowerCase();
-            var links = document.querySelectorAll('nav a');
-            links.forEach(function(link) {
-                var text = link.textContent.toLowerCase();
-                link.style.display = text.includes(searchValue) ? 'block' : 'none';
-            });
-        });
-
         // Definition der Keywords und URLs
         const keywords = [
-            { keyword: "MCJE", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
-            { keyword: "MCJE Wiki", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
-            { keyword: "Minecraft Java Edition", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
-            { keyword: "Minecraft Java Edition Wiki", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
-            { keyword: "Wiki", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
-            { keyword: "Downloads", url: "downloads/packs.html", text: "Download-Seite" },
-            { keyword: "Event", url: "events/event.html", text: "Event- und Umfragenseite" },
-            { keyword: "Command Generator", url: "generator/recipe_generator.html", text: "Command Generatoren" },
-            { keyword: "Tools", url: "tools.html", text: "Alltägliche Tools" },
-            { keyword: "Wiki", url: "https://github.com/RedminerGitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite"},
-            { keyword: "Github Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite" },
-            { keyword: "Github", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite" }
+            { keyword: "MCJE", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki", group: "wiki" },
+            { keyword: "MCJE Wiki", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki", group: "wiki" },
+            { keyword: "Minecraft Java Edition", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki", group: "wiki" },
+            { keyword: "Downloads", url: "downloads/packs.html", text: "Download-Seite", group: "downloads" },
+            { keyword: "Event", url: "events/event.html", text: "Event- und Umfragenseite", group: "events" },
+            { keyword: "Command Generator", url: "generator/recipe_generator.html", text: "Command Generatoren", group: "tools" },
+            { keyword: "Tools", url: "tools.html", text: "Alltägliche Tools", group: "tools" },
+            { keyword: "Wiki", url: "https://github.com/RedminerGitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite", group: "wiki" },
+            { keyword: "Github Wiki", url: "https://github.com/RedminerGitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite", group: "wiki" }
         ];
+
+        // Extrahiere URL-Parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchQuery = urlParams.get('searchQuery');
+        const menuOut = urlParams.get('menuOut');
+
+        // Menü automatisch öffnen, wenn &menuOut in der URL vorhanden ist
+        if (menuOut) {
+            document.getElementById('navMenu').classList.add('active');
+        }
 
         // Referenz zur Suchleiste und Vorschlagsliste
         const searchInput = document.getElementById('searchInput');
@@ -424,31 +420,43 @@ footer .version {
         suggestionList.classList.add('suggestions');
         document.querySelector('.search-container').appendChild(suggestionList);
 
-        // Suchfunktion mit Vorschlägen
-        searchInput.addEventListener('input', function() {        
-            const searchValue = this.value.toLowerCase();
+        // Falls Suchanfrage aus URL vorhanden ist
+        if (searchQuery) {
+            searchInput.value = searchQuery;
+            handleSearch(searchQuery);
+        }
+
+        // Suchfunktion
+        searchInput.addEventListener('input', function() {
+            handleSearch(this.value.toLowerCase());
+        });
+
+        // Verhindern von doppelten Links durch Suchgruppen
+        function handleSearch(searchValue) {
             suggestionList.innerHTML = ""; // Leere die Vorschlagsliste
+            const groupsShown = new Set(); // Set zum Verhindern von Duplikaten
 
             // Filtere die Keywords basierend auf der Eingabe
             const filteredKeywords = keywords.filter(keyword => keyword.keyword.toLowerCase().includes(searchValue));
 
-            // Maximal 15 Vorschläge anzeigen
+            // Maximal 15 Vorschläge anzeigen und Duplikate vermeiden
             filteredKeywords.slice(0, 15).forEach(keyword => {
-                const listItem = document.createElement('li');
-                listItem.textContent = keyword.text; // Zeige den Vorschlagstext an
-                listItem.addEventListener('click', function() {
-                    window.location.href = keyword.url; // Gehe zum entsprechenden URL
-                });
-                suggestionList.appendChild(listItem);
+                if (!groupsShown.has(keyword.group)) {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = keyword.text; // Zeige den Vorschlagstext an
+                    listItem.addEventListener('click', function() {
+                        window.location.href = keyword.url; // Gehe zum entsprechenden URL
+                    });
+                    suggestionList.appendChild(listItem);
+                    groupsShown.add(keyword.group); // Füge die Gruppe zur Set-Liste hinzu
+                }
             });
 
             // Falls keine Eingabe vorhanden ist, Vorschlagsliste ausblenden
             if (searchValue === "") {
                 suggestionList.innerHTML = "";
             }
-        });
-
-
+        }
     </script>
 </body>
 </html>
