@@ -283,6 +283,47 @@ footer .sponsor {
         background-color: #2ecc71;
     }
 }
+.searchbar {
+    width: 100%;
+    max-width: 900px; /* Maximale Breite der Suchleiste */
+    padding: 10px;
+    border: 2px solid #2ecc71; /* Grüne Umrandung */
+    border-radius: 8px;
+    font-family: 'MinecraftFont', sans-serif;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.searchbar:focus {
+    border-color: #27ae60; /* Dunkleres Grün bei Fokus */
+}
+
+.suggestions {
+    position: absolute;
+    width: calc(100% - 20px); /* Passt sich der Suchleiste an */
+    max-width: 300px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    max-height: 200px; /* Maximale Höhe der Vorschlagsliste */
+    overflow-y: auto;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    z-index: 19; /* Damit die Vorschläge vor anderen Elementen stehen */
+}
+
+.suggestions li {
+    list-style: none;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'MinecraftFont', sans-serif;
+}
+
+.suggestions li:hover {
+    background-color: #f0f0f0; /* Hellgraue Hintergrundfarbe bei Hover */
+}
+
 </style>
 </head>
 <body>
@@ -304,7 +345,7 @@ footer .sponsor {
     <nav id="navMenu">
         <div class="menu-section">
             <div class="search-container">
-                <input type="text" id="searchInput" placeholder="Suche...">
+                <input type="text" class="searchbar" id="searchInput" placeholder="Suche...</input>
             </div>
             <li>Links</li>
             <ul>
