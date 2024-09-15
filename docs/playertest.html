@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musik nach Inaktivität</title>
+</head>
+<body>
+    <h1>Musik wird nach 20 Sekunden Inaktivität abgespielt</h1>
+    <!-- YouTube-Player-Einbettung -->
+    <div id="player"></div>
+
+    <script>
+        // Laden der IFrame Player API Code asynchron
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        // YouTube IFrame-Player
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                playerVars: {
+                    'autoplay': 0,   // Nicht automatisch abspielen
+                    'controls': 1,   // Steuerelemente anzeigen
+                    'rel': 0,        // Verwandte Videos am Ende nicht anzeigen
+                    'showinfo': 0    // Videoinformationen ausblenden
+                },
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        // Funktion zum Starten des Videos
+        function onPlayerReady(event) {
+            // Spieler ist bereit, aber wird erst durch Inaktivität gestartet
+        }
+
+        // Musik-Gruppen mit YouTube-Video-IDs
+        const musicGroups = {
+            chill: ['Lq2UrnDsI_s', '5qap5aO4i9A', 'rUxyKA_-grg'], // Beispiel-Video-IDs für "Chill"
+            rock: ['3W6hBI1SAL4', 'sBzrzS1Ag_g', 'XWJrPzAUzAs'],  // Beispiel-Video-IDs für "Rock"
+            jazz: ['HMnrl0tmd3k', 'Dx5qFachd3A', '7vNEwN5z9TY']   // Beispiel-Video-IDs für "Jazz"
+        };
+
+        let idleTime = 0;
+        let idleThreshold = 20; // 20 Sekunden Inaktivität
+        let currentGenre = 'chill'; // Start mit "Chill"
+        let isPlaying = false;
+        let videoCount = 0; // Zählt die abgespielten Videos
+        let maxVideos = getRandomInt(2, 4); // Zufällige Anzahl von Videos (zwischen 2 und 4)
+
+        // Funktion zur zufälligen Auswahl eines Videos aus einer Genre-Gruppe
+        function getRandomVideoId(genre) {
+            const videos = musicGroups[genre];
+            return videos[Math.floor(Math.random() * videos.length)];
+        }
+
+        // Funktion zum Wechseln des Genres
+        function switchGenre() {
+            const genres = Object.keys(musicGroups); // Liste der Genres
+            const currentIndex = genres.indexOf(currentGenre); // Aktuelles Genre
+            const nextIndex = (currentIndex + 1) % genres.length; // Nächstes Genre
+            currentGenre = genres[nextIndex]; // Wechsel zum nächsten Genre
+        }
+
+        // Funktion zum Starten des Videos basierend auf dem Genre
+        function playRandomVideo() {
+            if (!isPlaying) {
+                const videoId = getRandomVideoId(currentGenre);
+                player.loadVideoById(videoId); // Video im YouTube-Player laden
+                isPlaying = true;
+                videoCount++; // Zählt das aktuelle Video
+            }
+
+            // Nach 2 bis 4 Videos das Genre wechseln
+            if (videoCount >= maxVideos) {
+                switchGenre(); // Genre wechseln
+                videoCount = 0; // Zähler zurücksetzen
+                maxVideos = getRandomInt(2, 4); // Neue zufällige Anzahl von Videos festlegen
+            }
+        }
+
+        // Setzt die Inaktivität zurück
+        function resetIdleTime() {
+            idleTime = 0;
+            if (isPlaying) {
+                player.stopVideo(); // Stoppt das Abspielen des Videos
+                isPlaying = false;
+            }
+        }
+
+        // Überwacht die Inaktivität
+        function checkIdleTime() {
+            idleTime++;
+            if (idleTime >= idleThreshold) {
+                playRandomVideo(); // Starte das Abspielen nach 20 Sekunden Inaktivität
+            }
+        }
+
+        // Interaktionen überwachen (Mausbewegung, Tastendrücke)
+        document.onmousemove = resetIdleTime;
+        document.onkeypress = resetIdleTime;
+
+        // Alle 1 Sekunde die Inaktivität überprüfen
+        setInterval(checkIdleTime, 1000);
+
+        // Hilfsfunktion: Zufällige Zahl zwischen min und max (inklusive)
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+    </script>
+</body>
+</html>
