@@ -109,7 +109,7 @@
         position: fixed; /* Position fixed to keep it on top */
         top: 20px;
         right: 0; /* Align to the right edge */
-        z-index: 3; /* Ensure it's above other elements */
+        z-index: 100; /* Ensure it's above other elements */
         padding: 10px;
     }
 
@@ -134,7 +134,7 @@
         z-index: 2;
         transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
         overflow: hidden;
-        padding-top: 60px;
+        padding-top: 0px;
         max-height: 0;
         visibility: hidden;
     }
@@ -179,7 +179,7 @@
         color: #e74c3c;
     }
 
-    @media (max-width: 2020px) {
+    @media (max-width: 6060px) {
         .hamburger {
             display: flex;
         }
@@ -243,8 +243,8 @@ footer .version {
     color: #A900B2;
 }
 
-footer .sponsot {
-    margin-right: 20px;
+footer .sponsor {
+    margin-right: 30px;
     color: #A900B2;
 }
 
@@ -327,9 +327,10 @@ footer .sponsot {
                 <li><a href="events/event.html">Event/ Umfragen(Beta)</a></li>
                 <li><a href="generator/recipe_generator.html">Command Generatoren(Beta)</a></li>
                 <li><a href="tools.html">Tools</a></li>
+                <li></li>
+                <li><a href="https://github.com/Redminer9630GitHub/Redminer9630.de/wiki">Mithilfe von Github</a></li>
             </ul> 
         </div>
-        <!-- Hier neue Sektoren hinzufügen -->
     </nav>
 
     <main>
@@ -354,19 +355,7 @@ footer .sponsot {
         document.getElementById('hamburger').addEventListener('click', function() {
             var navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
-            adjustNavHeight();
         });
-
-        // Menü Höhe dynamisch anpassen
-        function adjustNavHeight() {
-            var navMenu = document.getElementById('navMenu');
-            var menuSections = navMenu.querySelectorAll('.menu-section');
-            var totalHeight = 60; // Abstand vom oberen Rand
-            menuSections.forEach(section => {
-                totalHeight += section.offsetHeight;
-            });
-            navMenu.style.maxHeight = totalHeight + 'px';
-        }
 
         // Statusbericht alle 7 Tage versenden
         function sendStatusReport() {
