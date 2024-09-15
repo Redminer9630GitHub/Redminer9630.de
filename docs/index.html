@@ -18,7 +18,7 @@
         background-color: #eaeaea;
         margin: 0;
         padding: 0;
-        color: #333;
+        color: #333;    
         display: flex;
         flex-direction: column;
         min-height: 100vh;
@@ -34,7 +34,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-    }
+    }    
 
     h1 {
         margin: 0;
@@ -67,7 +67,7 @@
         initial-value: 0deg;
         inherits: false;
     }
-    
+
     .border_layer::after, .border_layer::before {
         content: '';
         position: absolute;
@@ -106,10 +106,12 @@
         display: none;
         flex-direction: column;
         cursor: pointer;
-        position: absolute;
+        position: fixed; /* Position fixed to keep it on top */
         top: 20px;
-        right: 20px;
-        z-index: 1;
+        right: 0; /* Align to the right edge */
+        z-index: 3; /* Ensure it's above other elements */
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        padding: 10px;
     }
 
     .hamburger div {
@@ -129,7 +131,7 @@
         top: 0;
         right: 0;
         width: 225px;
-        height: auto;
+        height: 100%;
         z-index: 2;
         transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
         overflow: hidden;
@@ -138,7 +140,7 @@
         visibility: hidden;
     }
 
-    nav.active {
+    nav.active {    
         visibility: visible;
     }
 
@@ -170,7 +172,7 @@
         display: block;
         padding: 10px;
         transition: background-color 0.3s, color 0.3s;
-    }
+    }    
 
     nav a:hover,
     nav a:active {
@@ -202,73 +204,82 @@
         margin-top: 0;
     }
 
-    section {
-        margin-bottom: 20px;
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    color: #2ecc71;
+}
+
+button {
+    background-color: #2ecc71;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-family: 'MinecraftFont';
+}
+
+button:hover {
+    background-color: #2ecc87;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    bottom: 0; /* Fix the footer at the bottom */
+    left: 0; /* Ensure it spans the entire width */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+footer .version {
+    margin-left: 20px;
+}
+
+/* Dark Theme Styles */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #f5f5f5;
+    }
+
+    header, footer {
+        background-color: #1c2a34;
+    }
+
+    nav {
+        background-color: #1c2a34;
+    }
+
+    nav a {
+        color: #f5f5f5;
+    }
+
+    nav a:hover,
+    nav a:active {
+        background-color: #2a3e50;
+        color: #e74c3c;
     }
 
     h2 {
-        color: #2ecc71;
+        color: #27ae60;
     }
 
     button {
-        background-color: #2ecc71;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        font-family: 'MinecraftFont';
+        background-color: #27ae60;
     }
 
     button:hover {
-        background-color: #2ecc87;
+        background-color: #2ecc71;
     }
-
-    footer {
-        background-color: #2c3e50;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-        width: 100%;
-        position: relative;
-    }
-
-    /* Dark Theme Styles */
-    @media (prefers-color-scheme: dark) {
-        body {
-            background-color: #1a1a1a;
-            color: #f5f5f5;
-        }
-
-        header, footer {
-            background-color: #1c2a34;
-        }
-
-        nav {
-            background-color: #1c2a34;
-        }
-
-        nav a {
-            color: #f5f5f5;
-        }
-
-        nav a:hover,
-        nav a:active {
-            background-color: #2a3e50;
-            color: #e74c3c;
-        }
-
-        h2 {
-            color: #27ae60;
-        }
-
-        button {
-            background-color: #27ae60;
-        }
-
-        button:hover {
-            background-color: #2ecc71;
-            }
-    }
+}
 </style>
 </head>
 <body>
