@@ -25,7 +25,7 @@
                 width: '640',
                 playerVars: {
                     'autoplay': 0,   // Nicht automatisch abspielen
-                    'controls': 1,   // Steuerelemente anzeigen
+                    'controls': 0,   // Steuerelemente anzeigen
                     'rel': 0,        // Verwandte Videos am Ende nicht anzeigen
                     'showinfo': 0    // Videoinformationen ausblenden
                 },
@@ -42,13 +42,13 @@
 
         // Musik-Gruppen mit YouTube-Video-IDs
         const musicGroups = {
-            chill: ['Lq2UrnDsI_s', '5qap5aO4i9A', 'rUxyKA_-grg'], // Beispiel-Video-IDs für "Chill"
-            rock: ['3W6hBI1SAL4', 'sBzrzS1Ag_g', 'XWJrPzAUzAs'],  // Beispiel-Video-IDs für "Rock"
-            jazz: ['HMnrl0tmd3k', 'Dx5qFachd3A', '7vNEwN5z9TY']   // Beispiel-Video-IDs für "Jazz"
+            chill: ['oJjn793EjRE'], // Beispiel-Video-IDs für "Chill"
+            rock: [],  // Beispiel-Video-IDs für "Rock"
+            jazz: []   // Beispiel-Video-IDs für "Jazz"
         };
 
         let idleTime = 0;
-        let idleThreshold = 20; // 20 Sekunden Inaktivität
+        let idleThreshold = 5; // 20 Sekunden Inaktivität
         let currentGenre = 'chill'; // Start mit "Chill"
         let isPlaying = false;
         let videoCount = 0; // Zählt die abgespielten Videos
