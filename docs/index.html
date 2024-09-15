@@ -407,36 +407,49 @@ footer .version {
 
         // Definition der Keywords und URLs
         const keywords = [
-            { keyword: "MCJE", url: "learnhour/lernstunde.html" },
-            { keyword: "MCJE Wiki", url: "learnhour/lernstunde.html" },
-            { keyword: "Minecraft Java Edition", url: "learnhour/lernstunde.html" },
-            { keyword: "Minecraft Java Edition Wiki", url: "learnhour/lernstunde.html" },
-            { keyword: "Wiki", url: "learnhour/lernstunde.html" },
-            { keyword: "Downloads", url: "downloads/packs.html" },
-            { keyword: "Event", url: "events/event.html" },
-            { keyword: "Command Generator", url: "generator/recipe_generator.html" },
-            { keyword: "Tools", url: "tools.html" },
-            { keyword: "Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" },
-            { keyword: "Github Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" },
-            { keyword: "Github", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" }
+            { keyword: "MCJE", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki" },
+            { keyword: "MCJE Wiki", url: "learnhour/lernstunde.html", text: "MCJE Wiki" },
+            { keyword: "Minecraft Java Edition", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition" },
+            { keyword: "Minecraft Java Edition Wiki", url: "learnhour/lernstunde.html", text: "Wiki für Minecraft Java" },
+            { keyword: "Wiki", url: "learnhour/lernstunde.html", text: "Allgemeine Wiki-Seite" },
+            { keyword: "Downloads", url: "downloads/packs.html", text: "Download-Seite" },
+            { keyword: "Event", url: "events/event.html", text: "Event- und Umfragenseite" },
+            { keyword: "Command Generator", url: "generator/recipe_generator.html", text: "Command Generatoren" },
+            { keyword: "Tools", url: "tools.html", text: "Tools für Minecraft" },
+            { keyword: "Github Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki", text: "GitHub Wiki-Seite" },
+            { keyword: "Github", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki", text: "GitHub Hauptseite" }
         ];
 
-        // Suchfunktion
-        document.getElementById('searchInput').addEventListener('input', function() {
+        // Referenz zur Suchleiste und Vorschlagsliste
+        const searchInput = document.getElementById('searchInput');
+        const suggestionList = document.createElement('ul');
+        suggestionList.classList.add('suggestions');
+        document.querySelector('.search-container').appendChild(suggestionList);
+
+        // Suchfunktion mit Vorschlägen
+        searchInput.addEventListener('input', function() {        
             const searchValue = this.value.toLowerCase();
-            const links = document.querySelectorAll('nav a');
+            suggestionList.innerHTML = ""; // Leere die Vorschlagsliste
 
-            links.forEach(function(link) {
-                const linkText = link.textContent.toLowerCase();
-                const matchingKeyword = keywords.find(keyword => linkText.includes(keyword.keyword));
+            // Filtere die Keywords basierend auf der Eingabe
+            const filteredKeywords = keywords.filter(keyword => keyword.keyword.toLowerCase().includes(searchValue));
 
-                if (searchValue === "" || (matchingKeyword && matchingKeyword.keyword.includes(searchValue))) {
-                    link.style.display = 'block';
-                } else {
-                    link.style.display = 'none';
-                }
+            // Maximal 4 Vorschläge anzeigen
+            filteredKeywords.slice(0, 4).forEach(keyword => {
+                const listItem = document.createElement('li');
+                listItem.textContent = keyword.text; // Zeige den Vorschlagstext an
+                listItem.addEventListener('click', function() {
+                    window.location.href = keyword.url; // Gehe zum entsprechenden URL
+                });
+                suggestionList.appendChild(listItem);
             });
+
+            // Falls keine Eingabe vorhanden ist, Vorschlagsliste ausblenden
+            if (searchValue === "") {
+                suggestionList.innerHTML = "";
+            }
         });
+
 
     </script>
 </body>
