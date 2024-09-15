@@ -12,50 +12,50 @@
         font-style: normal;
     }
 
-/* Standard-Styles (Light-Theme) */
-body {
-    font-family: 'MinecraftFont', sans-serif;
-    background-color: #eaeaea;
-    margin: 0;
-    padding: 0;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    box-sizing: border-box;
-}
+    /* Standard-Styles (Light-Theme) */
+    body {
+        font-family: 'MinecraftFont', sans-serif;
+        background-color: #eaeaea;
+        margin: 0;
+        padding: 0;
+        color: #333;    
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        box-sizing: border-box;
+    }
 
-header {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
-    position: relative;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+    header {
+        background-color: #2c3e50;
+        color: white;
+        padding: 20px;
+        position: relative;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
 
-h1 {
-    margin: 0;
-    display: flex;
-    align-items: center;
-    width: auto;
-    white-space: nowrap;
-}
+    h1 {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        width: auto;
+        white-space: nowrap;
+    }
 
-.logo-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-}
+    .logo-container {
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
 
-.logo {
-    width: 225px;
-    height: auto;
-    border-radius: 4px;
-    position: relative;
-}
+    .logo {
+        width: 225px;
+        height: auto;
+        border-radius: 4px;
+        position: relative;
+    }
 
 .border_layer {
     position: relative;
@@ -111,14 +111,13 @@ h1 {
     right: 0; /* Align to the right edge */
     width: 100vw;
     height: 100vh;
-    z-index: 100; /* Ensure it's above other elements */
-    background: rgba(0, 0, 0, 0.8);
+    z-index: 1; /* Ensure it's above other elements */
     padding: 20px;
 }
 
 .hamburger div {
     width: 45px;
-    height: 3px;
+    height: 100%;
     background-color: white;
     margin: 5px 0;
     z-index: 2;
@@ -136,7 +135,7 @@ nav {
     z-index: 99; /* Ensure it's below the hamburger */
     transition: max-height 0.3s ease-out, visibility 0.3s ease-out;
     overflow: hidden;
-    padding-top: 60px;
+    padding-top: 40px;
     max-height: 0;
     visibility: hidden;
 }
@@ -153,7 +152,7 @@ nav .menu-section {
 }
 
 nav .menu-section > li {
-    padding: 11px;
+    padding: 16px;
     font-weight: bold;
     color: #FF4399; /* Kategorie-Farbe */
 }
@@ -182,7 +181,7 @@ nav a:active {
     color: #e74c3c;
 }
 
-@media (max-width: 6060px) {
+@media (max-width: 2020px) {
     .hamburger {
         display: flex;
     }
@@ -371,6 +370,40 @@ footer .sponsor {
                 link.style.display = text.includes(searchValue) ? 'block' : 'none';
             });
         });
+
+        // Definition der Keywords und URLs
+        const keywords = [
+            { keyword: "MCJE", url: "learnhour/lernstunde.html" },
+            { keyword: "MCJE Wiki", url: "learnhour/lernstunde.html" },
+            { keyword: "Minecraft Java Edition", url: "learnhour/lernstunde.html" },
+            { keyword: "Minecraft Java Edition Wiki", url: "learnhour/lernstunde.html" },
+            { keyword: "Wiki", url: "learnhour/lernstunde.html" },
+            { keyword: "Downloads", url: "downloads/packs.html" },
+            { keyword: "Event", url: "events/event.html" },
+            { keyword: "Command Generator", url: "generator/recipe_generator.html" },
+            { keyword: "Tools", url: "tools.html" },
+            { keyword: "Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" },
+            { keyword: "Github Wiki", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" },
+            { keyword: "Github", url: "https://github.com/Redminer9630GitHub/Redminer9630.de/wiki" }
+        ];
+
+        // Suchfunktion
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchValue = this.value.toLowerCase();
+            const links = document.querySelectorAll('nav a');
+
+            links.forEach(function(link) {
+                const linkText = link.textContent.toLowerCase();
+                const matchingKeyword = keywords.find(keyword => linkText.includes(keyword.keyword));
+
+                if (searchValue === "" || (matchingKeyword && matchingKeyword.keyword.includes(searchValue))) {
+                    link.style.display = 'block';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+        });
+
     </script>
 </body>
 </html>
