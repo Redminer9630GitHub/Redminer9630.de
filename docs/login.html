@@ -241,9 +241,23 @@
     // Funktion für GitHub-Login
     function loginWithGitHub() {
         const authUrl = 'https://github.com/login/oauth/authorize';
-        const clientId = 'YOUR_GITHUB_CLIENT_ID'; // Hier deine GitHub Client-ID einfügen
-        const redirectUri = 'https://dein-backend-url.com/auth/github/callback'; // Backend-URL für GitHub-Callback
-        window.location.href = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=user`;
+        const clientId = '01ab8ac9400c4e429b23'; // Deine GitHub Client-ID
+        const redirectUri = encodeURIComponent('https://vscode.dev/redirect');
+        const scope = 'read:user repo user:email workflow';
+        const state = encodeURIComponent('https://vscode.dev/callback?vscode-reqid=1&vscode-scheme=vscode&vscode-query=nonce%3D9d18f357895dc0d2&vscode-authority=vscode.github-authentication&vscode-path=%2Fdid-authenticate');
+        const prompt = 'select_account';
+
+        // Erstelle die vollständige Auth-URL
+        const authLink = `${authUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&state=${state}&prompt=${prompt}`;
+        
+        // Versuche die URL in einem neuen Tab zu öffnen
+        const newWindow = window.open(authLink, '_blank');
+
+        // Falls das Öffnen blockiert wurde, zeige eine Meldung an
+        if (!newWindow || newWindow.closed || typeof newWindow.closed == 'undefined') {
+            alert('Der Browser hat das Öffnen eines neuen Fensters blockiert. Bitte klicke auf "Open", um den Login zu starten.');
+            window.location.href = authLink; // Leite zur URL weiter, falls Pop-ups blockiert sind
+        }
     }
 
     // Funktion für Google-Login
