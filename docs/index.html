@@ -301,7 +301,7 @@ footer .version {
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 8px;
-    max-height: 200px; /* Maximale Höhe der Vorschlagsliste */
+    max-height: 1600px; /* Maximale Höhe der Vorschlagsliste */
     overflow-y: auto;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     margin-top: 5px;
@@ -377,9 +377,6 @@ footer .version {
     <footer>
         <span class="version">0.8.4</span>
         <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
-        <span class="sponsor">
-            <li><a href="https://github.com/Redminer9630GitHub/Redminer9630.de">Github</a></li>
-        </span>
     </footer>
 
     <script>
@@ -434,8 +431,8 @@ footer .version {
             // Filtere die Keywords basierend auf der Eingabe
             const filteredKeywords = keywords.filter(keyword => keyword.keyword.toLowerCase().includes(searchValue));
 
-            // Maximal 4 Vorschläge anzeigen
-            filteredKeywords.slice(0, 4).forEach(keyword => {
+            // Maximal 15 Vorschläge anzeigen
+            filteredKeywords.slice(0, 15).forEach(keyword => {
                 const listItem = document.createElement('li');
                 listItem.textContent = keyword.text; // Zeige den Vorschlagstext an
                 listItem.addEventListener('click', function() {
