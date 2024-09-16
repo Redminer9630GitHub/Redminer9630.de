@@ -3,116 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musik nach Inaktivität</title>
+    <title>Musik Player</title>
+    <style>
+        body {
+            font-family: 'MinecraftFont', sans-serif;
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+        }
+
+        audio {
+            width: 80%;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #2ecc71;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #27ae60;
+        }
+    </style>
 </head>
 <body>
-    <h1>Musik wird nach 5 Sekunden Inaktivität abgespielt</h1>
-    <!-- YouTube-Player-Einbettung -->
-    <div id="player"></div>
 
-    <script>
-        // Laden der IFrame Player API Code asynchron
-        var tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        var firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+<h1>Musikplayer</h1>
+<audio id="audioPlayer" controls>
+    <source id="audioSource" src="music/first_song.mp3" type="audio/mpeg">
+    Dein Browser unterstützt das Audio-Tag nicht.
+</audio>
 
-        // YouTube IFrame-Player
-        var player;
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '360',
-                width: '640',
-                playerVars: {
-                    'autoplay': 0,   // Nicht automatisch abspielen
-                    'controls': 0,   // Steuerelemente anzeigen
-                    'rel': 0,        // Verwandte Videos am Ende nicht anzeigen
-                    'showinfo': 0    // Videoinformationen ausblenden
-                },
-                events: {
-                    'onReady': onPlayerReady
-                }
-            });
+<div>
+    <button id="skipButton">Nächster Song</button>
+</div>
+
+<script>
+    // Liste der Songs aus dem Ordner 'music'
+    const songs = [
+        'music/first_song.mp3', // Fester erster Song
+        'music/song2.mp3',
+        'music/song3.mp3',
+        'music/song4.mp3',
+        // Weitere Songs hier hinzufügen
+    ];
+
+    let currentSongIndex = 0;
+
+    // Hole das Audio-Element und den Source-Tag
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioSource = document.getElementById('audioSource');
+
+    // Funktion, um zum nächsten Song zu springen
+    function playNextSong() {
+        // Index erhöhen und überprüfen, ob das Ende der Liste erreicht ist
+        currentSongIndex++;
+        if (currentSongIndex >= songs.length) {
+            currentSongIndex = 0; // Zurück zum ersten Song, wenn das Ende erreicht ist
         }
 
-        // Funktion zum Starten des Videos
-        function onPlayerReady(event) {
-            // Spieler ist bereit, aber wird erst durch Inaktivität gestartet
+        // Setze den neuen Song und spiele ab
+        audioSource.src = songs[currentSongIndex];
+        audioPlayer.load();  // Audio neu laden
+        audioPlayer.play();  // Spielen
+    }
+
+    // Zufällige Wiedergabe nach dem ersten Song
+    audioPlayer.addEventListener('ended', function() {
+        playNextSong();
+    });
+
+    // Skip-Button für manuelles Überspringen
+    document.getElementById('skipButton').addEventListener('click', function() {
+        playNextSong();
+    });
+
+    // Funktion zum Zufälligen Wechseln der Musikgruppen nach 2-4 Songs
+    function shuffleSongs() {
+        let shuffledSongs = songs.slice(1); // Den ersten Song auslassen
+        for (let i = shuffledSongs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledSongs[i], shuffledSongs[j]] = [shuffledSongs[j], shuffledSongs[i]];
         }
+        songs.splice(1, songs.length - 1, ...shuffledSongs); // Die Liste nach dem ersten Song mischen
+    }
 
-        // Musik-Gruppen mit YouTube-Video-IDs
-        const musicGroups = {
-            chill: ['oJjn793EjRE'], // Beispiel-Video-IDs für "Chill"
-            rock: [],  // Beispiel-Video-IDs für "Rock"
-            jazz: []   // Beispiel-Video-IDs für "Jazz"
-        };
-
-        let idleTime = 0;
-        let idleThreshold = 5; // 20 Sekunden Inaktivität
-        let currentGenre = 'chill'; // Start mit "Chill"
-        let isPlaying = false;
-        let videoCount = 0; // Zählt die abgespielten Videos
-        let maxVideos = getRandomInt(2, 4); // Zufällige Anzahl von Videos (zwischen 2 und 4)
-
-        // Funktion zur zufälligen Auswahl eines Videos aus einer Genre-Gruppe
-        function getRandomVideoId(genre) {
-            const videos = musicGroups[genre];
-            return videos[Math.floor(Math.random() * videos.length)];
+    // Intervall nach 2-4 Songs für Musikgruppenwechsel
+    let songsPlayed = 0;
+    audioPlayer.addEventListener('ended', function() {
+        songsPlayed++;
+        if (songsPlayed >= 2 && songsPlayed <= 4) {
+            shuffleSongs();  // Musikgruppe wechseln
+            songsPlayed = 0; // Zähler zurücksetzen
         }
+    });
+</script>
 
-        // Funktion zum Wechseln des Genres
-        function switchGenre() {
-            const genres = Object.keys(musicGroups); // Liste der Genres
-            const currentIndex = genres.indexOf(currentGenre); // Aktuelles Genre
-            const nextIndex = (currentIndex + 1) % genres.length; // Nächstes Genre
-            currentGenre = genres[nextIndex]; // Wechsel zum nächsten Genre
-        }
-
-        // Funktion zum Starten des Videos basierend auf dem Genre
-        function playRandomVideo() {
-            if (!isPlaying) {
-                const videoId = getRandomVideoId(currentGenre);
-                player.loadVideoById(videoId); // Video im YouTube-Player laden
-                isPlaying = true;
-                videoCount++; // Zählt das aktuelle Video
-            }
-
-            // Nach 2 bis 4 Videos das Genre wechseln
-            if (videoCount >= maxVideos) {
-                switchGenre(); // Genre wechseln
-                videoCount = 0; // Zähler zurücksetzen
-                maxVideos = getRandomInt(2, 4); // Neue zufällige Anzahl von Videos festlegen
-            }
-        }
-
-        // Setzt die Inaktivität zurück
-        function resetIdleTime() {
-            idleTime = 0;
-            if (isPlaying) {
-                player.stopVideo(); // Stoppt das Abspielen des Videos
-                isPlaying = false;
-            }
-        }
-
-        // Überwacht die Inaktivität
-        function checkIdleTime() {
-            idleTime++;
-            if (idleTime >= idleThreshold) {
-                playRandomVideo(); // Starte das Abspielen nach 20 Sekunden Inaktivität
-            }
-        }
-
-        // Interaktionen überwachen (Mausbewegung, Tastendrücke)
-        document.onmousemove = resetIdleTime;
-        document.onkeypress = resetIdleTime;
-
-        // Alle 1 Sekunde die Inaktivität überprüfen
-        setInterval(checkIdleTime, 1000);
-
-        // Hilfsfunktion: Zufällige Zahl zwischen min und max (inklusive)
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
-    </script>
 </body>
 </html>
