@@ -318,6 +318,9 @@ footer .version {
 .suggestions li:hover {
     background-color: #f0f0f0; /* Hellgraue Hintergrundfarbe bei Hover */
 }
+#audioPLayer {
+    display: none;
+}
     </style>
 </head>
 <body>
@@ -547,8 +550,10 @@ footer .version {
             // Musik wird nach 20 Sekunden Inaktivität gestartet
             window.setInterval(function() {
                 idleTime++;
+                console.log("Idle Time: " + idleTime);
                 if (idleTime >= 3) {
                     if (audioPlayer.paused) {
+                        console.log("Playing the first song");
                         playSong(currentSongIndex); // Starte den ersten Song
                     }
                 }
