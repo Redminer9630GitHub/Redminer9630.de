@@ -318,9 +318,6 @@ footer .version {
 .suggestions li:hover {
     background-color: #f0f0f0; /* Hellgraue Hintergrundfarbe bei Hover */
 }
-#audioPLayer {
-    display: none;
-}
     </style>
 </head>
 <body>
@@ -377,7 +374,7 @@ footer .version {
     </main>
 
     <footer>
-        <span class="version">0.9.1</span>
+        <span class="version">0.9.2</span>
         <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
     </footer>
     
@@ -452,106 +449,6 @@ footer .version {
             }
         }
 
-        <!-- Unsichtbarer Audio Player -->
-        <audio id="audioPlayer" controls></audio>
-
-        // Liste der Songs mit zugehöriger Lautstärke und Aktivitätslevel
-        const songs = [
-            { src: 'musik/1-Dual_Speeder.mp3', volume: 1.0, level: 1 },
-            { src: 'musik/1-Gatcha.mp3', volume: 1.0, level: 1 },
-            { src: 'musik/1-Push_The_Boat_Out.mp3', volume: 1.0, level: 1 },
-            { src: 'musik/1-Secret.mp3', volume: 1.0, level: 1 },
-            { src: 'musik/1-The_Strenght_to_Stand_Allone.mp3', volume: 1.0, level: 1 },
-            { src: 'musik/2-A_Fire_in_your_Mind.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-Big_Wave.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-Broke_Bridge.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-Casino.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-crash_site.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-Chrash_Site[Dark Remix].mp3', volume: 1.0, level: 2 },
-            { src: 'musik/2-Follow_Me.mp3', volume: 1.0, level: 2 },
-            { src: 'musik/3-Drakes_BOTune', volume: 1.0, level: 3 },
-            { src: 'musik/3-Hissy_Fit.mp3', volume: 1.0, level: 3 },
-            { src: 'musik/3-Ninja_Bots.mp3', volume: 1.0, level: 3 },
-            { src: 'musik/3-Ninja_Bots[Remix].mp3', volume: 1.0, level: 3 },
-            { src: 'musik/3-Specter.mp3', volume: 1.0, level: 3 },
-            { src: 'musik/4-Perseverance.mp3', volume: 1.0, level: 4 },
-            { src: 'musik/4-Sucka.mp3', volume: 1.0, level: 4 },
-            { src: 'musik/4-Sucka[Remix].mp3', volume: 1.0, level: 4 }
-        ];
-
-        let currentSongIndex = 0;
-        let idleTime = 0;
-        const audioPlayer = document.getElementById('audioPlayer');
-        let songsPlayed = 0;
-
-        // Fester erster Song und Initialisierung
-        function playSong(index) {
-            audioPlayer.src = songs[index].src;
-            audioPlayer.volume = songs[index].volume;
-            audioPlayer.load();
-            audioPlayer.play();
-        }
-
-        // Zufällige Auswahl eines Songs basierend auf dem Aktivitätslevel
-        function getRandomSongByLevel(level) {
-            const filteredSongs = songs.filter(song => song.level === level);
-            const randomIndex = Math.floor(Math.random() * filteredSongs.length);
-            return filteredSongs[randomIndex];
-        }
-
-        // Funktion zum Wechseln der Musikgruppe nach 2-4 Songs
-        function switchMusicGroup() {
-            const randomLevel = Math.floor(Math.random() * 4) + 1; // Level 1-4
-            const nextSong = getRandomSongByLevel(randomLevel);
-            audioPlayer.src = nextSong.src;
-            audioPlayer.volume = nextSong.volume;
-            audioPlayer.load();
-            audioPlayer.play();
-        }
-
-        // Funktion, um zum nächsten Song zu wechseln
-        function playNextSong() {
-            songsPlayed++;
-            currentSongIndex++;
-
-            if (currentSongIndex >= songs.length) {
-                currentSongIndex = 0; // Wieder zurück zum Anfang
-            }
-
-            if (songsPlayed >= 2 && songsPlayed <= 4) {
-                switchMusicGroup();  // Gruppe wechseln
-                songsPlayed = 0; // Zähler zurücksetzen
-            } else {
-                playSong(currentSongIndex);
-            }
-        }
-
-        // Event für den nächsten Song
-        audioPlayer.addEventListener('ended', playNextSong);
-
-        // Inaktivität überwachen und nach 20 Sekunden Musik starten
-        function resetIdleTimer() {
-            idleTime = 0; // Setze den Timer zurück
-        }
-
-        window.onload = function() {
-            // Musik wird nach 20 Sekunden Inaktivität gestartet
-            window.setInterval(function() {
-                idleTime++;
-                console.log("Idle Time: " + idleTime);
-                if (idleTime >= 3) {
-                    if (audioPlayer.paused) {
-                        console.log("Playing the first song");
-                        playSong(currentSongIndex); // Starte den ersten Song
-                    }
-                }
-            }, 1000); // Check jede Sekunde
-
-            // Wenn eine Interaktion erfolgt, Timer zurücksetzen
-            window.onmousemove = resetIdleTimer;
-            window.onkeydown = resetIdleTimer;
-            window.onclick = resetIdleTimer;
-        };
         document.getElementById('hamburger').addEventListener('click', function() {
             var navMenu = document.getElementById('navMenu');
             navMenu.classList.toggle('active');
@@ -584,4 +481,4 @@ footer .version {
 
     </script>
 </body>
-</html>
+</html>m
