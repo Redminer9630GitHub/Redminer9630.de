@@ -225,7 +225,7 @@ button:hover {
 footer {
     background-color: #2c3e50;
     color: white;
-    text-align: center;
+    text-align: left;
     padding: 10px 20px;
     width: 100%;
     position: fixed;
@@ -377,25 +377,13 @@ footer .version {
     </main>
 
     <footer>
-        <span class="version">0.8.4</span>
+        <span class="version">0.9.1</span>
         <p>© 2024 Offizieller Kanal von Redminer9630 - Alle Rechte vorbehalten.</p>
     </footer>
     
     <audio id="audioPlayer" controls></audio>
     
     <script>
-        // Hamburger menu toggle
-        document.getElementById('hamburger').addEventListener('click', function() {
-            var navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-        });
-
-        // Mehr Informationen anzeigen
-        document.getElementById('moreInfoBtn').addEventListener('click', function() {
-            var moreInfo = document.getElementById('moreInfo');
-            moreInfo.style.display = moreInfo.style.display === 'none' ? 'block' : 'none';
-        });
-
         // Definition der Keywords und URLs
         const keywords = [
             { keyword: "MCJE", url: "learnhour/lernstunde.html", text: "Minecraft Java Edition Wiki", group: "mcjewiki" },
@@ -564,6 +552,36 @@ footer .version {
             window.onkeydown = resetIdleTimer;
             window.onclick = resetIdleTimer;
         };
+        document.getElementById('hamburger').addEventListener('click', function() {
+            var navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+        });
+
+        // Mehr Informationen anzeigen
+        document.getElementById('moreInfoBtn').addEventListener('click', function() {
+            var moreInfo = document.getElementById('moreInfo');
+            moreInfo.style.display = moreInfo.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // URL-Parameter 'openlink' behandeln
+        const urlParams = new URLSearchParams(window.location.search);
+        const openLink = urlParams.get('openlink');
+
+        // Links basierend auf dem 'openlink'-Parameter
+        const links = {
+            1: "https://m.youtube.com/channel/UCdpkm8rpRnIi88zWSuubbOQ?sub_confirmation=1",
+            2: "https://m.twitch.tv/redminer9630",
+            3: "learnhour/lernstunde.html",
+            4: "downloads/packs.html",
+            5: "events/event.html",
+            6: "generator/recipe_generator.html",
+            7: "tools.html"
+        };
+
+        if (openLink && links[openLink]) {
+            window.location.href = links[openLink];
+        }
+
     </script>
 </body>
 </html>
