@@ -547,7 +547,7 @@ footer .version {
             // Musik wird nach 20 Sekunden Inaktivität gestartet
             window.setInterval(function() {
                 idleTime++;
-                if (idleTime >= 20) {
+                if (idleTime >= 3) {
                     if (audioPlayer.paused) {
                         playSong(currentSongIndex); // Starte den ersten Song
                     }
